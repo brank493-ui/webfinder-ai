@@ -158,21 +158,21 @@ export function BusinessList() {
   }
 
   return (
-    <section id="dashboard" className="py-16 px-4 bg-gray-50 dark:bg-gray-900/50">
+    <section id="dashboard" className="py-8 sm:py-16 px-2 sm:px-4 bg-gray-50 dark:bg-gray-900/50">
       <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
           <div>
-            <h2 className="text-2xl font-bold">{t('business.searchResults')}</h2>
-            <p className="text-muted-foreground">
+            <h2 className="text-xl sm:text-2xl font-bold">{t('business.searchResults')}</h2>
+            <p className="text-sm sm:text-base text-muted-foreground">
               {t('business.found')} {filteredResults.length} {t('business.businesses')}
               {websiteFilter !== 'all' && ` (${websiteFilter === 'no_website' ? t('business.withoutWebsites') : t('business.withWebsites')})`}
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-muted-foreground">{t('business.filter')}</span>
+          <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
+            <span className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">{t('business.filter')}</span>
             <Select value={websiteFilter} onValueChange={(v) => setWebsiteFilter(v as 'all' | 'no_website' | 'has_website')}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="flex-1 sm:w-[180px] text-sm">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -185,16 +185,16 @@ export function BusinessList() {
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-          <div className="overflow-x-auto">
-            <Table>
+          <div className="overflow-x-auto -mx-2 sm:mx-0">
+            <Table className="min-w-[640px]">
               <TableHeader>
                 <TableRow>
-                  <TableHead>{t('business.businessName')}</TableHead>
-                  <TableHead>{t('business.category')}</TableHead>
-                  <TableHead>{t('business.rating')}</TableHead>
-                  <TableHead>{t('business.address')}</TableHead>
-                  <TableHead>{t('business.websiteStatus')}</TableHead>
-                  <TableHead className="text-right">{t('business.action')}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t('business.businessName')}</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden sm:table-cell">{t('business.category')}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t('business.rating')}</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden md:table-cell">{t('business.address')}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t('business.websiteStatus')}</TableHead>
+                  <TableHead className="text-xs sm:text-sm text-right">{t('business.action')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -205,7 +205,7 @@ export function BusinessList() {
                   return (
                     <TableRow key={business.id}>
                       <TableCell>
-                        <div className="font-medium">{business.name}</div>
+                        <div className="font-medium text-sm sm:text-base">{business.name}</div>
                         {business.phone && (
                           <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
                             <Phone className="h-3 w-3" />
@@ -213,16 +213,16 @@ export function BusinessList() {
                           </div>
                         )}
                       </TableCell>
-                      <TableCell>
-                        <Badge variant="outline">{business.category || t('category.business')}</Badge>
+                      <TableCell className="hidden sm:table-cell">
+                        <Badge variant="outline" className="text-xs">{business.category || t('category.business')}</Badge>
                       </TableCell>
                       <TableCell>
                         {business.rating ? (
                           <div className="flex items-center gap-1">
-                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                            <span className="font-medium">{business.rating}</span>
+                            <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-yellow-400 text-yellow-400" />
+                            <span className="font-medium text-sm">{business.rating}</span>
                             {business.reviewCount && (
-                              <span className="text-xs text-muted-foreground">
+                              <span className="text-xs text-muted-foreground hidden sm:inline">
                                 ({business.reviewCount})
                               </span>
                             )}
@@ -231,24 +231,24 @@ export function BusinessList() {
                           <span className="text-muted-foreground">—</span>
                         )}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="hidden md:table-cell">
                         <div className="flex items-start gap-1 max-w-[200px]">
                           <MapPin className="h-4 w-4 text-muted-foreground flex-shrink-0 mt-0.5" />
                           <span className="text-sm truncate">{business.address || '—'}</span>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant={status.variant}>
+                        <Badge variant={status.variant} className="text-xs">
                           {business.websiteStatus === 'active' ? (
                             <Globe className="h-3 w-3 mr-1" />
                           ) : (
                             <Unlink className="h-3 w-3 mr-1" />
                           )}
-                          {status.label}
+                          <span className="hidden sm:inline">{status.label}</span>
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right">
-                        <div className="flex items-center justify-end gap-2">
+                        <div className="flex items-center justify-end gap-1 sm:gap-2">
                           {business.website && (
                             <Button
                               variant="ghost"
@@ -269,14 +269,14 @@ export function BusinessList() {
                               size="sm"
                               onClick={() => handleStartChat(business)}
                               disabled={startingChat === business.id}
-                              className="bg-gradient-to-r from-blue-600 to-indigo-600"
+                              className="bg-gradient-to-r from-blue-600 to-indigo-600 h-8 sm:h-9"
                             >
                               {startingChat === business.id ? (
                                 <Loader2 className="h-4 w-4 animate-spin" />
                               ) : (
                                 <>
-                                  <MessageCircle className="h-4 w-4 mr-1" />
-                                  {t('business.contact')}
+                                  <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-0 sm:mr-1" />
+                                  <span className="hidden sm:inline">{t('business.contact')}</span>
                                 </>
                               )}
                             </Button>

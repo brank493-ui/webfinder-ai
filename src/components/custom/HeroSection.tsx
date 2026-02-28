@@ -95,10 +95,10 @@ export function HeroSection() {
 
         {/* Search Form */}
         <div className="max-w-3xl mx-auto">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border">
-            <div className="grid gap-4 md:grid-cols-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
               {/* Location Input */}
-              <div className="md:col-span-2 relative">
+              <div className="sm:col-span-2 relative">
                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   type="text"
@@ -150,18 +150,18 @@ export function HeroSection() {
           </div>
 
           {/* Quick stats */}
-          <div className="flex justify-center gap-8 mt-8 text-center">
+          <div className="grid grid-cols-3 gap-2 sm:gap-8 mt-6 sm:mt-8 text-center max-w-lg mx-auto">
             <div>
-              <p className="text-2xl font-bold text-blue-600">10K+</p>
-              <p className="text-sm text-muted-foreground">{t('hero.businessesFound')}</p>
+              <p className="text-xl sm:text-2xl font-bold text-blue-600">10K+</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">{t('hero.businessesFound')}</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-indigo-600">500+</p>
-              <p className="text-sm text-muted-foreground">{t('hero.websitesCreated')}</p>
+              <p className="text-xl sm:text-2xl font-bold text-indigo-600">500+</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">{t('hero.websitesCreated')}</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-purple-600">50+</p>
-              <p className="text-sm text-muted-foreground">{t('hero.countriesCovered')}</p>
+              <p className="text-xl sm:text-2xl font-bold text-purple-600">50+</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">{t('hero.countriesCovered')}</p>
             </div>
           </div>
         </div>

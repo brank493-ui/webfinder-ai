@@ -535,16 +535,16 @@ export default function Home() {
         <main className="flex-1">
           {/* Main Tab Navigation */}
           <div className="border-b bg-background/95 backdrop-blur sticky top-16 z-40">
-            <div className="container mx-auto px-4">
+            <div className="container mx-auto px-2 sm:px-4">
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="grid w-full grid-cols-7 h-12">
-                  <TabsTrigger value="discover" className="flex items-center gap-2"><Globe className="h-4 w-4" /><span className="hidden sm:inline">{t('nav.discover')}</span></TabsTrigger>
-                  <TabsTrigger value="april" className="flex items-center gap-2 text-purple-600 data-[state=active]:bg-purple-100"><Bot className="h-4 w-4" /><span className="hidden sm:inline">April</span></TabsTrigger>
-                  <TabsTrigger value="workspaces" className="flex items-center gap-2"><Briefcase className="h-4 w-4" /><span className="hidden sm:inline">{t('nav.workspaces')}</span></TabsTrigger>
-                  <TabsTrigger value="tools" className="flex items-center gap-2"><LayoutDashboard className="h-4 w-4" /><span className="hidden sm:inline">{t('nav.tools')}</span></TabsTrigger>
-                  <TabsTrigger value="enterprise" className="flex items-center gap-2"><Building2 className="h-4 w-4" /><span className="hidden sm:inline">{t('nav.enterprise')}</span></TabsTrigger>
-                  <TabsTrigger value="onboarding" className="flex items-center gap-2"><User className="h-4 w-4" /><span className="hidden sm:inline">{t('nav.onboarding')}</span></TabsTrigger>
-                  <TabsTrigger value="admin" className="flex items-center gap-2"><BarChart3 className="h-4 w-4" /><span className="hidden sm:inline">{t('nav.admin')}</span></TabsTrigger>
+                <TabsList className="grid w-full grid-cols-4 sm:grid-cols-7 h-auto sm:h-12 gap-1 p-1">
+                  <TabsTrigger value="discover" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm py-2 sm:py-0"><Globe className="h-4 w-4 flex-shrink-0" /><span className="hidden sm:inline">{t('nav.discover')}</span></TabsTrigger>
+                  <TabsTrigger value="april" className="flex items-center justify-center gap-1 sm:gap-2 text-purple-600 data-[state=active]:bg-purple-100 text-xs sm:text-sm py-2 sm:py-0"><Bot className="h-4 w-4 flex-shrink-0" /><span className="hidden sm:inline">April</span></TabsTrigger>
+                  <TabsTrigger value="workspaces" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm py-2 sm:py-0"><Briefcase className="h-4 w-4 flex-shrink-0" /><span className="hidden sm:inline">{t('nav.workspaces')}</span></TabsTrigger>
+                  <TabsTrigger value="tools" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm py-2 sm:py-0"><LayoutDashboard className="h-4 w-4 flex-shrink-0" /><span className="hidden sm:inline">{t('nav.tools')}</span></TabsTrigger>
+                  <TabsTrigger value="enterprise" className="hidden sm:flex items-center justify-center gap-2 text-xs sm:text-sm"><Building2 className="h-4 w-4 flex-shrink-0" /><span className="hidden lg:inline">{t('nav.enterprise')}</span></TabsTrigger>
+                  <TabsTrigger value="onboarding" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm py-2 sm:py-0"><User className="h-4 w-4 flex-shrink-0" /><span className="hidden sm:inline">{t('nav.onboarding')}</span></TabsTrigger>
+                  <TabsTrigger value="admin" className="flex items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm py-2 sm:py-0"><BarChart3 className="h-4 w-4 flex-shrink-0" /><span className="hidden sm:inline">{t('nav.admin')}</span></TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
@@ -601,13 +601,13 @@ export default function Home() {
 
   // Login Page
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #eff6ff 0%, #e0e7ff 50%, #f3e8ff 100%)', padding: '16px' }}>
-      <div style={{ position: 'fixed', top: '16px', right: '16px', zIndex: 50 }}><LanguageSwitcher /></div>
-      <div style={{ width: '100%', maxWidth: isRegistering ? '520px' : '420px', background: 'white', borderRadius: '16px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', padding: '32px' }}>
-        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-          <img src="/webfinder-logo-new.png" alt="WebFinder Logo" style={{ height: '64px', width: '64px', borderRadius: '12px', marginBottom: '16px' }} />
-          <h1 style={{ fontSize: '28px', fontWeight: 'bold', background: 'linear-gradient(90deg, #2563eb, #4f46e5)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>WebFinder AI</h1>
-          <p style={{ color: '#6b7280', marginTop: '8px' }}>{isRegistering ? t('register.subtitle') : t('common.businessDiscovery')}</p>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #eff6ff 0%, #e0e7ff 50%, #f3e8ff 100%)', padding: '12px' }}>
+      <div style={{ position: 'fixed', top: '12px', right: '12px', zIndex: 50 }}><LanguageSwitcher /></div>
+      <div style={{ width: '100%', maxWidth: isRegistering ? '520px' : '420px', background: 'white', borderRadius: '12px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', padding: '20px' }} className="sm:p-8 sm:rounded-2xl">
+        <div style={{ textAlign: 'center', marginBottom: '20px' }} className="sm:mb-6">
+          <img src="/webfinder-logo-new.png" alt="WebFinder Logo" style={{ height: '48px', width: '48px', borderRadius: '10px', marginBottom: '12px' }} className="sm:h-16 sm:w-16 sm:rounded-xl sm:mb-4" />
+          <h1 style={{ fontSize: '24px', fontWeight: 'bold', background: 'linear-gradient(90deg, #2563eb, #4f46e5)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }} className="sm:text-3xl">WebFinder AI</h1>
+          <p style={{ color: '#6b7280', marginTop: '6px', fontSize: '14px' }} className="sm:mt-2 sm:text-base">{isRegistering ? t('register.subtitle') : t('common.businessDiscovery')}</p>
         </div>
 
         {/* Login/Register Toggle Tabs */}
@@ -685,7 +685,7 @@ export default function Home() {
             </div>
 
             {/* Name Fields */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '12px', marginBottom: '12px' }} className="sm:grid-cols-2">
               <div>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '6px', color: '#374151' }}>{t('register.firstName')} *</label>
                 <input 
@@ -733,7 +733,7 @@ export default function Home() {
             </div>
 
             {/* Password Fields */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '12px', marginBottom: '12px' }} className="sm:grid-cols-2">
               <div>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '6px', color: '#374151' }}>{t('auth.password')} *</label>
                 <input 
@@ -772,7 +772,7 @@ export default function Home() {
             </div>
 
             {/* Country and City */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '12px', marginBottom: '16px' }} className="sm:grid-cols-2">
               <div>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '6px', color: '#374151' }}>{t('register.country')}</label>
                 <select 

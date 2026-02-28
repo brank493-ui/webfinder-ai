@@ -126,21 +126,21 @@ export function AdminDashboard() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h1 className="text-3xl font-bold">{t('admin.title')}</h1>
-          <p className="text-muted-foreground">{t('admin.subtitle')}</p>
+          <h1 className="text-2xl sm:text-3xl font-bold">{t('admin.title')}</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">{t('admin.subtitle')}</p>
         </div>
-        <Button onClick={handleRefresh} disabled={refreshing} variant="outline">
+        <Button onClick={handleRefresh} disabled={refreshing} variant="outline" className="w-full sm:w-auto">
           <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
           {t('admin.refresh')}
         </Button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 md:grid-cols-4">
         {statCards.map((stat) => (
           <Card key={stat.title}>
             <CardContent className="p-6">
@@ -159,7 +159,7 @@ export function AdminDashboard() {
       </div>
 
       {/* Additional Stats Row */}
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-3">
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center gap-4">
@@ -203,26 +203,27 @@ export function AdminDashboard() {
 
       {/* Recent Projects */}
       <Card>
-        <CardHeader>
-          <CardTitle>{t('admin.recentProjects')}</CardTitle>
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="text-lg sm:text-xl">{t('admin.recentProjects')}</CardTitle>
         </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>{t('admin.business')}</TableHead>
-                <TableHead>{t('admin.package')}</TableHead>
-                <TableHead>{t('admin.status')}</TableHead>
-                <TableHead>{t('admin.payment')}</TableHead>
-                <TableHead>{t('admin.amount')}</TableHead>
-                <TableHead>{t('admin.date')}</TableHead>
-                <TableHead></TableHead>
-              </TableRow>
-            </TableHeader>
+        <CardContent className="p-0 sm:p-6">
+          <div className="overflow-x-auto">
+            <Table className="min-w-[600px]">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-xs sm:text-sm">{t('admin.business')}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t('admin.package')}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t('admin.status')}</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden sm:table-cell">{t('admin.payment')}</TableHead>
+                  <TableHead className="text-xs sm:text-sm">{t('admin.amount')}</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden md:table-cell">{t('admin.date')}</TableHead>
+                  <TableHead></TableHead>
+                </TableRow>
+              </TableHeader>
             <TableBody>
               {recentProjects.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
+                  <TableCell colSpan={7} className="text-center text-muted-foreground py-8 text-sm">
                     {t('admin.noProjects')}
                   </TableCell>
                 </TableRow>
@@ -231,7 +232,7 @@ export function AdminDashboard() {
                   <TableRow key={project.id}>
                     <TableCell>
                       <div>
-                        <div className="font-medium">{project.business.name}</div>
+                        <div className="font-medium text-sm">{project.business.name}</div>
                         <div className="text-xs text-muted-foreground">
                           {project.business.category || t('admin.noCategory')}
                         </div>
@@ -246,6 +247,7 @@ export function AdminDashboard() {
                             ? 'secondary'
                             : 'outline'
                         }
+                        className="text-xs"
                       >
                         {project.package.charAt(0).toUpperCase() + project.package.slice(1)}
                       </Badge>
@@ -259,11 +261,12 @@ export function AdminDashboard() {
                             ? 'secondary'
                             : 'outline'
                         }
+                        className="text-xs"
                       >
                         {project.status.replace('_', ' ')}
                       </Badge>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="hidden sm:table-cell">
                       <Badge
                         variant={
                           project.paymentStatus === 'paid'
@@ -272,14 +275,15 @@ export function AdminDashboard() {
                             ? 'secondary'
                             : 'destructive'
                         }
+                        className="text-xs"
                       >
                         {project.paymentStatus}
                       </Badge>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-sm">
                       ${project.amount?.toLocaleString() || '0'}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="hidden md:table-cell text-sm">
                       {new Date(project.createdAt).toLocaleDateString()}
                     </TableCell>
                     <TableCell>
@@ -292,6 +296,7 @@ export function AdminDashboard() {
               )}
             </TableBody>
           </Table>
+          </div>
         </CardContent>
       </Card>
     </div>

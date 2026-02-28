@@ -412,32 +412,32 @@ export function AprilDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4 sm:py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 sm:mb-8">
+          <div className="flex items-center gap-3 sm:gap-4">
             <div className="relative">
-              <Avatar className="h-16 w-16 border-4 border-blue-200 shadow-lg">
+              <Avatar className="h-12 w-12 sm:h-16 sm:w-16 border-4 border-blue-200 shadow-lg">
                 <AvatarImage src="/april-avatar.png" alt="April" />
-                <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xl font-bold">
+                <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-lg sm:text-xl font-bold">
                   A
                 </AvatarFallback>
               </Avatar>
-              <div className="absolute -bottom-1 -right-1 bg-green-500 rounded-full p-1.5 border-2 border-white">
-                <Zap className="h-3 w-3 text-white" />
+              <div className="absolute -bottom-1 -right-1 bg-green-500 rounded-full p-1 sm:p-1.5 border-2 border-white">
+                <Zap className="h-2 w-2 sm:h-3 sm:w-3 text-white" />
               </div>
             </div>
             <div>
-              <h1 className="text-3xl font-bold flex items-center gap-2">
-                <Bot className="h-8 w-8 text-blue-600" />
+              <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
+                <Bot className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
                 April
               </h1>
-              <p className="text-muted-foreground">
+              <p className="text-sm sm:text-base text-muted-foreground">
                 AI Business Development Agent
               </p>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 w-full sm:w-auto">
             <Button variant="outline" onClick={() => { fetchStats(); fetchLeads(); }}>
               <RefreshCw className="h-4 w-4 mr-2" />
               Refresh
@@ -505,83 +505,86 @@ export function AprilDashboard() {
 
         {/* Stats Cards */}
         {stats && (
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-4 mb-6 sm:mb-8">
             <Card>
-              <CardContent className="pt-4">
+              <CardContent className="p-3 sm:pt-4">
                 <div className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-blue-600" />
-                  <span className="text-2xl font-bold">{stats.totalLeads}</span>
+                  <Users className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
+                  <span className="text-xl sm:text-2xl font-bold">{stats.totalLeads}</span>
                 </div>
-                <p className="text-sm text-muted-foreground">Total Leads</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Total Leads</p>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="pt-4">
+              <CardContent className="p-3 sm:pt-4">
                 <div className="flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-yellow-600" />
-                  <span className="text-2xl font-bold">{stats.newLeads}</span>
+                  <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-600" />
+                  <span className="text-xl sm:text-2xl font-bold">{stats.newLeads}</span>
                 </div>
-                <p className="text-sm text-muted-foreground">New</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">New</p>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="pt-4">
+              <CardContent className="p-3 sm:pt-4">
                 <div className="flex items-center gap-2">
-                  <Send className="h-5 w-5 text-purple-600" />
-                  <span className="text-2xl font-bold">{stats.contacted}</span>
+                  <Send className="h-4 w-4 sm:h-5 sm:w-5 text-purple-600" />
+                  <span className="text-xl sm:text-2xl font-bold">{stats.contacted}</span>
                 </div>
-                <p className="text-sm text-muted-foreground">Contacted</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Contacted</p>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="pt-4">
+              <CardContent className="p-3 sm:pt-4">
                 <div className="flex items-center gap-2">
-                  <MessageSquare className="h-5 w-5 text-indigo-600" />
-                  <span className="text-2xl font-bold">{stats.responded}</span>
+                  <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 text-indigo-600" />
+                  <span className="text-xl sm:text-2xl font-bold">{stats.responded}</span>
                 </div>
-                <p className="text-sm text-muted-foreground">Responded</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Responded</p>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="pt-4">
+              <CardContent className="p-3 sm:pt-4">
                 <div className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span className="text-2xl font-bold">{stats.converted}</span>
+                  <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600" />
+                  <span className="text-xl sm:text-2xl font-bold">{stats.converted}</span>
                 </div>
-                <p className="text-sm text-muted-foreground">Converted</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Converted</p>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="pt-4">
+              <CardContent className="p-3 sm:pt-4">
                 <div className="flex items-center gap-2">
-                  <BarChart3 className="h-5 w-5 text-orange-600" />
-                  <span className="text-2xl font-bold">{stats.avgScore}</span>
+                  <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5 text-orange-600" />
+                  <span className="text-xl sm:text-2xl font-bold">{stats.avgScore}</span>
                 </div>
-                <p className="text-sm text-muted-foreground">Avg Score</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Avg Score</p>
               </CardContent>
             </Card>
           </div>
         )}
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-3 mb-6">
-            <TabsTrigger value="dashboard">
-              <Users className="h-4 w-4 mr-2" />
-              Leads
+          <TabsList className="grid w-full grid-cols-3 mb-4 sm:mb-6 h-auto">
+            <TabsTrigger value="dashboard" className="text-xs sm:text-sm py-2">
+              <Users className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Leads</span>
+              <span className="sm:hidden">Leads</span>
             </TabsTrigger>
-            <TabsTrigger value="search">
-              <Search className="h-4 w-4 mr-2" />
-              Find Businesses
+            <TabsTrigger value="search" className="text-xs sm:text-sm py-2">
+              <Search className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Find Businesses</span>
+              <span className="sm:hidden">Search</span>
             </TabsTrigger>
-            <TabsTrigger value="chat" disabled={!selectedLead}>
-              <MessageSquare className="h-4 w-4 mr-2" />
-              Conversation
+            <TabsTrigger value="chat" disabled={!selectedLead} className="text-xs sm:text-sm py-2">
+              <MessageSquare className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Conversation</span>
+              <span className="sm:hidden">Chat</span>
             </TabsTrigger>
           </TabsList>
 
           {/* Leads Tab */}
           <TabsContent value="dashboard">
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
               {/* Leads List */}
               <Card className="md:col-span-1">
                 <CardHeader>

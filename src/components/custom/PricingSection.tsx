@@ -9,27 +9,27 @@ import { useLanguageStore } from '@/store/useLanguageStore';
 export function PricingSection() {
   const { t } = useLanguageStore();
   return (
-    <section id="pricing" className="py-20 px-4 bg-gradient-to-b from-background to-muted/30">
+    <section id="pricing" className="py-12 sm:py-20 px-4 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto">
-        <div className="text-center mb-12">
-          <Badge className="mb-4" variant="secondary">
+        <div className="text-center mb-8 sm:mb-12">
+          <Badge className="mb-3 sm:mb-4" variant="secondary">
             {t('pricing.transparent')}
           </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
             {t('package.title')}
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
             {t('package.subtitle')}
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
           {PRICING_PACKAGES.map((pkg, index) => (
             <div
               key={pkg.id}
-              className={`relative rounded-2xl border-2 p-8 transition-all hover:shadow-xl ${
+              className={`relative rounded-2xl border-2 p-6 sm:p-8 transition-all hover:shadow-xl ${
                 pkg.highlighted
-                  ? 'border-blue-600 shadow-xl scale-105 z-10'
+                  ? 'border-blue-600 shadow-xl scale-100 md:scale-105 z-10'
                   : 'border-border hover:border-blue-300'
               }`}
             >
@@ -54,23 +54,23 @@ export function PricingSection() {
               )}
 
               {/* Package Header */}
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold mb-2">{pkg.name}</h3>
-                <p className="text-muted-foreground mb-4">{pkg.description}</p>
+              <div className="text-center mb-4 sm:mb-6">
+                <h3 className="text-xl sm:text-2xl font-bold mb-2">{pkg.name}</h3>
+                <p className="text-muted-foreground mb-3 sm:mb-4 text-sm sm:text-base">{pkg.description}</p>
                 <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-4xl font-bold">${pkg.price}</span>
-                  <span className="text-muted-foreground">{t('pricing.oneTime')}</span>
+                  <span className="text-3xl sm:text-4xl font-bold">${pkg.price}</span>
+                  <span className="text-muted-foreground text-sm">{t('pricing.oneTime')}</span>
                 </div>
               </div>
 
               {/* Features */}
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
                 {pkg.features.map((feature, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <div className="mt-0.5 h-5 w-5 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center flex-shrink-0">
-                      <Check className="h-3 w-3 text-green-600 dark:text-green-400" />
+                  <li key={i} className="flex items-start gap-2 sm:gap-3">
+                    <div className="mt-0.5 h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center flex-shrink-0">
+                      <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-green-600 dark:text-green-400" />
                     </div>
-                    <span className="text-sm">{feature}</span>
+                    <span className="text-xs sm:text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -102,8 +102,8 @@ export function PricingSection() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-12 text-center">
-          <p className="text-sm text-muted-foreground">
+        <div className="mt-8 sm:mt-12 text-center">
+          <p className="text-xs sm:text-sm text-muted-foreground">
             {t('pricing.needCustomSolution')}{' '}
             <a href="mailto:brank493@gmail.com" className="text-blue-600 hover:underline font-medium">
               {t('pricing.contactUs')}
