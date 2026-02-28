@@ -418,7 +418,7 @@ export function AprilDashboard() {
           <div className="flex items-center gap-3 sm:gap-4">
             <div className="relative">
               <Avatar className="h-12 w-12 sm:h-16 sm:w-16 border-4 border-blue-200 shadow-lg">
-                <AvatarImage src="/april-avatar.png" alt="April" />
+                <AvatarImage src="/april-avatar.jpg" alt="April" />
                 <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-lg sm:text-xl font-bold">
                   A
                 </AvatarFallback>
