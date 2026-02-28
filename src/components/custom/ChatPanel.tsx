@@ -13,7 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
   Bot,
@@ -166,9 +166,10 @@ export function ChatPanel() {
         <SheetHeader className="p-4 border-b">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Avatar className="h-10 w-10 bg-gradient-to-br from-blue-600 to-indigo-600">
-                <AvatarFallback className="bg-transparent">
-                  <Bot className="h-6 w-6 text-white" />
+              <Avatar className="h-10 w-10 border-2 border-blue-200">
+                <AvatarImage src="/april-avatar.jpg" alt="April" />
+                <AvatarFallback className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-bold">
+                  A
                 </AvatarFallback>
               </Avatar>
               <div>
@@ -202,21 +203,20 @@ export function ChatPanel() {
                   message.role === 'user' ? 'flex-row-reverse' : ''
                 }`}
               >
-                <Avatar className="h-8 w-8 flex-shrink-0">
-                  <AvatarFallback
-                    className={
-                      message.role === 'assistant'
-                        ? 'bg-gradient-to-br from-blue-600 to-indigo-600 text-white'
-                        : 'bg-gray-200'
-                    }
-                  >
-                    {message.role === 'assistant' ? (
-                      <Bot className="h-4 w-4" />
-                    ) : (
+                {message.role === 'assistant' ? (
+                  <Avatar className="h-8 w-8 flex-shrink-0 border border-blue-200">
+                    <AvatarImage src="/april-avatar.jpg" alt="April" />
+                    <AvatarFallback className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-bold text-xs">
+                      A
+                    </AvatarFallback>
+                  </Avatar>
+                ) : (
+                  <Avatar className="h-8 w-8 flex-shrink-0 bg-gray-200">
+                    <AvatarFallback className="bg-gray-200 text-gray-600">
                       <User className="h-4 w-4" />
-                    )}
-                  </AvatarFallback>
-                </Avatar>
+                    </AvatarFallback>
+                  </Avatar>
+                )}
                 <div
                   className={`rounded-lg p-3 max-w-[80%] ${
                     message.role === 'user'
@@ -231,9 +231,10 @@ export function ChatPanel() {
 
             {isAiTyping && (
               <div className="flex gap-3">
-                <Avatar className="h-8 w-8 flex-shrink-0">
-                  <AvatarFallback className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
-                    <Bot className="h-4 w-4" />
+                <Avatar className="h-8 w-8 flex-shrink-0 border border-blue-200">
+                  <AvatarImage src="/april-avatar.jpg" alt="April" />
+                  <AvatarFallback className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-bold text-xs">
+                    A
                   </AvatarFallback>
                 </Avatar>
                 <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-3">

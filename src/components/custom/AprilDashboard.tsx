@@ -428,8 +428,7 @@ export function AprilDashboard() {
               </div>
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
-                <Bot className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600" />
+              <h1 className="text-2xl sm:text-3xl font-bold">
                 April
               </h1>
               <p className="text-sm sm:text-base text-muted-foreground">
@@ -650,11 +649,11 @@ export function AprilDashboard() {
               <Card className="md:col-span-2">
                 {selectedLead ? (
                   <>
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
+                    <CardHeader className="p-4 sm:p-6">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div>
-                          <CardTitle className="text-lg">{selectedLead.businessName}</CardTitle>
-                          <CardDescription>
+                          <CardTitle className="text-base sm:text-lg">{selectedLead.businessName}</CardTitle>
+                          <CardDescription className="text-xs sm:text-sm">
                             Added {new Date(selectedLead.createdAt).toLocaleDateString()}
                           </CardDescription>
                         </div>
@@ -663,45 +662,47 @@ export function AprilDashboard() {
                             variant="outline"
                             size="sm"
                             onClick={() => handleGenerateReport(selectedLead.id)}
+                            className="text-xs sm:text-sm"
                           >
-                            <FileText className="h-4 w-4 mr-1" />
-                            Report
+                            <FileText className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-1" />
+                            <span className="hidden sm:inline">Report</span>
                           </Button>
                           <Button
                             size="sm"
                             onClick={() => handleConvertToUser(selectedLead)}
+                            className="text-xs sm:text-sm"
                           >
-                            <UserPlus className="h-4 w-4 mr-1" />
-                            Convert
+                            <UserPlus className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-1" />
+                            <span className="hidden sm:inline">Convert</span>
                           </Button>
                         </div>
                       </div>
                     </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-2 gap-4 mb-4">
+                    <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0">
+                      <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4">
                         <div>
-                          <p className="text-sm text-muted-foreground">Status</p>
-                          <Badge className={`${getStatusColor(selectedLead.status)} text-white`}>
+                          <p className="text-xs sm:text-sm text-muted-foreground">Status</p>
+                          <Badge className={`${getStatusColor(selectedLead.status)} text-white text-xs`}>
                             {selectedLead.status}
                           </Badge>
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">Priority</p>
-                          <Badge variant="outline" className={getPriorityColor(selectedLead.priority)}>
+                          <p className="text-xs sm:text-sm text-muted-foreground">Priority</p>
+                          <Badge variant="outline" className={`${getPriorityColor(selectedLead.priority)} text-xs`}>
                             {selectedLead.priority}
                           </Badge>
                         </div>
-                        <div>
-                          <p className="text-sm text-muted-foreground flex items-center gap-1">
+                        <div className="col-span-2 sm:col-span-1">
+                          <p className="text-xs sm:text-sm text-muted-foreground flex items-center gap-1">
                             <Mail className="h-3 w-3" /> Email
                           </p>
-                          <p className="text-sm">{selectedLead.businessEmail || 'Not provided'}</p>
+                          <p className="text-xs sm:text-sm truncate">{selectedLead.businessEmail || 'Not provided'}</p>
                         </div>
-                        <div>
-                          <p className="text-sm text-muted-foreground flex items-center gap-1">
+                        <div className="col-span-2 sm:col-span-1">
+                          <p className="text-xs sm:text-sm text-muted-foreground flex items-center gap-1">
                             <Phone className="h-3 w-3" /> Phone
                           </p>
-                          <p className="text-sm">{selectedLead.businessPhone || 'Not provided'}</p>
+                          <p className="text-xs sm:text-sm">{selectedLead.businessPhone || 'Not provided'}</p>
                         </div>
                       </div>
 
@@ -878,7 +879,10 @@ export function AprilDashboard() {
                 <ScrollArea className="h-[400px] border rounded-lg p-4 mb-4">
                   {conversation.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
-                      <Bot className="h-12 w-12 mb-4 opacity-50" />
+                      <Avatar className="h-12 w-12 mb-4 border-2 border-blue-200">
+                        <AvatarImage src="/april-avatar.jpg" alt="April" />
+                        <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white font-bold">A</AvatarFallback>
+                      </Avatar>
                       <p>No conversation yet</p>
                       <Button
                         className="mt-4"
@@ -897,7 +901,12 @@ export function AprilDashboard() {
                         >
                           <div className={`max-w-[80%] p-3 rounded-lg ${getMessageColor(msg.role)}`}>
                             <div className="flex items-center gap-2 mb-1">
-                              {msg.role === 'april' && <Bot className="h-4 w-4 text-blue-600" />}
+                              {msg.role === 'april' && (
+                                <Avatar className="h-5 w-5 border border-blue-200">
+                                  <AvatarImage src="/april-avatar.jpg" alt="April" />
+                                  <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-[8px] font-bold">A</AvatarFallback>
+                                </Avatar>
+                              )}
                               {msg.role === 'lead' && <Users className="h-4 w-4 text-gray-600" />}
                               {msg.role === 'owner' && <Sparkles className="h-4 w-4 text-purple-600" />}
                               <span className="text-xs font-medium uppercase">{msg.role}</span>
