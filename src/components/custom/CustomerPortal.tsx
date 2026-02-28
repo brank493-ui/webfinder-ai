@@ -31,7 +31,7 @@ import {
   Sparkles,
   Send,
   Paperclip,
-  Image,
+  Image as ImageIcon,
   File,
   ExternalLink,
   ChevronRight,
@@ -336,7 +336,7 @@ export function CustomerPortal() {
                       >
                         <div className="flex items-center gap-2">
                           {file.type === 'image' ? (
-                            <Image className="h-4 w-4 text-blue-500" />
+                            <ImageIcon className="h-4 w-4 text-blue-500" />
                           ) : (
                             <File className="h-4 w-4 text-orange-500" />
                           )}

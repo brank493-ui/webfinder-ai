@@ -25,7 +25,7 @@ import {
   Loader2,
   Play,
   Pause,
-  Image,
+  Image as ImageIcon,
   Paperclip,
   ExternalLink,
 } from 'lucide-react';
@@ -570,7 +570,7 @@ export function ClientProjectTracker() {
                       <div className="flex items-center gap-3">
                         <div className="p-2 rounded-lg bg-muted">
                           {file.type === 'image' ? (
-                            <Image className="h-5 w-5 text-blue-500" />
+                            <ImageIcon className="h-5 w-5 text-blue-500" />
                           ) : (
                             <FileText className="h-5 w-5 text-orange-500" />
                           )}

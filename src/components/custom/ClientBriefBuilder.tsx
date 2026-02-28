@@ -30,7 +30,7 @@ import {
   Layout,
   Globe,
   FileText,
-  Image,
+  Image as ImageIcon,
   MessageSquare,
   Clock,
   Users,
@@ -530,7 +530,7 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
                   }`}
                   onClick={() => updateBrief('hasLogo', !brief.hasLogo)}
                 >
-                  <Image className="h-6 w-6 mx-auto mb-2" />
+                  <ImageIcon className="h-6 w-6 mx-auto mb-2" />
                   <span className="text-sm font-medium">{t('brief.logoReady')}</span>
                 </div>
                 <div
@@ -548,7 +548,7 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
                   }`}
                   onClick={() => updateBrief('hasImages', !brief.hasImages)}
                 >
-                  <Image className="h-6 w-6 mx-auto mb-2" />
+                  <ImageIcon className="h-6 w-6 mx-auto mb-2" />
                   <span className="text-sm font-medium">{t('brief.imagesReady')}</span>
                 </div>
               </div>
