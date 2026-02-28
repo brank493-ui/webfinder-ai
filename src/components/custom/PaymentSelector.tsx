@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -182,6 +183,7 @@ const PAYMENT_METHODS = {
 };
 
 export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }: PaymentSelectorProps) {
+  const { t } = useLanguageStore();
   const [paymentMethod, setPaymentMethod] = useState<'bank' | 'mtn' | 'orange' | 'wave' | 'visa' | 'mastercard' | 'paypal'>('mtn');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [cardNumber, setCardNumber] = useState('');
@@ -284,11 +286,11 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
       <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800">
         <div className="flex items-center gap-2 mb-3">
           <Building className="h-5 w-5 text-blue-600" />
-          <span className="font-semibold">Bank Transfer Details</span>
+          <span className="font-semibold">{t('payment.bankTransferDetails')}</span>
         </div>
         <div className="space-y-3 text-sm">
           <div className="flex justify-between items-center">
-            <span className="text-muted-foreground">Bank Name:</span>
+            <span className="text-muted-foreground">{t('payment.bankName')}</span>
             <div className="flex items-center gap-2">
               <span className="font-medium">{BANK_DETAILS.bankName}</span>
               <Button size="sm" variant="ghost" className="h-6 w-6 p-0" onClick={() => copyToClipboard(BANK_DETAILS.bankName, 'bank')}>
@@ -297,7 +299,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
             </div>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-muted-foreground">Account Name:</span>
+            <span className="text-muted-foreground">{t('payment.accountName')}</span>
             <div className="flex items-center gap-2">
               <span className="font-medium">{BANK_DETAILS.accountName}</span>
               <Button size="sm" variant="ghost" className="h-6 w-6 p-0" onClick={() => copyToClipboard(BANK_DETAILS.accountName, 'name')}>
@@ -306,7 +308,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
             </div>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-muted-foreground">Account Number:</span>
+            <span className="text-muted-foreground">{t('payment.accountNumber')}</span>
             <div className="flex items-center gap-2">
               <span className="font-medium font-mono">{BANK_DETAILS.accountNumber}</span>
               <Button size="sm" variant="ghost" className="h-6 w-6 p-0" onClick={() => copyToClipboard(BANK_DETAILS.accountNumber, 'account')}>
@@ -315,7 +317,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
             </div>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-muted-foreground">Swift Code:</span>
+            <span className="text-muted-foreground">{t('payment.swiftCode')}</span>
             <div className="flex items-center gap-2">
               <span className="font-medium font-mono">{BANK_DETAILS.swiftCode}</span>
               <Button size="sm" variant="ghost" className="h-6 w-6 p-0" onClick={() => copyToClipboard(BANK_DETAILS.swiftCode, 'swift')}>
@@ -330,11 +332,11 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
         <div className="flex items-start gap-2">
           <AlertCircle className="h-5 w-5 text-amber-600 mt-0.5" />
           <div className="text-sm">
-            <p className="font-medium">Important:</p>
+            <p className="font-medium">{t('payment.important')}</p>
             <ul className="mt-1 space-y-1 text-muted-foreground">
-              <li>• Include your business name in the transfer reference</li>
-              <li>• Send proof of payment to {COMPANY_INFO.contact.email}</li>
-              <li>• We'll confirm payment within 24 hours</li>
+              <li>• {t('payment.includeBusinessName')}</li>
+              <li>• {t('payment.sendProof')} {COMPANY_INFO.contact.email}</li>
+              <li>• {t('payment.confirmWithin24h')}</li>
             </ul>
           </div>
         </div>
@@ -359,13 +361,13 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
             <LogoComponent />
             <div>
               <h4 className="font-semibold">{config.name}</h4>
-              <p className="text-sm text-muted-foreground">Send money instantly</p>
+              <p className="text-sm text-muted-foreground">{t('payment.sendMoneyInstantly')}</p>
             </div>
           </div>
 
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Number:</span>
+              <span className="text-sm text-muted-foreground">{t('payment.number')}</span>
               <div className="flex items-center gap-2">
                 <span className="font-medium font-mono">{config.number}</span>
                 <Button
@@ -379,11 +381,11 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
               </div>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Account Name:</span>
+              <span className="text-sm text-muted-foreground">{t('payment.accountName')}</span>
               <span className="font-medium">{config.accountName}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Amount:</span>
+              <span className="text-sm text-muted-foreground">{t('payment.amount')}</span>
               <span className="font-bold text-lg">
                 {currencySymbol}{convertedAmount.toLocaleString()}
               </span>
@@ -392,16 +394,16 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="phoneNumber">Your Phone Number (for confirmation)</Label>
+          <Label htmlFor="phoneNumber">{t('payment.yourPhoneConfirm')}</Label>
           <Input
             id="phoneNumber"
             type="tel"
-            placeholder="+237 6XX XXX XXX"
+            placeholder={t('brief.phonePlaceholder')}
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
           <p className="text-xs text-muted-foreground">
-            We'll use this to verify your payment
+            {t('payment.willUseToVerify')}
           </p>
         </div>
 
@@ -409,13 +411,13 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
           <div className="flex items-start gap-2">
             <Shield className="h-5 w-5 text-green-600 mt-0.5" />
             <div className="text-sm">
-              <p className="font-medium">How to pay:</p>
+              <p className="font-medium">{t('payment.howToPay')}</p>
               <ol className="mt-1 space-y-1 text-muted-foreground list-decimal list-inside">
-                <li>Open your {config.name} app or dial the USSD code</li>
-                <li>Select "Send Money"</li>
-                <li>Enter the number: {config.number}</li>
-                <li>Enter amount: {currencySymbol}{convertedAmount.toLocaleString()}</li>
-                <li>Confirm with your PIN</li>
+                <li>{t('payment.openApp')} {config.name} {t('payment.appOrDial')}</li>
+                <li>{t('payment.selectSendMoney')}</li>
+                <li>{t('payment.enterNumber')} {config.number}</li>
+                <li>{t('payment.enterAmount')} {currencySymbol}{convertedAmount.toLocaleString()}</li>
+                <li>{t('payment.confirmWithPin')}</li>
               </ol>
             </div>
           </div>
@@ -441,14 +443,14 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
             <LogoComponent />
             <div>
               <h4 className="font-semibold">{config.name}</h4>
-              <p className="text-sm text-muted-foreground">Pay securely with your card</p>
+              <p className="text-sm text-muted-foreground">{t('payment.paySecurely')}</p>
             </div>
           </div>
         </div>
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="cardName">Cardholder Name</Label>
+            <Label htmlFor="cardName">{t('payment.cardholderName')}</Label>
             <Input
               id="cardName"
               type="text"
@@ -459,7 +461,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="cardNumber">Card Number</Label>
+            <Label htmlFor="cardNumber">{t('payment.cardNumber')}</Label>
             <Input
               id="cardNumber"
               type="text"
@@ -472,7 +474,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
           
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="expiryDate">Expiry Date</Label>
+              <Label htmlFor="expiryDate">{t('payment.expiryDate')}</Label>
               <Input
                 id="expiryDate"
                 type="text"
@@ -483,7 +485,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="cvv">CVV</Label>
+              <Label htmlFor="cvv">{t('payment.cvv')}</Label>
               <Input
                 id="cvv"
                 type="password"
@@ -496,7 +498,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
           </div>
 
           <div className="flex justify-between items-center p-3 bg-muted rounded-lg">
-            <span className="text-sm">Amount to charge:</span>
+            <span className="text-sm">{t('payment.amountToCharge')}</span>
             <span className="font-bold text-lg">{currencySymbol}{convertedAmount.toLocaleString()}</span>
           </div>
         </div>
@@ -504,7 +506,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
         <div className="flex items-center gap-2 p-4 bg-green-50 dark:bg-green-950 rounded-lg border border-green-200 dark:border-green-800">
           <Shield className="h-5 w-5 text-green-600" />
           <p className="text-sm text-green-700 dark:text-green-300">
-            Your card information is encrypted and secure. We use industry-standard SSL encryption.
+            {t('payment.cardInfoEncrypted')}
           </p>
         </div>
       </div>
@@ -528,14 +530,14 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
             <LogoComponent />
             <div>
               <h4 className="font-semibold">{config.name}</h4>
-              <p className="text-sm text-muted-foreground">Pay with your PayPal account</p>
+              <p className="text-sm text-muted-foreground">{t('payment.payWithPayPal')}</p>
             </div>
           </div>
         </div>
 
         <div className="p-6 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800 text-center">
           <p className="text-muted-foreground mb-4">
-            You'll be redirected to PayPal to complete your payment of
+            {t('payment.redirectedToPayPal')}
           </p>
           <p className="text-3xl font-bold text-blue-600 mb-4">
             {currencySymbol}{convertedAmount.toLocaleString()}
@@ -545,14 +547,14 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
             onClick={handlePayment}
           >
             <LogoComponent />
-            Pay with PayPal
+            {t('payment.payWithPayPalButton')}
           </Button>
         </div>
 
         <div className="flex items-center gap-2 p-4 bg-green-50 dark:bg-green-950 rounded-lg border border-green-200 dark:border-green-800">
           <Shield className="h-5 w-5 text-green-600" />
           <p className="text-sm text-green-700 dark:text-green-300">
-            PayPal offers buyer protection and secure payments.
+            {t('payment.payPalProtection')}
           </p>
         </div>
       </div>
@@ -566,9 +568,9 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
         <CardContent className="pt-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm opacity-80">Amount to Pay</p>
+              <p className="text-sm opacity-80">{t('payment.amountToPay')}</p>
               <p className="text-3xl font-bold">{currencySymbol}{convertedAmount.toLocaleString()}</p>
-              <p className="text-sm opacity-80 mt-1 capitalize">{selectedPackage} Package</p>
+              <p className="text-sm opacity-80 mt-1 capitalize">{selectedPackage} {t('payment.packageLabel')}</p>
             </div>
             <div className="p-4 rounded-full bg-white/20">
               <Wallet className="h-8 w-8" />
@@ -576,7 +578,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
           </div>
 
           <div className="flex items-center gap-4 mt-4">
-            <span className="text-sm">Currency:</span>
+            <span className="text-sm">{t('payment.currency')}</span>
             <div className="flex gap-2">
               <Button
                 size="sm"
@@ -604,14 +606,14 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <CreditCard className="h-5 w-5" />
-            Choose Payment Method
+            {t('payment.selectMethod')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <Tabs value={paymentMethod} onValueChange={(v) => setPaymentMethod(v as typeof paymentMethod)}>
             {/* Mobile Money Section */}
             <div className="mb-4">
-              <p className="text-sm font-medium text-muted-foreground mb-2">Mobile Money</p>
+              <p className="text-sm font-medium text-muted-foreground mb-2">{t('payment.mobileMoneySection')}</p>
               <TabsList className="grid w-full grid-cols-3 mb-2">
                 <TabsTrigger value="mtn" className="flex items-center gap-2 py-3">
                   <MTNLogo />
@@ -630,7 +632,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
 
             {/* Cards Section */}
             <div className="mb-4">
-              <p className="text-sm font-medium text-muted-foreground mb-2">Credit / Debit Cards</p>
+              <p className="text-sm font-medium text-muted-foreground mb-2">{t('payment.cardsSection')}</p>
               <TabsList className="grid w-full grid-cols-2 mb-2">
                 <TabsTrigger value="visa" className="flex items-center gap-2 py-3">
                   <VisaLogo />
@@ -645,7 +647,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
 
             {/* Online Payments Section */}
             <div className="mb-4">
-              <p className="text-sm font-medium text-muted-foreground mb-2">Online Payments</p>
+              <p className="text-sm font-medium text-muted-foreground mb-2">{t('payment.onlinePayments')}</p>
               <TabsList className="grid w-full grid-cols-2 mb-2">
                 <TabsTrigger value="paypal" className="flex items-center gap-2 py-3">
                   <PayPalLogo />
@@ -678,7 +680,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
                 ) : (
                   <>
                     <Lock className="h-5 w-5 mr-2" />
-                    {['visa', 'mastercard'].includes(paymentMethod) ? 'Pay Securely Now' : 'Pay with ' + paymentMethod.toUpperCase()}
+                    {['visa', 'mastercard'].includes(paymentMethod) ? t('payment.paySecurelyNow') : `Pay with ${paymentMethod.toUpperCase()}`}
                   </>
                 )}
               </Button>
@@ -691,9 +693,9 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
       <div className="flex items-center gap-3 p-4 bg-muted rounded-lg">
         <Shield className="h-8 w-8 text-green-600" />
         <div>
-          <p className="font-medium">Secure Payment</p>
+          <p className="font-medium">{t('payment.securePaymentNote')}</p>
           <p className="text-sm text-muted-foreground">
-            Your payment information is secure. All transactions are encrypted.
+            {t('payment.paymentEncrypted')}
           </p>
         </div>
       </div>
@@ -704,35 +706,35 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Clock className="h-5 w-5 text-blue-600" />
-              Confirm Payment
+              {t('payment.confirmPaymentTitle')}
             </DialogTitle>
             <DialogDescription>
-              Please confirm your payment of {currencySymbol}{convertedAmount.toLocaleString()} via {paymentMethod.toUpperCase()}
+              {t('payment.pleaseConfirm')} {currencySymbol}{convertedAmount.toLocaleString()} {t('payment.via')} {paymentMethod.toUpperCase()}
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
             <div className="p-4 bg-muted rounded-lg mb-4">
               <div className="flex justify-between mb-2">
-                <span className="text-muted-foreground">Package:</span>
+                <span className="text-muted-foreground">{t('payment.packageLabel')}:</span>
                 <span className="font-medium capitalize">{selectedPackage}</span>
               </div>
               <div className="flex justify-between mb-2">
-                <span className="text-muted-foreground">Amount:</span>
+                <span className="text-muted-foreground">{t('payment.amount')}</span>
                 <span className="font-medium">{currencySymbol}{convertedAmount.toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Method:</span>
+                <span className="text-muted-foreground">{t('payment.method')}</span>
                 <span className="font-medium uppercase">{paymentMethod}</span>
               </div>
             </div>
             <p className="text-sm text-muted-foreground">
-              Our team will verify your payment and start working on your project immediately.
-              You'll receive a confirmation email within 24 hours.
+              {t('payment.teamWillVerify')}
+              {t('payment.receiveConfirmation')}
             </p>
           </div>
           <div className="flex gap-3">
             <Button variant="outline" onClick={() => setShowConfirmation(false)} className="flex-1">
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button onClick={confirmPayment} disabled={processing} className="flex-1">
               {processing ? (
@@ -740,7 +742,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
               ) : (
                 <CheckCircle className="h-4 w-4 mr-2" />
               )}
-              Confirm Payment
+              {t('payment.confirmPaymentButton')}
             </Button>
           </div>
         </DialogContent>
@@ -753,13 +755,13 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
             <div className="mx-auto mb-4">
               <CheckCircle className="h-16 w-16 text-green-500" />
             </div>
-            <DialogTitle className="text-xl">Payment Successful!</DialogTitle>
+            <DialogTitle className="text-xl">{t('payment.paymentSuccessful')}</DialogTitle>
             <DialogDescription className="mt-4">
-              Your payment of <strong>{currencySymbol}{convertedAmount.toLocaleString()}</strong> has been processed successfully.
+              <strong>{currencySymbol}{convertedAmount.toLocaleString()}</strong> {t('payment.processedSuccessfully')}
               <br /><br />
-              You'll receive a confirmation at <strong>{COMPANY_INFO.contact.email}</strong> shortly.
+              {t('payment.receiveConfirmationAt')} <strong>{COMPANY_INFO.contact.email}</strong>.
               <br /><br />
-              Our team will contact you on <strong>{COMPANY_INFO.contact.phone}</strong> once your project begins.
+              {t('payment.teamWillContact')} <strong>{COMPANY_INFO.contact.phone}</strong> {t('payment.projectBegins')}
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
@@ -777,16 +779,16 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
               ) : (
                 <Lock className="h-5 w-5 text-blue-600" />
               )}
-              {['mtn', 'orange', 'wave'].includes(paymentMethod) ? 'Confirm with PIN' : '3D Secure Verification'}
+              {['mtn', 'orange', 'wave'].includes(paymentMethod) ? t('payment.confirmWithPin') : t('payment.secureVerification')}
             </DialogTitle>
             <DialogDescription>
               {paymentStatus === 'idle' && (
-                <>Enter your {['mtn', 'orange', 'wave'].includes(paymentMethod) ? 'Mobile Money PIN' : 'one-time password'} to authorize this transaction</>
+                <>{t('payment.enterPinOrOtp')} {['mtn', 'orange', 'wave'].includes(paymentMethod) ? t('payment.mobileMoneyPin') : t('payment.oneTimePassword')} {t('payment.authorizeTransaction')}</>
               )}
-              {paymentStatus === 'processing' && 'Processing your payment...'}
-              {paymentStatus === 'verifying' && 'Verifying transaction...'}
-              {paymentStatus === 'success' && 'Payment successful!'}
-              {paymentStatus === 'failed' && 'Transaction failed'}
+              {paymentStatus === 'processing' && t('payment.processingPayment')}
+              {paymentStatus === 'verifying' && t('payment.verifyingTransaction')}
+              {paymentStatus === 'success' && t('payment.paymentSuccessful')}
+              {paymentStatus === 'failed' && t('payment.transactionFailed')}
             </DialogDescription>
           </DialogHeader>
 
@@ -794,15 +796,15 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
             {/* Transaction Summary */}
             <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 rounded-lg mb-6 border border-blue-200 dark:border-blue-800">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-sm text-muted-foreground">Amount:</span>
+                <span className="text-sm text-muted-foreground">{t('payment.amount')}</span>
                 <span className="text-xl font-bold text-blue-600">{currencySymbol}{convertedAmount.toLocaleString()}</span>
               </div>
               <div className="flex items-center justify-between mb-3">
-                <span className="text-sm text-muted-foreground">Package:</span>
+                <span className="text-sm text-muted-foreground">{t('payment.packageLabel')}:</span>
                 <span className="font-medium capitalize">{selectedPackage}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Method:</span>
+                <span className="text-sm text-muted-foreground">{t('payment.method')}</span>
                 <div className="flex items-center gap-2">
                   {['mtn', 'orange', 'wave'].includes(paymentMethod) && <Smartphone className="h-4 w-4" />}
                   {['visa', 'mastercard'].includes(paymentMethod) && <CreditCard className="h-4 w-4" />}
@@ -823,7 +825,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
                 <div className="text-center">
                   <KeyRound className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
                   <p className="text-sm text-muted-foreground">
-                    Enter your 4-digit Mobile Money PIN
+                    {t('payment.enter4digitPin')}
                   </p>
                 </div>
                 <div className="flex justify-center gap-2">
@@ -848,7 +850,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
                 />
                 <p className="text-xs text-center text-muted-foreground">
                   <Shield className="h-3 w-3 inline mr-1" />
-                  Your PIN is encrypted and secure
+                  {t('payment.pinEncryptedSecure')}
                 </p>
               </div>
             )}
@@ -859,7 +861,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
                 <div className="text-center">
                   <Fingerprint className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
                   <p className="text-sm text-muted-foreground">
-                    Enter the 6-digit code sent to your phone
+                    {t('payment.enter6digitOtp')}
                   </p>
                 </div>
                 <div className="flex justify-center gap-1">
@@ -883,10 +885,10 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
                   autoFocus
                 />
                 <p className="text-xs text-center text-muted-foreground">
-                  Check your registered phone for the OTP code
+                  {t('payment.checkPhoneForOtp')}
                 </p>
                 <Button variant="link" className="w-full text-sm">
-                  Resend OTP Code
+                  {t('payment.resendOtp')}
                 </Button>
               </div>
             )}
@@ -896,10 +898,10 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
               <div className="text-center py-8">
                 <Loader2 className="h-16 w-16 mx-auto animate-spin text-blue-600 mb-4" />
                 <p className="text-lg font-medium">
-                  {paymentStatus === 'processing' ? 'Processing Payment...' : 'Verifying Transaction...'}
+                  {paymentStatus === 'processing' ? t('payment.processingPayment') : t('payment.verifyingTransaction')}
                 </p>
                 <p className="text-sm text-muted-foreground mt-2">
-                  Please wait, do not close this window
+                  {t('payment.waitDoNotClose')}
                 </p>
                 <div className="mt-4 w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                   <div className="bg-blue-600 h-full animate-pulse" style={{ width: '60%' }} />
@@ -915,10 +917,10 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
                   <div className="absolute inset-0 bg-green-500/20 rounded-full animate-ping" />
                 </div>
                 <p className="text-lg font-medium text-green-600 mt-4">
-                  Payment Successful!
+                  {t('payment.paymentSuccessful')}
                 </p>
                 <p className="text-sm text-muted-foreground mt-2">
-                  {currencySymbol}{convertedAmount.toLocaleString()} has been charged to your {paymentMethod.toUpperCase()} account
+                  {currencySymbol}{convertedAmount.toLocaleString()} {t('payment.hasBeenCharged')} {paymentMethod.toUpperCase()} {t('payment.account')}
                 </p>
               </div>
             )}
@@ -928,10 +930,10 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
               <div className="text-center py-8">
                 <AlertCircle className="h-20 w-20 mx-auto text-red-500" />
                 <p className="text-lg font-medium text-red-600 mt-4">
-                  Transaction Failed
+                  {t('payment.transactionFailed')}
                 </p>
                 <p className="text-sm text-muted-foreground mt-2">
-                  {errorMessage || 'Please check your details and try again'}
+                  {errorMessage || t('payment.checkDetailsAndRetry')}
                 </p>
               </div>
             )}
@@ -951,14 +953,14 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
           {paymentStatus === 'idle' && (
             <div className="flex gap-3">
               <Button variant="outline" onClick={() => setShowPinModal(false)} className="flex-1">
-                Cancel
+                {t('common.cancel')}
               </Button>
               <Button 
                 onClick={confirmPayment} 
                 className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
               >
                 <Lock className="h-4 w-4 mr-2" />
-                Confirm & Pay
+                {t('payment.confirmAndPay')}
               </Button>
             </div>
           )}
@@ -973,7 +975,7 @@ export function PaymentSelector({ selectedPackage, amount, onPaymentInitiated }:
               }} 
               className="w-full"
             >
-              Try Again
+              {t('payment.tryAgain')}
             </Button>
           )}
         </DialogContent>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -17,13 +18,13 @@ import {
 } from 'lucide-react';
 
 const galleryCategories = [
-  { id: 'all', label: 'All Projects' },
-  { id: 'business', label: 'Business' },
-  { id: 'ecommerce', label: 'E-Commerce' },
-  { id: 'restaurant', label: 'Restaurant' },
-  { id: 'health', label: 'Healthcare' },
-  { id: 'tech', label: 'Technology' },
-  { id: 'creative', label: 'Creative' },
+  { id: 'all', labelKey: 'gallery.allProjects' },
+  { id: 'business', labelKey: 'category.business' },
+  { id: 'ecommerce', labelKey: 'gallery.ecommerce' },
+  { id: 'restaurant', labelKey: 'category.restaurant' },
+  { id: 'health', labelKey: 'gallery.healthcare' },
+  { id: 'tech', labelKey: 'gallery.tech' },
+  { id: 'creative', labelKey: 'category.creative' },
 ];
 
 const galleryItems = [
@@ -150,6 +151,7 @@ const galleryItems = [
 ];
 
 export function UserGalleryPage() {
+  const { t } = useLanguageStore();
   const [activeCategory, setActiveCategory] = useState('all');
   const [viewMode, setViewMode] = useState<'grid' | 'masonry'>('grid');
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
@@ -164,7 +166,7 @@ export function UserGalleryPage() {
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <Filter className="h-5 w-5 text-blue-600" />
-          <span className="text-sm font-medium text-gray-600">Filter by:</span>
+          <span className="text-sm font-medium text-gray-600">{t('gallery.filterBy')}</span>
         </div>
         <div className="flex items-center gap-2">
           <Button
@@ -195,7 +197,7 @@ export function UserGalleryPage() {
               value={category.id}
               className="data-[state=active]:bg-blue-600 data-[state=active]:text-white px-4 py-2"
             >
-              {category.label}
+              {t(category.labelKey)}
             </TabsTrigger>
           ))}
         </TabsList>
@@ -245,7 +247,7 @@ export function UserGalleryPage() {
                     </div>
                     <Button size="sm" className="bg-white text-gray-900 hover:bg-gray-100">
                       <ExternalLink className="h-4 w-4 mr-1" />
-                      View
+                      {t('gallery.view')}
                     </Button>
                   </div>
                 </div>
@@ -275,7 +277,7 @@ export function UserGalleryPage() {
       <div className="text-center pt-8">
         <Button variant="outline" size="lg" className="border-blue-600 text-blue-600 hover:bg-blue-50">
           <Sparkles className="h-5 w-5 mr-2" />
-          Load More Projects
+          {t('gallery.loadMore')}
         </Button>
       </div>
     </div>

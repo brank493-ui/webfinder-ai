@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -133,6 +134,7 @@ const mockInvoices: Invoice[] = [
 ];
 
 export function BillingInvoicing() {
+  const { t } = useLanguageStore();
   const [invoices, setInvoices] = useState<Invoice[]>(mockInvoices);
   const [filter, setFilter] = useState<'all' | Invoice['status']>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -237,55 +239,55 @@ export function BillingInvoicing() {
         <div>
           <h2 className="text-2xl font-bold flex items-center gap-2">
             <CreditCard className="h-6 w-6 text-blue-600" />
-            Billing & Invoices
+            {t('billing.title')}
           </h2>
           <p className="text-muted-foreground">
-            Manage invoices, payments, and billing
+            {t('billing.subtitle')}
           </p>
         </div>
         <Dialog open={showNewInvoiceModal} onOpenChange={setShowNewInvoiceModal}>
           <DialogTrigger asChild>
             <Button>
               <Plus className="h-4 w-4 mr-2" />
-              New Invoice
+              {t('billing.newInvoice')}
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create Invoice</DialogTitle>
+              <DialogTitle>{t('billing.createInvoice')}</DialogTitle>
               <DialogDescription>
-                Create a new invoice for a client
+                {t('billing.createInvoiceDesc')}
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium">Client Name</label>
+                <label className="text-sm font-medium">{t('billing.clientName')}</label>
                 <Input
-                  placeholder="Enter client name"
+                  placeholder={t('billing.clientNamePlaceholder')}
                   value={newInvoice.client}
                   onChange={(e) => setNewInvoice({ ...newInvoice, client: e.target.value })}
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Client Email</label>
+                <label className="text-sm font-medium">{t('billing.clientEmail')}</label>
                 <Input
                   type="email"
-                  placeholder="Enter client email"
+                  placeholder={t('billing.clientEmailPlaceholder')}
                   value={newInvoice.email}
                   onChange={(e) => setNewInvoice({ ...newInvoice, email: e.target.value })}
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Project Name</label>
+                <label className="text-sm font-medium">{t('billing.projectName')}</label>
                 <Input
-                  placeholder="Enter project name"
+                  placeholder={t('billing.projectNamePlaceholder')}
                   value={newInvoice.project}
                   onChange={(e) => setNewInvoice({ ...newInvoice, project: e.target.value })}
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Package</label>
+                  <label className="text-sm font-medium">{t('billing.packageLabel')}</label>
                   <Select
                     value={newInvoice.package}
                     onValueChange={(v) => setNewInvoice({ ...newInvoice, package: v })}
@@ -294,14 +296,14 @@ export function BillingInvoicing() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="standard">Standard ($149)</SelectItem>
-                      <SelectItem value="pro">Pro ($399)</SelectItem>
-                      <SelectItem value="premium">Premium ($999)</SelectItem>
+                      <SelectItem value="standard">{t('billing.standardPackage')}</SelectItem>
+                      <SelectItem value="pro">{t('billing.proPackage')}</SelectItem>
+                      <SelectItem value="premium">{t('billing.premiumPackage')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Amount ($)</label>
+                  <label className="text-sm font-medium">{t('billing.amountLabel')}</label>
                   <Input
                     type="number"
                     placeholder="399"
@@ -321,7 +323,7 @@ export function BillingInvoicing() {
                 ) : (
                   <FileText className="h-4 w-4 mr-2" />
                 )}
-                Create Invoice
+                {t('billing.createInvoice')}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -334,7 +336,7 @@ export function BillingInvoicing() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total Revenue</p>
+                <p className="text-sm text-muted-foreground">{t('billing.totalRevenue')}</p>
                 <p className="text-2xl font-bold text-green-600">
                   ${totalRevenue.toLocaleString()}
                 </p>
@@ -350,7 +352,7 @@ export function BillingInvoicing() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Pending</p>
+                <p className="text-sm text-muted-foreground">{t('billing.pending')}</p>
                 <p className="text-2xl font-bold text-blue-600">
                   ${pendingAmount.toLocaleString()}
                 </p>
@@ -366,7 +368,7 @@ export function BillingInvoicing() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Overdue</p>
+                <p className="text-sm text-muted-foreground">{t('billing.overdue')}</p>
                 <p className="text-2xl font-bold text-red-600">
                   ${overdueAmount.toLocaleString()}
                 </p>
@@ -382,7 +384,7 @@ export function BillingInvoicing() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Draft Invoices</p>
+                <p className="text-sm text-muted-foreground">{t('billing.draftInvoices')}</p>
                 <p className="text-2xl font-bold">{draftCount}</p>
               </div>
               <div className="p-3 rounded-full bg-gray-100 dark:bg-gray-900">
@@ -399,7 +401,7 @@ export function BillingInvoicing() {
           <div className="relative">
             <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Search invoices..."
+              placeholder={t('billing.searchInvoices')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 w-[250px]"
@@ -413,10 +415,10 @@ export function BillingInvoicing() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Invoices</SelectItem>
-              <SelectItem value="draft">Draft</SelectItem>
-              <SelectItem value="sent">Sent</SelectItem>
-              <SelectItem value="paid">Paid</SelectItem>
+              <SelectItem value="all">{t('billing.allInvoices')}</SelectItem>
+              <SelectItem value="draft">{t('billing.draft')}</SelectItem>
+              <SelectItem value="sent">{t('billing.sent')}</SelectItem>
+              <SelectItem value="paid">{t('billing.paid')}</SelectItem>
               <SelectItem value="overdue">Overdue</SelectItem>
             </SelectContent>
           </Select>
@@ -426,14 +428,14 @@ export function BillingInvoicing() {
       {/* Invoices List */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Invoices</CardTitle>
+          <CardTitle className="text-lg">{t('billing.invoices')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {filteredInvoices.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">
                 <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>No invoices found</p>
+                <p>{t('billing.noInvoices')}</p>
               </div>
             ) : (
               filteredInvoices.map((invoice) => (
@@ -471,7 +473,7 @@ export function BillingInvoicing() {
                       {invoice.status === 'draft' && (
                         <Button size="sm" onClick={() => sendInvoice(invoice.id)}>
                           <Send className="h-4 w-4 mr-1" />
-                          Send
+                          {t('billing.send')}
                         </Button>
                       )}
                       {invoice.status === 'sent' && (
@@ -481,17 +483,17 @@ export function BillingInvoicing() {
                           onClick={() => markAsPaid(invoice.id)}
                         >
                           <CheckCircle className="h-4 w-4 mr-1" />
-                          Mark Paid
+                          {t('billing.markPaid')}
                         </Button>
                       )}
                       {invoice.status === 'overdue' && (
                         <>
                           <Button size="sm" variant="destructive">
                             <Mail className="h-4 w-4 mr-1" />
-                            Remind
+                            {t('billing.remind')}
                           </Button>
                           <Button size="sm" variant="outline" onClick={() => markAsPaid(invoice.id)}>
-                            Mark Paid
+                            {t('billing.markPaid')}
                           </Button>
                         </>
                       )}
@@ -524,22 +526,22 @@ export function BillingInvoicing() {
                               </div>
                               <div className="grid grid-cols-2 gap-8 mb-8">
                                 <div>
-                                  <p className="text-sm text-muted-foreground">Bill To:</p>
+                                  <p className="text-sm text-muted-foreground">{t('billing.billTo')}</p>
                                   <p className="font-medium">{invoice.client}</p>
                                   <p className="text-sm">{invoice.clientEmail}</p>
                                 </div>
                                 <div className="text-right">
-                                  <p className="text-sm text-muted-foreground">Due Date:</p>
+                                  <p className="text-sm text-muted-foreground">{t('billing.dueDate')}</p>
                                   <p className="font-medium">{invoice.dueDate}</p>
                                 </div>
                               </div>
                               <table className="w-full mb-8">
                                 <thead>
                                   <tr className="border-b">
-                                    <th className="text-left py-2">Description</th>
-                                    <th className="text-right py-2">Qty</th>
-                                    <th className="text-right py-2">Price</th>
-                                    <th className="text-right py-2">Total</th>
+                                    <th className="text-left py-2">{t('billing.description')}</th>
+                                    <th className="text-right py-2">{t('billing.qty')}</th>
+                                    <th className="text-right py-2">{t('billing.price')}</th>
+                                    <th className="text-right py-2">{t('billing.total')}</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -555,7 +557,7 @@ export function BillingInvoicing() {
                                 <tfoot>
                                   <tr>
                                     <td colSpan={3} className="text-right py-3 font-semibold">
-                                      Total:
+                                      {t('billing.total')}
                                     </td>
                                     <td className="text-right font-bold text-lg">
                                       ${invoice.amount}
@@ -569,11 +571,11 @@ export function BillingInvoicing() {
                           <DialogFooter>
                             <Button variant="outline">
                               <Printer className="h-4 w-4 mr-2" />
-                              Print
+                              {t('billing.print')}
                             </Button>
                             <Button variant="outline">
                               <Download className="h-4 w-4 mr-2" />
-                              Download PDF
+                              {t('billing.downloadPdf')}
                             </Button>
                           </DialogFooter>
                         </DialogContent>

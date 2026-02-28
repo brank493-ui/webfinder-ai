@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -61,6 +62,7 @@ interface Workspace {
 }
 
 export function WorkspaceManager() {
+  const { t } = useLanguageStore();
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedWorkspace, setSelectedWorkspace] = useState<Workspace | null>(null);
@@ -223,9 +225,9 @@ export function WorkspaceManager() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Workspace Manager</h2>
+          <h2 className="text-2xl font-bold">{t('workspace.title')}</h2>
           <p className="text-muted-foreground">
-            Manage website development projects
+            {t('workspace.subtitle')}
           </p>
         </div>
       </div>
@@ -236,9 +238,9 @@ export function WorkspaceManager() {
           <Card className="col-span-full">
             <CardContent className="py-12 text-center">
               <Globe className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-lg font-medium">No workspaces yet</p>
+              <p className="text-lg font-medium">{t('workspace.noWorkspaces')}</p>
               <p className="text-sm text-muted-foreground">
-                Workspaces will appear here when businesses complete payment
+                {t('workspace.createFirst')}
               </p>
             </CardContent>
           </Card>

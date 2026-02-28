@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import {
   Dialog,
   DialogContent,
@@ -41,6 +42,7 @@ export function PaymentModal({
   selectedPackage,
   onSuccess,
 }: PaymentModalProps) {
+  const { t } = useLanguageStore();
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'mobile'>('mobile');
   const [selectedProvider, setSelectedProvider] = useState<string>('orange_money');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -139,10 +141,10 @@ export function PaymentModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <CreditCard className="h-5 w-5" />
-            Complete Your Order
+            {t('payment.completeOrder')}
           </DialogTitle>
           <DialogDescription>
-            {selectedPackage.name} Package - ${selectedPackage.price}
+            {selectedPackage.name} {t('payment.packageLabel')} - ${selectedPackage.price}
           </DialogDescription>
         </DialogHeader>
 
@@ -151,7 +153,7 @@ export function PaymentModal({
             {/* Package Summary */}
             <div className="bg-muted/50 rounded-lg p-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="font-medium">{selectedPackage.name} Package</span>
+                <span className="font-medium">{selectedPackage.name} {t('payment.packageLabel')}</span>
                 <Badge variant="secondary">${selectedPackage.price}</Badge>
               </div>
               <p className="text-sm text-muted-foreground">{selectedPackage.description}</p>
@@ -159,7 +161,7 @@ export function PaymentModal({
 
             {/* Payment Method Selection */}
             <div className="space-y-3">
-              <Label>Select Payment Method</Label>
+              <Label>{t('payment.selectMethod')}</Label>
               <RadioGroup
                 value={paymentMethod}
                 onValueChange={(v) => setPaymentMethod(v as 'card' | 'mobile')}
@@ -169,14 +171,14 @@ export function PaymentModal({
                   <RadioGroupItem value="mobile" id="mobile" />
                   <Label htmlFor="mobile" className="flex items-center gap-2 cursor-pointer">
                     <Smartphone className="h-4 w-4" />
-                    Mobile Money
+                    {t('payment.mobileMoney')}
                   </Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="card" id="card" />
                   <Label htmlFor="card" className="flex items-center gap-2 cursor-pointer">
                     <CreditCard className="h-4 w-4" />
-                    Card
+                    {t('payment.creditCard')}
                   </Label>
                 </div>
               </RadioGroup>
@@ -186,7 +188,7 @@ export function PaymentModal({
               <>
                 {/* Provider Selection */}
                 <div className="space-y-3">
-                  <Label>Select Provider</Label>
+                  <Label>{t('payment.selectProvider')}</Label>
                   <div className="grid grid-cols-2 gap-2">
                     {MOBILE_MONEY_PROVIDERS.map((p) => (
                       <Button
@@ -214,7 +216,7 @@ export function PaymentModal({
                 <div className="space-y-2">
                   <Label htmlFor="phone">
                     <Phone className="h-4 w-4 inline mr-2" />
-                    Phone Number
+                    {t('payment.phoneNumber')}
                   </Label>
                   <Input
                     id="phone"
@@ -225,8 +227,8 @@ export function PaymentModal({
                   />
                   {provider && (
                     <p className="text-xs text-muted-foreground">
-                      Available in: {provider.countries.slice(0, 5).join(', ')}
-                      {provider.countries.length > 5 && ` +${provider.countries.length - 5} more`}
+                      {t('payment.availableIn')}: {provider.countries.slice(0, 5).join(', ')}
+                      {provider.countries.length > 5 && ` +${provider.countries.length - 5} ${t('payment.more')}`}
                     </p>
                   )}
                 </div>
@@ -240,9 +242,8 @@ export function PaymentModal({
             >
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              ) : (
-                `Pay $${selectedPackage.price}`
-              )}
+              ) : null}
+              {t('payment.pay')} ${selectedPackage.price}
             </Button>
           </div>
         )}
@@ -250,8 +251,8 @@ export function PaymentModal({
         {paymentStatus === 'processing' && (
           <div className="text-center py-8">
             <Loader2 className="h-12 w-12 animate-spin mx-auto text-blue-600 mb-4" />
-            <p className="text-lg font-medium">Processing Payment...</p>
-            <p className="text-sm text-muted-foreground">Please wait while we process your payment</p>
+            <p className="text-lg font-medium">{t('payment.processingPayment')}</p>
+            <p className="text-sm text-muted-foreground">{t('payment.pleaseWait')}</p>
           </div>
         )}
 
@@ -259,14 +260,14 @@ export function PaymentModal({
           <div className="space-y-6 py-4">
             <div className="text-center">
               <CheckCircle className="h-12 w-12 mx-auto text-green-600 mb-4" />
-              <p className="text-lg font-medium">Payment Initiated!</p>
+              <p className="text-lg font-medium">{t('payment.paymentInitiated')}</p>
               <p className="text-sm text-muted-foreground">
-                Complete the payment on your phone
+                {t('payment.completeOnPhone')}
               </p>
             </div>
 
             <div className="bg-muted rounded-lg p-4 text-center">
-              <p className="text-sm text-muted-foreground mb-2">Dial this USSD code:</p>
+              <p className="text-sm text-muted-foreground mb-2">{t('payment.dialUssd')}:</p>
               <div className="flex items-center justify-center gap-2">
                 <code className="text-xl font-bold bg-background px-4 py-2 rounded">
                   {ussdCode}
@@ -278,17 +279,17 @@ export function PaymentModal({
             </div>
 
             <div className="text-sm text-muted-foreground">
-              <p>Instructions:</p>
+              <p>{t('payment.instructions')}:</p>
               <ol className="list-decimal list-inside space-y-1 mt-2">
-                <li>Copy or remember the USSD code above</li>
-                <li>Dial it on your phone</li>
-                <li>Enter your PIN to confirm</li>
-                <li>Wait for confirmation SMS</li>
+                <li>{t('payment.copyOrRemember')}</li>
+                <li>{t('payment.dialOnPhone')}</li>
+                <li>{t('payment.enterPinConfirm')}</li>
+                <li>{t('payment.waitConfirmationSms')}</li>
               </ol>
             </div>
 
             <Button variant="outline" className="w-full" onClick={handleClose}>
-              I&apos;ll Complete Payment Later
+              {t('payment.completeLater')}
             </Button>
           </div>
         )}
@@ -296,11 +297,11 @@ export function PaymentModal({
         {paymentStatus === 'error' && (
           <div className="text-center py-8">
             <AlertCircle className="h-12 w-12 mx-auto text-red-600 mb-4" />
-            <p className="text-lg font-medium">Payment Failed</p>
+            <p className="text-lg font-medium">{t('payment.paymentFailed')}</p>
             <p className="text-sm text-muted-foreground mb-4">
-              {error || 'Something went wrong. Please try again.'}
+              {error || t('payment.somethingWrong')}
             </p>
-            <Button onClick={resetModal}>Try Again</Button>
+            <Button onClick={resetModal}>{t('payment.tryAgain')}</Button>
           </div>
         )}
       </DialogContent>

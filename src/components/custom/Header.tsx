@@ -5,14 +5,16 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Sparkles } from 'lucide-react';
 import Image from 'next/image';
+import { useLanguageStore } from '@/store/useLanguageStore';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguageStore();
 
   const navItems = [
-    { label: 'Dashboard', href: '#dashboard' },
-    { label: 'Pricing', href: '#pricing' },
-    { label: 'About', href: '#about' },
+    { label: t('nav.dashboard'), href: '#dashboard' },
+    { label: t('nav.pricing'), href: '#pricing' },
+    { label: t('nav.about'), href: '#about' },
   ];
 
   return (
@@ -30,7 +32,7 @@ export function Header() {
           />
           <div className="flex flex-col">
             <span className="text-lg font-bold tracking-tight">WebFinder</span>
-            <span className="text-xs text-muted-foreground">Business Discovery Platform</span>
+            <span className="text-xs text-muted-foreground">{t('common.businessDiscovery')}</span>
           </div>
         </div>
 
@@ -47,7 +49,7 @@ export function Header() {
           ))}
           <Button className="gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
             <Sparkles className="h-4 w-4" />
-            Get Started
+            {t('nav.getStarted')}
           </Button>
         </nav>
 
@@ -72,7 +74,7 @@ export function Header() {
               ))}
               <Button className="mt-4 gap-2 bg-gradient-to-r from-blue-600 to-indigo-600">
                 <Sparkles className="h-4 w-4" />
-                Get Started
+                {t('nav.getStarted')}
               </Button>
             </div>
           </SheetContent>

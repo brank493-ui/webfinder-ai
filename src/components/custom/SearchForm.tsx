@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/select';
 import { Search, Loader2 } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { BUSINESS_CATEGORIES, RADIUS_OPTIONS } from '@/types';
 
 export function SearchForm() {
@@ -20,6 +21,7 @@ export function SearchForm() {
   const [radius, setRadius] = useState('5000');
 
   const { isSearching, setSearchResults, setIsSearching, setSearchError } = useAppStore();
+  const { t } = useLanguageStore();
 
   const handleSearch = async () => {
     if (!location.trim()) return;
@@ -43,10 +45,10 @@ export function SearchForm() {
       if (data.success) {
         setSearchResults(data.data.businesses);
       } else {
-        setSearchError(data.error || 'Failed to search for businesses');
+        setSearchError(data.error || t('hero.searchFailed'));
       }
     } catch (error) {
-      setSearchError('An error occurred while searching');
+      setSearchError(t('hero.connectionFailed'));
     } finally {
       setIsSearching(false);
     }
@@ -59,11 +61,11 @@ export function SearchForm() {
           {/* Location Input */}
           <div className="md:col-span-2">
             <label className="text-sm font-medium text-muted-foreground mb-1.5 block">
-              Location
+              {t('searchForm.location')}
             </label>
             <Input
               type="text"
-              placeholder="Enter city or address..."
+              placeholder={t('searchForm.enterCity')}
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               className="h-12"
@@ -74,14 +76,14 @@ export function SearchForm() {
           {/* Category Select */}
           <div>
             <label className="text-sm font-medium text-muted-foreground mb-1.5 block">
-              Category
+              {t('searchForm.category')}
             </label>
             <Select value={category} onValueChange={setCategory}>
               <SelectTrigger className="h-12">
-                <SelectValue placeholder="Select category" />
+                <SelectValue placeholder={t('searchForm.selectCategory')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
+                <SelectItem value="all">{t('category.all')}</SelectItem>
                 {BUSINESS_CATEGORIES.map((cat) => (
                   <SelectItem key={cat.value} value={cat.value}>
                     {cat.label}
@@ -94,11 +96,11 @@ export function SearchForm() {
           {/* Radius Select */}
           <div>
             <label className="text-sm font-medium text-muted-foreground mb-1.5 block">
-              Radius
+              {t('searchForm.radius')}
             </label>
             <Select value={radius} onValueChange={setRadius}>
               <SelectTrigger className="h-12">
-                <SelectValue placeholder="Select radius" />
+                <SelectValue placeholder={t('searchForm.selectRadius')} />
               </SelectTrigger>
               <SelectContent>
                 {RADIUS_OPTIONS.map((opt) => (
@@ -120,12 +122,12 @@ export function SearchForm() {
           {isSearching ? (
             <>
               <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              Searching...
+              {t('searchForm.searching')}
             </>
           ) : (
             <>
               <Search className="mr-2 h-5 w-5" />
-              Discover Businesses
+              {t('searchForm.discoverBusinesses')}
             </>
           )}
         </Button>

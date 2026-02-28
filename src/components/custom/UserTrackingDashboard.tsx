@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -69,6 +70,7 @@ interface UserTrackingDashboardProps {
 
 export function UserTrackingDashboard({ onEditOnboarding }: UserTrackingDashboardProps) {
   const { user } = useAuthStore();
+  const { t } = useLanguageStore();
   const [activeTab, setActiveTab] = useState('overview');
   const [message, setMessage] = useState('');
   const [refreshing, setRefreshing] = useState(false);
@@ -349,10 +351,10 @@ export function UserTrackingDashboard({ onEditOnboarding }: UserTrackingDashboar
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2">
             <Globe className="h-6 w-6 text-blue-600" />
-            Your Website Project
+            {t('tracking.title')}
           </h1>
           <p className="text-muted-foreground">
-            Track the progress of your website development in real-time
+            {t('tracking.subtitle')}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -428,7 +430,7 @@ export function UserTrackingDashboard({ onEditOnboarding }: UserTrackingDashboar
       {/* Progress Bar */}
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-lg">Overall Progress</CardTitle>
+          <CardTitle className="text-lg">{t('tracking.progress')}</CardTitle>
         </CardHeader>
         <CardContent>
           <Progress value={project.progress} className="h-3" />
@@ -447,10 +449,10 @@ export function UserTrackingDashboard({ onEditOnboarding }: UserTrackingDashboar
       {/* Main Content Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="timeline">Timeline</TabsTrigger>
-          <TabsTrigger value="preview">Preview</TabsTrigger>
-          <TabsTrigger value="messages">Messages</TabsTrigger>
+          <TabsTrigger value="overview">{t('portal.myProjects')}</TabsTrigger>
+          <TabsTrigger value="timeline">{t('tracking.timeline')}</TabsTrigger>
+          <TabsTrigger value="preview">{t('editor.preview')}</TabsTrigger>
+          <TabsTrigger value="messages">{t('portal.messages')}</TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}

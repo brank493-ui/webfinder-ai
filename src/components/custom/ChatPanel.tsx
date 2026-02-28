@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useAppStore } from '@/store/useAppStore';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import {
   Sheet,
   SheetContent,
@@ -27,6 +28,7 @@ import { PRICING_PACKAGES } from '@/lib/pricing';
 import type { ChatMessage } from '@/types';
 
 export function ChatPanel() {
+  const { t } = useLanguageStore();
   const {
     selectedBusiness,
     isChatOpen,
@@ -107,7 +109,7 @@ export function ChatPanel() {
       addMessage({
         id: `msg-${Date.now()}`,
         role: 'assistant',
-        content: 'Sorry, I had trouble processing your message. Please try again.',
+        content: t('chat.sorryError'),
         timestamp: new Date(),
       });
     } finally {
@@ -137,7 +139,7 @@ export function ChatPanel() {
         addMessage({
           id: `msg-${Date.now()}`,
           role: 'assistant',
-          content: `Great choice! I'm redirecting you to complete the payment for the ${packageId === 'pro' ? 'Pro' : 'Standard'} package. You'll receive your workspace details shortly after.`,
+          content: `${t('chat.greatChoice')} ${t('chat.redirecting')} ${packageId === 'pro' ? 'Pro' : 'Standard'} package. ${t('chat.receiveWorkspace')}`,
           timestamp: new Date(),
         });
 
@@ -151,7 +153,7 @@ export function ChatPanel() {
       addMessage({
         id: `msg-${Date.now()}`,
         role: 'assistant',
-        content: 'Sorry, there was an issue processing your payment. Please try again.',
+        content: t('chat.paymentError'),
         timestamp: new Date(),
       });
     }
@@ -170,9 +172,9 @@ export function ChatPanel() {
                 </AvatarFallback>
               </Avatar>
               <div>
-                <SheetTitle className="text-left">WebFinder Assistant</SheetTitle>
+                <SheetTitle className="text-left">{t('chat.assistant')}</SheetTitle>
                 <SheetDescription className="text-left">
-                  {selectedBusiness?.name || 'Chat with our AI'}
+                  {selectedBusiness?.name || t('chat.chatWithAi')}
                 </SheetDescription>
               </div>
             </div>
@@ -184,7 +186,7 @@ export function ChatPanel() {
             <div className="flex gap-2 mt-2">
               <Badge variant="outline">{selectedBusiness.category}</Badge>
               {selectedBusiness.rating && (
-                <Badge variant="secondary">{selectedBusiness.rating} stars</Badge>
+                <Badge variant="secondary">{selectedBusiness.rating} {t('chat.stars')}</Badge>
               )}
             </div>
           )}
@@ -244,7 +246,7 @@ export function ChatPanel() {
             {showPricing && !selectedPackage && (
               <div className="space-y-3 pt-4">
                 <p className="text-sm font-medium text-center text-muted-foreground">
-                  Choose your package:
+                  {t('chat.choosePackage')}
                 </p>
                 {PRICING_PACKAGES.map((pkg) => (
                   <div
@@ -276,7 +278,7 @@ export function ChatPanel() {
                       variant={pkg.highlighted ? 'default' : 'outline'}
                     >
                       <CreditCard className="h-4 w-4 mr-2" />
-                      Select {pkg.name}
+                      {t('chat.selectPackage')} {pkg.name}
                     </Button>
                   </div>
                 ))}
@@ -297,7 +299,7 @@ export function ChatPanel() {
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
+              placeholder={t('chat.typeMessage')}
               disabled={isAiTyping || !!selectedPackage}
               className="flex-1"
             />

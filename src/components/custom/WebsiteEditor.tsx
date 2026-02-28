@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -131,6 +132,7 @@ const blockTemplates = [
 ];
 
 export function WebsiteEditor({ projectId }: { projectId: string }) {
+  const { t } = useLanguageStore();
   const [blocks, setBlocks] = useState<EditorBlock[]>(defaultBlocks);
   const [selectedBlock, setSelectedBlock] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
@@ -214,10 +216,10 @@ export function WebsiteEditor({ projectId }: { projectId: string }) {
       {/* Top Toolbar */}
       <div className="border-b bg-background p-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" title="Undo">
+          <Button variant="ghost" size="sm" title={t('editor.undo')}>
             <Undo className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" title="Redo">
+          <Button variant="ghost" size="sm" title={t('editor.redo')}>
             <Redo className="h-4 w-4" />
           </Button>
           <div className="w-px h-6 bg-border mx-2" />
@@ -258,11 +260,11 @@ export function WebsiteEditor({ projectId }: { projectId: string }) {
           </Button>
           <Button variant="outline" size="sm">
             <Eye className="h-4 w-4 mr-1" />
-            Preview
+            {t('editor.preview')}
           </Button>
           <Button size="sm" onClick={saveWebsite} disabled={saving}>
             <Save className="h-4 w-4 mr-1" />
-            {saving ? 'Saving...' : 'Save'}
+            {saving ? 'Saving...' : t('editor.save')}
           </Button>
         </div>
       </div>
@@ -272,7 +274,7 @@ export function WebsiteEditor({ projectId }: { projectId: string }) {
         <div className="w-64 border-r bg-muted/30 overflow-y-auto">
           <div className="p-4">
             <h3 className="font-semibold mb-3 flex items-center justify-between">
-              <span>Blocks</span>
+            <span>{t('editor.sections')}</span>
               <Dialog open={showAddBlock} onOpenChange={setShowAddBlock}>
                 <DialogTrigger asChild>
                   <Button size="sm" variant="ghost">

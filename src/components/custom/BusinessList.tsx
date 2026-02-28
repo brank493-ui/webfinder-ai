@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useAppStore } from '@/store/useAppStore';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import {
   Table,
   TableBody,
@@ -51,7 +52,24 @@ export function BusinessList() {
     addMessage,
   } = useAppStore();
 
+  const { t } = useLanguageStore();
   const [startingChat, setStartingChat] = useState<string | null>(null);
+
+  // Get website status labels with translations
+  const getWebsiteStatusLabel = (status: string) => {
+    switch (status) {
+      case 'no_website':
+        return { label: t('business.noWebsiteLabel'), variant: 'destructive' as const };
+      case 'active':
+        return { label: t('business.hasWebsiteLabel'), variant: 'default' as const };
+      case 'broken':
+        return { label: t('business.brokenLink'), variant: 'secondary' as const };
+      case 'social_media':
+        return { label: t('business.socialOnly'), variant: 'outline' as const };
+      default:
+        return { label: t('business.noWebsiteLabel'), variant: 'destructive' as const };
+    }
+  };
 
   // Filter results based on website filter
   const filteredResults = searchResults.filter((business) => {
@@ -104,7 +122,7 @@ export function BusinessList() {
         <div className="container mx-auto">
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="h-12 w-12 animate-spin text-blue-600 mb-4" />
-            <p className="text-lg text-muted-foreground">Searching for businesses...</p>
+            <p className="text-lg text-muted-foreground">{t('business.searching')}</p>
           </div>
         </div>
       </section>
@@ -129,9 +147,9 @@ export function BusinessList() {
         <div className="container mx-auto">
           <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-12 text-center">
             <Globe className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">No businesses found yet</h3>
+            <h3 className="text-xl font-semibold mb-2">{t('business.noResults')}</h3>
             <p className="text-muted-foreground">
-              Use the search form above to discover businesses in your area.
+              {t('business.useSearch')}
             </p>
           </div>
         </div>
@@ -144,23 +162,23 @@ export function BusinessList() {
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <div>
-            <h2 className="text-2xl font-bold">Search Results</h2>
+            <h2 className="text-2xl font-bold">{t('business.searchResults')}</h2>
             <p className="text-muted-foreground">
-              Found {filteredResults.length} businesses
-              {websiteFilter !== 'all' && ` (${websiteFilter === 'no_website' ? 'without websites' : 'with websites'})`}
+              {t('business.found')} {filteredResults.length} {t('business.businesses')}
+              {websiteFilter !== 'all' && ` (${websiteFilter === 'no_website' ? t('business.withoutWebsites') : t('business.withWebsites')})`}
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-sm text-muted-foreground">Filter:</span>
+            <span className="text-sm text-muted-foreground">{t('business.filter')}</span>
             <Select value={websiteFilter} onValueChange={(v) => setWebsiteFilter(v as 'all' | 'no_website' | 'has_website')}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Businesses</SelectItem>
-                <SelectItem value="no_website">No Website</SelectItem>
-                <SelectItem value="has_website">Has Website</SelectItem>
+                <SelectItem value="all">{t('business.allBusinesses')}</SelectItem>
+                <SelectItem value="no_website">{t('business.noWebsite')}</SelectItem>
+                <SelectItem value="has_website">{t('business.hasWebsite')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -171,17 +189,17 @@ export function BusinessList() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Business Name</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Rating</TableHead>
-                  <TableHead>Address</TableHead>
-                  <TableHead>Website Status</TableHead>
-                  <TableHead className="text-right">Action</TableHead>
+                  <TableHead>{t('business.businessName')}</TableHead>
+                  <TableHead>{t('business.category')}</TableHead>
+                  <TableHead>{t('business.rating')}</TableHead>
+                  <TableHead>{t('business.address')}</TableHead>
+                  <TableHead>{t('business.websiteStatus')}</TableHead>
+                  <TableHead className="text-right">{t('business.action')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredResults.map((business) => {
-                  const status = WEBSITE_STATUS_LABELS[business.websiteStatus || 'no_website'];
+                  const status = getWebsiteStatusLabel(business.websiteStatus || 'no_website');
                   const canContact = !business.hasWebsite || business.websiteStatus === 'social_media';
 
                   return (
@@ -196,7 +214,7 @@ export function BusinessList() {
                         )}
                       </TableCell>
                       <TableCell>
-                        <Badge variant="outline">{business.category || 'Business'}</Badge>
+                        <Badge variant="outline">{business.category || t('category.business')}</Badge>
                       </TableCell>
                       <TableCell>
                         {business.rating ? (
@@ -258,7 +276,7 @@ export function BusinessList() {
                               ) : (
                                 <>
                                   <MessageCircle className="h-4 w-4 mr-1" />
-                                  Contact
+                                  {t('business.contact')}
                                 </>
                               )}
                             </Button>

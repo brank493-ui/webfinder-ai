@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -131,6 +132,7 @@ const emailTemplates: EmailTemplate[] = [
 ];
 
 export function EmailCampaigns() {
+  const { t } = useLanguageStore();
   const [campaigns, setCampaigns] = useState<EmailCampaign[]>(mockCampaigns);
   const [creating, setCreating] = useState(false);
   const [newCampaign, setNewCampaign] = useState({
@@ -172,11 +174,11 @@ export function EmailCampaigns() {
   const getStatusBadge = (status: EmailCampaign['status']) => {
     switch (status) {
       case 'draft':
-        return <Badge variant="secondary">Draft</Badge>;
+        return <Badge variant="secondary">{t('email.draft')}</Badge>;
       case 'scheduled':
-        return <Badge className="bg-blue-500">Scheduled</Badge>;
+        return <Badge className="bg-blue-500">{t('email.scheduled')}</Badge>;
       case 'sent':
-        return <Badge className="bg-green-500">Sent</Badge>;
+        return <Badge className="bg-green-500">{t('email.sent')}</Badge>;
     }
   };
 
@@ -203,10 +205,10 @@ export function EmailCampaigns() {
         <div>
           <h2 className="text-2xl font-bold flex items-center gap-2">
             <Mail className="h-6 w-6 text-blue-600" />
-            Email Campaigns
+            {t('email.title')}
           </h2>
           <p className="text-muted-foreground">
-            Create and manage email outreach campaigns
+            {t('email.subtitle')}
           </p>
         </div>
 
@@ -214,19 +216,19 @@ export function EmailCampaigns() {
           <DialogTrigger asChild>
             <Button>
               <Plus className="h-4 w-4 mr-2" />
-              New Campaign
+              {t('email.newCampaign')}
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>Create Email Campaign</DialogTitle>
+              <DialogTitle>{t('email.createCampaign')}</DialogTitle>
               <DialogDescription>
-                Create a new email campaign to reach potential clients
+                {t('email.createCampaignDesc')}
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <Label htmlFor="campaignName">Campaign Name</Label>
+                <Label htmlFor="campaignName">{t('email.campaignName')}</Label>
                 <Input
                   id="campaignName"
                   placeholder="e.g., Restaurant Outreach January"
@@ -237,7 +239,7 @@ export function EmailCampaigns() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="subject">Email Subject</Label>
+                <Label htmlFor="subject">{t('email.subject')}</Label>
                 <Input
                   id="subject"
                   placeholder="e.g., Get your business online today!"
@@ -248,7 +250,7 @@ export function EmailCampaigns() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>Template</Label>
+                <Label>{t('email.template')}</Label>
                 <Select
                   value={newCampaign.template}
                   onValueChange={(v) =>
@@ -268,7 +270,7 @@ export function EmailCampaigns() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Preview</Label>
+                <Label>{t('email.preview')}</Label>
                 <Textarea
                   value={
                     emailTemplates.find((t) => t.id === newCampaign.template)
@@ -287,7 +289,7 @@ export function EmailCampaigns() {
                 ) : (
                   <Plus className="h-4 w-4 mr-2" />
                 )}
-                Create Campaign
+                {t('email.createCampaignButton')}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -304,7 +306,7 @@ export function EmailCampaigns() {
               </div>
               <div>
                 <p className="text-2xl font-bold">{totalSent}</p>
-                <p className="text-sm text-muted-foreground">Campaigns Sent</p>
+                <p className="text-sm text-muted-foreground">{t('email.campaignsSent')}</p>
               </div>
             </div>
           </CardContent>
@@ -317,7 +319,7 @@ export function EmailCampaigns() {
               </div>
               <div>
                 <p className="text-2xl font-bold">{totalRecipients}</p>
-                <p className="text-sm text-muted-foreground">Total Recipients</p>
+                <p className="text-sm text-muted-foreground">{t('email.totalRecipients')}</p>
               </div>
             </div>
           </CardContent>
@@ -330,7 +332,7 @@ export function EmailCampaigns() {
               </div>
               <div>
                 <p className="text-2xl font-bold">{avgOpenRate.toFixed(1)}%</p>
-                <p className="text-sm text-muted-foreground">Avg Open Rate</p>
+                <p className="text-sm text-muted-foreground">{t('email.avgOpenRate')}</p>
               </div>
             </div>
           </CardContent>
@@ -343,7 +345,7 @@ export function EmailCampaigns() {
               </div>
               <div>
                 <p className="text-2xl font-bold">{avgClickRate.toFixed(1)}%</p>
-                <p className="text-sm text-muted-foreground">Avg Click Rate</p>
+                <p className="text-sm text-muted-foreground">{t('email.avgClickRate')}</p>
               </div>
             </div>
           </CardContent>
@@ -353,7 +355,7 @@ export function EmailCampaigns() {
       {/* Campaigns List */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Campaigns</CardTitle>
+          <CardTitle className="text-lg">{t('email.campaigns')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -378,15 +380,15 @@ export function EmailCampaigns() {
                       <div className="flex items-center gap-4 mt-1 text-xs text-muted-foreground">
                         <span>
                           <Users className="h-3 w-3 inline mr-1" />
-                          {campaign.recipients} recipients
+                          {campaign.recipients} {t('email.recipients')}
                         </span>
                         <span>
                           <Eye className="h-3 w-3 inline mr-1" />
-                          {campaign.openRate}% opens
+                          {campaign.openRate}% {t('email.opens')}
                         </span>
                         <span>
                           <MousePointer className="h-3 w-3 inline mr-1" />
-                          {campaign.clickRate}% clicks
+                          {campaign.clickRate}% {t('email.clicks')}
                         </span>
                       </div>
                     )}
@@ -410,13 +412,13 @@ export function EmailCampaigns() {
                   {campaign.status === 'scheduled' && (
                     <Button variant="outline" size="sm">
                       <BarChart3 className="h-4 w-4 mr-1" />
-                      View
+                      {t('email.view')}
                     </Button>
                   )}
                   {campaign.status === 'sent' && (
                     <Button variant="outline" size="sm">
                       <TrendingUp className="h-4 w-4 mr-1" />
-                      Analytics
+                      {t('email.analytics')}
                     </Button>
                   )}
                 </div>
@@ -430,10 +432,10 @@ export function EmailCampaigns() {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg flex items-center justify-between">
-            Email Templates
+            {t('email.emailTemplates')}
             <Button variant="outline" size="sm">
               <Plus className="h-4 w-4 mr-1" />
-              Create Template
+              {t('email.createTemplate')}
             </Button>
           </CardTitle>
         </CardHeader>
@@ -457,11 +459,11 @@ export function EmailCampaigns() {
                 <div className="flex gap-2 mt-3">
                   <Button variant="outline" size="sm">
                     <Copy className="h-4 w-4 mr-1" />
-                    Duplicate
+                    {t('email.duplicate')}
                   </Button>
                   <Button variant="outline" size="sm">
                     <Edit className="h-4 w-4 mr-1" />
-                    Edit
+                    {t('email.edit')}
                   </Button>
                 </div>
               </div>

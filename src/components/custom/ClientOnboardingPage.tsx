@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -48,6 +49,7 @@ export function ClientOnboardingPage({
   businessEmail,
   onComplete,
 }: ClientOnboardingPageProps) {
+  const { t } = useLanguageStore();
   const [step, setStep] = useState(1);
   const [data, setData] = useState<OnboardingData>({
     package: null,
@@ -57,9 +59,9 @@ export function ClientOnboardingPage({
   const [submitted, setSubmitted] = useState(false);
 
   const steps = [
-    { id: 1, title: 'Choose Package', icon: Package, description: 'Select your website package' },
-    { id: 2, title: 'Your Brief', icon: FileText, description: 'Tell us about your project' },
-    { id: 3, title: 'Payment', icon: CreditCard, description: 'Complete your order' },
+    { id: 1, title: t('onboarding.choosePackage'), icon: Package, description: t('onboarding.selectPackage') },
+    { id: 2, title: t('onboarding.yourBrief'), icon: FileText, description: t('onboarding.tellUsProject') },
+    { id: 3, title: t('onboarding.payment'), icon: CreditCard, description: t('onboarding.completeOrder') },
   ];
 
   const currentStep = steps.find((s) => s.id === step);
@@ -99,32 +101,31 @@ export function ClientOnboardingPage({
               <div className="w-20 h-20 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center mx-auto mb-6">
                 <CheckCircle className="h-10 w-10 text-green-600" />
               </div>
-              <h1 className="text-3xl font-bold mb-4">Thank You!</h1>
+              <h1 className="text-3xl font-bold mb-4">{t('onboarding.thankYou')}</h1>
               <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                Your order has been submitted successfully. Our team will review your brief and 
-                contact you within 24 hours to begin your project.
+                {t('onboarding.orderSubmitted')}
               </p>
 
               <div className="bg-muted rounded-lg p-6 text-left max-w-md mx-auto mb-6">
-                <h3 className="font-semibold mb-4">What happens next:</h3>
+                <h3 className="font-semibold mb-4">{t('onboarding.whatHappensNext')}</h3>
                 <ul className="space-y-3 text-sm">
                   <li className="flex items-start gap-3">
                     <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-xs font-bold text-blue-600">1</span>
                     </div>
-                    <span>We'll review your brief and requirements</span>
+                    <span>{t('onboarding.reviewBrief')}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-xs font-bold text-blue-600">2</span>
                     </div>
-                    <span>We'll verify your payment and send confirmation</span>
+                    <span>{t('onboarding.verifyPayment')}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-xs font-bold text-blue-600">3</span>
                     </div>
-                    <span>Our team will contact you to begin development</span>
+                    <span>{t('onboarding.beginDevelopment')}</span>
                   </li>
                 </ul>
               </div>
@@ -157,12 +158,11 @@ export function ClientOnboardingPage({
             </div>
             <div className="text-left">
               <h1 className="text-2xl font-bold">WebFinder</h1>
-              <p className="text-sm text-muted-foreground">Professional Website Development</p>
+              <p className="text-sm text-muted-foreground">{t('onboarding.professionalDev')}</p>
             </div>
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Welcome! Let's create your perfect website. Choose your package, tell us about your business,
-            and we'll bring your vision to life.
+            {t('onboarding.welcome')}
           </p>
         </div>
 
@@ -226,13 +226,12 @@ export function ClientOnboardingPage({
                 <CardHeader>
                   <CardTitle className="text-xl flex items-center gap-2">
                     <Package className="h-5 w-5 text-blue-600" />
-                    Step 1: Choose Your Package
+                    {t('onboarding.step1Title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground mb-6">
-                    Select the package that best fits your business needs. All packages include 
-                    mobile-responsive design, SEO optimization, and our satisfaction guarantee.
+                    {t('onboarding.step1Desc')}
                   </p>
                   <PackageShowcase
                     selectedPackage={data.package}
@@ -244,14 +243,14 @@ export function ClientOnboardingPage({
               <div className="flex justify-between">
                 <Button variant="outline" disabled>
                   <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back
+                  {t('onboarding.back')}
                 </Button>
                 <Button
                   onClick={() => setStep(2)}
                   disabled={!canProceed()}
                   className="bg-gradient-to-r from-blue-600 to-indigo-600"
                 >
-                  Continue to Brief
+                  {t('onboarding.continueToBrief')}
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
               </div>
@@ -265,7 +264,7 @@ export function ClientOnboardingPage({
                 <CardHeader>
                   <CardTitle className="text-xl flex items-center gap-2">
                     <FileText className="h-5 w-5 text-blue-600" />
-                    Step 2: Tell Us About Your Project
+                    {t('onboarding.step2Title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -274,7 +273,7 @@ export function ClientOnboardingPage({
                     <div>
                       <p className="font-semibold capitalize">{data.package} Package</p>
                       <p className="text-sm text-muted-foreground">
-                        ${PACKAGE_PRICES[data.package || 'pro']} one-time payment
+                        ${PACKAGE_PRICES[data.package || 'pro']} {t('onboarding.oneTimePayment')}
                       </p>
                     </div>
                   </div>
@@ -295,7 +294,7 @@ export function ClientOnboardingPage({
               <div className="flex justify-between">
                 <Button variant="outline" onClick={() => setStep(1)}>
                   <ArrowLeft className="h-4 w-4 mr-2" />
-                  Change Package
+                  {t('onboarding.changePackage')}
                 </Button>
               </div>
             </div>
@@ -308,7 +307,7 @@ export function ClientOnboardingPage({
                 <CardHeader>
                   <CardTitle className="text-xl flex items-center gap-2">
                     <CreditCard className="h-5 w-5 text-blue-600" />
-                    Step 3: Complete Your Payment
+                    {t('onboarding.step3Title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -323,7 +322,7 @@ export function ClientOnboardingPage({
               <div className="flex justify-between">
                 <Button variant="outline" onClick={() => setStep(2)}>
                   <ArrowLeft className="h-4 w-4 mr-2" />
-                  Edit Brief
+                  {t('onboarding.editBrief')}
                 </Button>
               </div>
             </div>
@@ -336,33 +335,33 @@ export function ClientOnboardingPage({
             <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center mx-auto mb-2">
               <Shield className="h-6 w-6 text-green-600" />
             </div>
-            <p className="text-sm font-medium">Secure Payment</p>
-            <p className="text-xs text-muted-foreground">Your data is protected</p>
+            <p className="text-sm font-medium">{t('onboarding.securePayment')}</p>
+            <p className="text-xs text-muted-foreground">{t('onboarding.dataProtected')}</p>
           </div>
           <div className="text-center">
             <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mx-auto mb-2">
               <Clock className="h-6 w-6 text-blue-600" />
             </div>
-            <p className="text-sm font-medium">Quick Delivery</p>
-            <p className="text-xs text-muted-foreground">Fast turnaround time</p>
+            <p className="text-sm font-medium">{t('onboarding.quickDelivery')}</p>
+            <p className="text-xs text-muted-foreground">{t('onboarding.fastTurnaround')}</p>
           </div>
           <div className="text-center">
             <div className="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center mx-auto mb-2">
               <MessageSquare className="h-6 w-6 text-purple-600" />
             </div>
-            <p className="text-sm font-medium">24/7 Support</p>
-            <p className="text-xs text-muted-foreground">Always here to help</p>
+            <p className="text-sm font-medium">{t('onboarding.support24/7')}</p>
+            <p className="text-xs text-muted-foreground">{t('onboarding.alwaysHelp')}</p>
           </div>
         </div>
 
         {/* Contact Footer */}
         <div className="mt-8 text-center text-sm text-muted-foreground">
           <p>
-            Questions? Contact us at{' '}
+            {t('onboarding.questions')}{' '}
             <a href={COMPANY_INFO.contact.emailLink} className="text-blue-600 hover:underline">
               {COMPANY_INFO.contact.email}
             </a>{' '}
-            or{' '}
+            {t('onboarding.or')}{' '}
             <a href={COMPANY_INFO.contact.phoneLink} className="text-blue-600 hover:underline">
               {COMPANY_INFO.contact.phone}
             </a>

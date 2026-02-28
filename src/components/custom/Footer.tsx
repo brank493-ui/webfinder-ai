@@ -2,9 +2,11 @@
 
 import { Globe, Mail, Phone, MapPin } from 'lucide-react';
 import Image from 'next/image';
+import { useLanguageStore } from '@/store/useLanguageStore';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const { t } = useLanguageStore();
 
   return (
     <footer id="about" className="bg-gray-900 text-gray-300">
@@ -23,34 +25,32 @@ export function Footer() {
               <span className="text-xl font-bold text-white">WebFinder</span>
             </div>
             <p className="text-sm text-gray-400 mb-4 max-w-sm">
-              We help businesses establish their online presence by connecting them
-              with professional website development services. Our AI-powered platform
-              makes it easy to get online and grow.
+              {t('footer.description')}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold text-white mb-4">Quick Links</h4>
+            <h4 className="font-semibold text-white mb-4">{t('nav.quickLinks')}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <a href="#dashboard" className="hover:text-white transition-colors">
-                  Dashboard
+                  {t('nav.dashboard')}
                 </a>
               </li>
               <li>
                 <a href="#pricing" className="hover:text-white transition-colors">
-                  Pricing
+                  {t('package.pricing')}
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:text-white transition-colors">
-                  How It Works
+                  {t('nav.howItWorks')}
                 </a>
               </li>
               <li>
                 <a href="#" className="hover:text-white transition-colors">
-                  FAQ
+                  {t('nav.faq')}
                 </a>
               </li>
             </ul>
@@ -58,7 +58,7 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-semibold text-white mb-4">Contact</h4>
+            <h4 className="font-semibold text-white mb-4">{t('nav.contact')}</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-blue-500" />
@@ -86,17 +86,17 @@ export function Footer() {
         {/* Bottom */}
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-gray-500">
-            &copy; {currentYear} WebFinder. All rights reserved.
+            &copy; {currentYear} WebFinder. {t('footer.rights')}
           </p>
           <p className="text-sm text-gray-600">
-            Owned by <span className="text-white font-medium">Fongang Lamago Brank</span>
+            {t('footer.ownedBy')} <span className="text-white font-medium">Fongang Lamago Brank</span>
           </p>
           <div className="flex gap-6 text-sm">
             <a href="#" className="hover:text-white transition-colors">
-              Privacy Policy
+              {t('nav.privacyPolicy')}
             </a>
             <a href="#" className="hover:text-white transition-colors">
-              Terms of Service
+              {t('nav.termsOfService')}
             </a>
           </div>
         </div>

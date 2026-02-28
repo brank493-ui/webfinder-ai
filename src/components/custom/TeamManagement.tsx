@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -106,14 +107,6 @@ const mockTeamMembers: TeamMember[] = [
   },
 ];
 
-const rolePermissions: Record<TeamMember['role'], string[]> = {
-  owner: ['All permissions'],
-  admin: ['Manage team', 'Manage projects', 'View analytics', 'Manage billing'],
-  developer: ['Create websites', 'Edit websites', 'Deploy websites', 'View projects'],
-  sales: ['View leads', 'Create conversations', 'View analytics'],
-  viewer: ['View projects', 'View analytics'],
-};
-
 const roleColors: Record<TeamMember['role'], string> = {
   owner: 'bg-purple-500',
   admin: 'bg-blue-500',
@@ -123,6 +116,15 @@ const roleColors: Record<TeamMember['role'], string> = {
 };
 
 export function TeamManagement() {
+  const { t } = useLanguageStore();
+  
+  const rolePermissions: Record<TeamMember['role'], string[]> = {
+    owner: [t('team.allPermissions')],
+    admin: [t('team.manageTeam'), t('team.manageProjects'), t('team.viewAnalytics'), t('team.manageBilling')],
+    developer: [t('team.createWebsites'), t('team.editWebsites'), t('team.deployWebsites'), t('team.viewProjects')],
+    sales: [t('team.viewLeads'), t('team.createConversations'), t('team.viewAnalytics')],
+    viewer: [t('team.viewProjects'), t('team.viewAnalytics')],
+  };
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(mockTeamMembers);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [inviting, setInviting] = useState(false);
@@ -185,29 +187,29 @@ export function TeamManagement() {
         <div>
           <h2 className="text-2xl font-bold flex items-center gap-2">
             <Users className="h-6 w-6 text-blue-600" />
-            Team Management
+            {t('team.title')}
           </h2>
           <p className="text-muted-foreground">
-            Manage your team members and their permissions
+            {t('team.subtitle')}
           </p>
         </div>
         <Dialog open={showInviteModal} onOpenChange={setShowInviteModal}>
           <DialogTrigger asChild>
             <Button>
               <UserPlus className="h-4 w-4 mr-2" />
-              Invite Member
+              {t('team.inviteMember')}
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Invite Team Member</DialogTitle>
+              <DialogTitle>{t('team.inviteTeamMember')}</DialogTitle>
               <DialogDescription>
-                Send an invitation to add a new team member
+                {t('team.inviteDesc')}
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium">Name</label>
+                <label className="text-sm font-medium">{t('team.name')}</label>
                 <Input
                   placeholder="Enter name"
                   value={newMember.name}
@@ -217,7 +219,7 @@ export function TeamManagement() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Email</label>
+                <label className="text-sm font-medium">{t('team.emailLabel')}</label>
                 <Input
                   type="email"
                   placeholder="Enter email address"
@@ -228,7 +230,7 @@ export function TeamManagement() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Role</label>
+                <label className="text-sm font-medium">{t('team.role')}</label>
                 <Select
                   value={newMember.role}
                   onValueChange={(v) =>
@@ -247,7 +249,7 @@ export function TeamManagement() {
                 </Select>
               </div>
               <div className="p-3 bg-muted rounded-lg">
-                <p className="text-sm font-medium">Permissions:</p>
+                <p className="text-sm font-medium">{t('team.permissions')}</p>
                 <ul className="mt-2 space-y-1">
                   {rolePermissions[newMember.role].map((perm, i) => (
                     <li key={i} className="text-xs text-muted-foreground">
@@ -262,7 +264,7 @@ export function TeamManagement() {
                 variant="outline"
                 onClick={() => setShowInviteModal(false)}
               >
-                Cancel
+                {t('team.cancel')}
               </Button>
               <Button onClick={inviteMember} disabled={inviting || !newMember.email}>
                 {inviting ? (
@@ -270,7 +272,7 @@ export function TeamManagement() {
                 ) : (
                   <Mail className="h-4 w-4 mr-2" />
                 )}
-                Send Invitation
+                {t('team.sendInvitation')}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -287,7 +289,7 @@ export function TeamManagement() {
               </div>
               <div>
                 <p className="text-2xl font-bold">{teamMembers.length}</p>
-                <p className="text-sm text-muted-foreground">Total Members</p>
+                <p className="text-sm text-muted-foreground">{t('team.totalMembers')}</p>
               </div>
             </div>
           </CardContent>
@@ -302,7 +304,7 @@ export function TeamManagement() {
                 <p className="text-2xl font-bold">
                   {teamMembers.filter((m) => m.role === 'admin' || m.role === 'owner').length}
                 </p>
-                <p className="text-sm text-muted-foreground">Admins</p>
+                <p className="text-sm text-muted-foreground">{t('team.admins')}</p>
               </div>
             </div>
           </CardContent>
@@ -317,7 +319,7 @@ export function TeamManagement() {
                 <p className="text-2xl font-bold">
                   {teamMembers.filter((m) => m.role === 'developer').length}
                 </p>
-                <p className="text-sm text-muted-foreground">Developers</p>
+                <p className="text-sm text-muted-foreground">{t('team.developers')}</p>
               </div>
             </div>
           </CardContent>
@@ -332,7 +334,7 @@ export function TeamManagement() {
                 <p className="text-2xl font-bold">
                   {teamMembers.filter((m) => m.status === 'pending').length}
                 </p>
-                <p className="text-sm text-muted-foreground">Pending Invites</p>
+                <p className="text-sm text-muted-foreground">{t('team.pendingInvites')}</p>
               </div>
             </div>
           </CardContent>
@@ -342,7 +344,7 @@ export function TeamManagement() {
       {/* Team Members List */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Team Members</CardTitle>
+          <CardTitle className="text-lg">{t('team.teamMembers')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -372,17 +374,17 @@ export function TeamManagement() {
                       </Badge>
                       {member.status === 'pending' && (
                         <Badge variant="secondary" className="text-xs">
-                          Pending
+                          {t('team.pending')}
                         </Badge>
                       )}
                     </div>
                     <p className="text-sm text-muted-foreground">{member.email}</p>
                     <div className="flex items-center gap-4 text-xs text-muted-foreground mt-1">
-                      <span>Joined: {member.joinedAt}</span>
+                      <span>{t('team.joined')} {member.joinedAt}</span>
                       <span>•</span>
-                      <span>Last active: {member.lastActive}</span>
+                      <span>{t('team.lastActive')} {member.lastActive}</span>
                       <span>•</span>
-                      <span>{member.projects} projects</span>
+                      <span>{member.projects} {t('team.projects')}</span>
                     </div>
                   </div>
                 </div>
@@ -397,14 +399,14 @@ export function TeamManagement() {
                         </DialogTrigger>
                         <DialogContent>
                           <DialogHeader>
-                            <DialogTitle>Edit Team Member</DialogTitle>
+                            <DialogTitle>{t('team.editTeamMember')}</DialogTitle>
                             <DialogDescription>
-                              Change role for {member.name}
+                              {t('team.changeRoleFor')} {member.name}
                             </DialogDescription>
                           </DialogHeader>
                           <div className="py-4 space-y-4">
                             <div className="space-y-2">
-                              <label className="text-sm font-medium">Role</label>
+                              <label className="text-sm font-medium">{t('team.role')}</label>
                               <Select
                                 value={member.role}
                                 onValueChange={(v) => changeRole(member.id, v as TeamMember['role'])}
@@ -421,7 +423,7 @@ export function TeamManagement() {
                               </Select>
                             </div>
                             <div className="p-3 bg-muted rounded-lg">
-                              <p className="text-sm font-medium">Permissions:</p>
+                              <p className="text-sm font-medium">{t('team.permissions')}</p>
                               <ul className="mt-2 space-y-1">
                                 {rolePermissions[member.role].map((perm, i) => (
                                   <li key={i} className="text-xs text-muted-foreground">
@@ -455,7 +457,7 @@ export function TeamManagement() {
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <Shield className="h-5 w-5" />
-            Roles & Permissions
+            {t('team.rolesPermissions')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -469,7 +471,7 @@ export function TeamManagement() {
                   <div className="flex items-center gap-2">
                     <p className="font-medium capitalize">{role}</p>
                     <Badge variant="outline" className="text-xs">
-                      {teamMembers.filter((m) => m.role === role).length} members
+                      {teamMembers.filter((m) => m.role === role).length} {t('team.members')}
                     </Badge>
                   </div>
                   <div className="flex flex-wrap gap-2 mt-2">

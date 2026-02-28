@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -132,70 +133,71 @@ const PACKAGE_EXAMPLES: Record<string, PackageExample[]> = {
   ],
 };
 
-const PACKAGE_FEATURES = {
+const PACKAGE_FEATURES = (t: (key: string) => string) => ({
   standard: {
-    title: 'Standard Package',
+    title: t('showcase.standardPackage'),
     price: 149,
     color: 'from-gray-600 to-gray-800',
     borderColor: 'border-gray-400',
     icon: Globe,
-    description: 'Perfect for small businesses getting started online',
+    description: t('showcase.standardDesc'),
+    badge: null,
     features: [
-      { text: 'Up to 5 pages', included: true },
-      { text: 'Mobile responsive design', included: true },
-      { text: 'Contact form', included: true },
-      { text: 'Basic SEO setup', included: true },
-      { text: '1 year hosting', included: true },
-      { text: '30 days support', included: true },
-      { text: 'Custom domain', included: false },
-      { text: 'E-commerce', included: false },
-      { text: 'Booking system', included: false },
-      { text: 'Priority support', included: false },
+      { text: t('showcase.upTo5'), included: true },
+      { text: t('showcase.mobileResponsive'), included: true },
+      { text: t('showcase.contactFormFeature'), included: true },
+      { text: t('showcase.basicSEO'), included: true },
+      { text: t('showcase.oneYearHosting'), included: true },
+      { text: t('showcase.30daysSupport'), included: true },
+      { text: t('showcase.customDomain'), included: false },
+      { text: t('showcase.ecommerceFeature'), included: false },
+      { text: t('showcase.bookingFeature'), included: false },
+      { text: t('showcase.prioritySupport'), included: false },
     ],
   },
   pro: {
-    title: 'Pro Package',
+    title: t('showcase.proPackage'),
     price: 399,
     color: 'from-blue-600 to-indigo-600',
     borderColor: 'border-blue-500',
     icon: Zap,
-    badge: 'Most Popular',
-    description: 'Recommended for growing businesses',
+    badge: t('showcase.mostPopular'),
+    description: t('showcase.proDesc'),
     features: [
-      { text: 'Up to 10 pages', included: true },
-      { text: 'Semi-custom design', included: true },
-      { text: 'Booking/Appointment system', included: true },
-      { text: 'Photo gallery', included: true },
-      { text: 'Custom domain included', included: true },
-      { text: 'Full SEO optimization', included: true },
-      { text: '90 days support', included: true },
-      { text: '3 content updates', included: true },
-      { text: 'Analytics dashboard', included: true },
-      { text: 'E-commerce', included: false },
+      { text: t('showcase.upTo10'), included: true },
+      { text: t('showcase.semiCustom'), included: true },
+      { text: t('showcase.bookingAppointment'), included: true },
+      { text: t('showcase.photoGalleryFeature'), included: true },
+      { text: t('showcase.customDomainIncluded'), included: true },
+      { text: t('showcase.fullSEO'), included: true },
+      { text: t('showcase.90daysSupport'), included: true },
+      { text: t('showcase.3contentUpdates'), included: true },
+      { text: t('showcase.analyticsDashboard'), included: true },
+      { text: t('showcase.ecommerceFeature'), included: false },
     ],
   },
   premium: {
-    title: 'Premium Package',
+    title: t('showcase.premiumPackage'),
     price: 999,
     color: 'from-purple-600 to-pink-600',
     borderColor: 'border-purple-500',
     icon: Crown,
-    badge: 'Best Value',
-    description: 'Complete business solution with e-commerce',
+    badge: t('showcase.bestValue'),
+    description: t('showcase.premiumDesc'),
     features: [
-      { text: 'Unlimited pages', included: true },
-      { text: 'Fully custom design', included: true },
-      { text: 'E-commerce functionality', included: true },
-      { text: 'Payment integration', included: true },
-      { text: 'Custom domain + SSL', included: true },
-      { text: 'Priority support (1 year)', included: true },
-      { text: 'Unlimited updates', included: true },
-      { text: 'Advanced analytics', included: true },
-      { text: 'Multi-language support', included: true },
-      { text: 'CRM integration', included: true },
+      { text: t('showcase.unlimitedPages'), included: true },
+      { text: t('showcase.fullyCustom'), included: true },
+      { text: t('showcase.ecommerceFunctionality'), included: true },
+      { text: t('showcase.paymentIntegrationFeature'), included: true },
+      { text: t('showcase.customDomainSSL'), included: true },
+      { text: t('showcase.priority1year'), included: true },
+      { text: t('showcase.unlimitedUpdates'), included: true },
+      { text: t('showcase.advancedAnalytics'), included: true },
+      { text: t('showcase.multiLanguage'), included: true },
+      { text: t('showcase.crmIntegration'), included: true },
     ],
   },
-};
+});
 
 interface PackageShowcaseProps {
   selectedPackage?: string | null;
@@ -203,6 +205,7 @@ interface PackageShowcaseProps {
 }
 
 export function PackageShowcase({ selectedPackage, onSelectPackage }: PackageShowcaseProps) {
+  const { t } = useLanguageStore();
   const [activeTab, setActiveTab] = useState('compare');
   const [selectedExample, setSelectedExample] = useState<PackageExample | null>(null);
   const [hoveredPackage, setHoveredPackage] = useState<string | null>(null);
@@ -215,13 +218,14 @@ export function PackageShowcase({ selectedPackage, onSelectPackage }: PackageSho
   };
 
   const packages = ['standard', 'pro', 'premium'] as const;
+  const packageFeatures = PACKAGE_FEATURES(t);
 
   return (
     <div className="space-y-8">
       {/* Package Cards */}
       <div className="grid md:grid-cols-3 gap-6">
         {packages.map((pkg) => {
-          const info = PACKAGE_FEATURES[pkg];
+          const info = packageFeatures[pkg];
           const Icon = info.icon;
           const isSelected = selectedPackage === pkg;
 
@@ -230,7 +234,7 @@ export function PackageShowcase({ selectedPackage, onSelectPackage }: PackageSho
               key={pkg}
               className={`relative rounded-2xl border-2 transition-all cursor-pointer ${
                 isSelected
-                  ? `${info.borderColor} shadow-xl scale-105`
+                  ? info.borderColor + ' shadow-xl scale-105'
                   : 'border-border hover:border-blue-300'
               }`}
               onClick={() => handleSelectPackage(pkg)}
@@ -260,7 +264,7 @@ export function PackageShowcase({ selectedPackage, onSelectPackage }: PackageSho
                 </div>
                 <div className="flex items-baseline gap-1">
                   <span className="text-4xl font-bold">${info.price}</span>
-                  <span className="opacity-80">one-time</span>
+                  <span className="opacity-80">{t('showcase.oneTime')}</span>
                 </div>
               </div>
 
@@ -300,10 +304,10 @@ export function PackageShowcase({ selectedPackage, onSelectPackage }: PackageSho
                   {isSelected ? (
                     <>
                       <Check className="h-4 w-4 mr-2" />
-                      Selected
+                      {t('showcase.selected')}
                     </>
                   ) : (
-                    'Select Package'
+                    t('showcase.selectPackage')
                   )}
                 </Button>
               </div>
@@ -317,16 +321,16 @@ export function PackageShowcase({ selectedPackage, onSelectPackage }: PackageSho
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <Monitor className="h-5 w-5" />
-            See What You Get - Real Examples
+            {t('showcase.seeWhatYouGet')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="compare">Side by Side</TabsTrigger>
-              <TabsTrigger value="standard">Standard Examples</TabsTrigger>
-              <TabsTrigger value="pro">Pro Examples</TabsTrigger>
-              <TabsTrigger value="premium">Premium Examples</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="compare">{t('showcase.sideBySide')}</TabsTrigger>
+              <TabsTrigger value="standard">{t('showcase.standardExamples')}</TabsTrigger>
+              <TabsTrigger value="pro">{t('showcase.proExamples')}</TabsTrigger>
+              <TabsTrigger value="premium">{t('showcase.premiumExamples')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="compare" className="mt-6">
@@ -337,13 +341,13 @@ export function PackageShowcase({ selectedPackage, onSelectPackage }: PackageSho
                     <div className="aspect-video bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800 rounded-lg flex items-center justify-center">
                       <div className="text-center">
                         <Globe className="h-12 w-12 mx-auto text-gray-400 mb-2" />
-                        <p className="text-sm text-muted-foreground">Preview</p>
+                        <p className="text-sm text-muted-foreground">{t('showcase.preview')}</p>
                       </div>
                     </div>
                     <p className="text-xs text-muted-foreground text-center">
-                      {pkg === 'standard' && 'Clean, professional design'}
-                      {pkg === 'pro' && 'Enhanced features & design'}
-                      {pkg === 'premium' && 'Full-featured, custom design'}
+                      {pkg === 'standard' && t('showcase.cleanProfessional')}
+                      {pkg === 'pro' && t('showcase.enhancedFeatures')}
+                      {pkg === 'premium' && t('showcase.fullFeatured')}
                     </p>
                   </div>
                 ))}
@@ -394,14 +398,14 @@ export function PackageShowcase({ selectedPackage, onSelectPackage }: PackageSho
       {/* Feature Comparison Table */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Detailed Comparison</CardTitle>
+          <CardTitle className="text-lg">{t('showcase.detailedComparison')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left py-3 px-4">Feature</th>
+                  <th className="text-left py-3 px-4">{t('showcase.feature')}</th>
                   <th className="text-center py-3 px-4">Standard</th>
                   <th className="text-center py-3 px-4 bg-blue-50 dark:bg-blue-950">Pro</th>
                   <th className="text-center py-3 px-4">Premium</th>
@@ -409,21 +413,21 @@ export function PackageShowcase({ selectedPackage, onSelectPackage }: PackageSho
               </thead>
               <tbody>
                 {[
-                  { feature: 'Pages', standard: 'Up to 5', pro: 'Up to 10', premium: 'Unlimited' },
-                  { feature: 'Design', standard: 'Template-based', pro: 'Semi-custom', premium: 'Fully custom' },
-                  { feature: 'Responsive', standard: true, pro: true, premium: true },
-                  { feature: 'Contact Form', standard: true, pro: true, premium: true },
-                  { feature: 'SEO', standard: 'Basic', pro: 'Full', premium: 'Advanced' },
-                  { feature: 'Hosting', standard: '1 year', pro: '1 year', premium: '1 year' },
-                  { feature: 'Custom Domain', standard: false, pro: true, premium: true },
-                  { feature: 'SSL Certificate', standard: true, pro: true, premium: true },
-                  { feature: 'Booking System', standard: false, pro: true, premium: true },
-                  { feature: 'E-commerce', standard: false, pro: false, premium: true },
-                  { feature: 'Payment Integration', standard: false, pro: false, premium: true },
-                  { feature: 'Analytics', standard: false, pro: true, premium: 'Advanced' },
-                  { feature: 'Support', standard: '30 days', pro: '90 days', premium: '1 year' },
-                  { feature: 'Content Updates', standard: false, pro: '3 updates', premium: 'Unlimited' },
-                  { feature: 'Multi-language', standard: false, pro: false, premium: true },
+                  { feature: 'Pages', standard: t('showcase.upTo5'), pro: t('showcase.upTo10'), premium: t('showcase.unlimitedPages') },
+                  { feature: 'Design', standard: t('showcase.templateBased'), pro: t('showcase.semiCustomDesign'), premium: t('showcase.fullyCustomDesign') },
+                  { feature: t('showcase.responsive'), standard: true, pro: true, premium: true },
+                  { feature: t('showcase.contactFormIncluded'), standard: true, pro: true, premium: true },
+                  { feature: 'SEO', standard: t('showcase.basic'), pro: t('showcase.full'), premium: t('showcase.advanced') },
+                  { feature: 'Hosting', standard: t('showcase.hosting1year'), pro: t('showcase.hosting1year'), premium: t('showcase.hosting1year') },
+                  { feature: t('showcase.customDomain'), standard: false, pro: true, premium: true },
+                  { feature: t('showcase.sslCertificate'), standard: true, pro: true, premium: true },
+                  { feature: t('showcase.bookingSystemIncluded'), standard: false, pro: true, premium: true },
+                  { feature: t('showcase.ecommerceIncluded'), standard: false, pro: false, premium: true },
+                  { feature: t('showcase.paymentIncluded'), standard: false, pro: false, premium: true },
+                  { feature: t('showcase.analyticsIncluded'), standard: false, pro: true, premium: t('showcase.advanced') },
+                  { feature: 'Support', standard: t('showcase.support30'), pro: t('showcase.support90'), premium: t('showcase.support1year') },
+                  { feature: t('showcase.contentUpdates'), standard: false, pro: t('showcase.3updates'), premium: t('showcase.unlimitedUpdates') },
+                  { feature: t('showcase.multiLanguageSupport'), standard: false, pro: false, premium: true },
                 ].map((row, i) => (
                   <tr key={i} className="border-b">
                     <td className="py-3 px-4 font-medium">{row.feature}</td>
@@ -478,7 +482,7 @@ export function PackageShowcase({ selectedPackage, onSelectPackage }: PackageSho
           <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
             <div className="text-center">
               <Globe className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">Website preview would appear here</p>
+              <p className="text-muted-foreground">{t('showcase.websitePreview')}</p>
             </div>
           </div>
           <div className="flex gap-2 mt-4">
@@ -486,7 +490,7 @@ export function PackageShowcase({ selectedPackage, onSelectPackage }: PackageSho
               <Button asChild>
                 <a href={selectedExample.liveUrl} target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="h-4 w-4 mr-2" />
-                  View Live Site
+                  {t('showcase.viewLiveSite')}
                 </a>
               </Button>
             )}

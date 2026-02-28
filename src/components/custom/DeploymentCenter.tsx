@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -131,6 +132,7 @@ const deploymentLogs = [
 ];
 
 export function DeploymentCenter() {
+  const { t } = useLanguageStore();
   const [deployments, setDeployments] = useState<Deployment[]>(mockDeployments);
   const [selectedDeployment, setSelectedDeployment] = useState<Deployment | null>(null);
   const [showDeployModal, setShowDeployModal] = useState(false);
@@ -169,35 +171,35 @@ export function DeploymentCenter() {
         return (
           <Badge className="bg-blue-500">
             <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-            Building
+            {t('deployment.buildingLabel')}
           </Badge>
         );
       case 'deploying':
         return (
           <Badge className="bg-purple-500">
             <Rocket className="h-3 w-3 mr-1" />
-            Deploying
+            {t('deployment.deploying')}
           </Badge>
         );
       case 'live':
         return (
           <Badge className="bg-green-500">
             <CheckCircle className="h-3 w-3 mr-1" />
-            Live
+            {t('deployment.liveLabel')}
           </Badge>
         );
       case 'failed':
         return (
           <Badge variant="destructive">
             <AlertCircle className="h-3 w-3 mr-1" />
-            Failed
+            {t('deployment.failed')}
           </Badge>
         );
       case 'paused':
         return (
           <Badge variant="secondary">
             <Pause className="h-3 w-3 mr-1" />
-            Paused
+            {t('deployment.paused')}
           </Badge>
         );
     }
@@ -210,15 +212,15 @@ export function DeploymentCenter() {
         <div>
           <h2 className="text-2xl font-bold flex items-center gap-2">
             <Rocket className="h-6 w-6 text-blue-600" />
-            Deployment Center
+            {t('deployment.title')}
           </h2>
           <p className="text-muted-foreground">
-            Deploy and manage your websites
+            {t('deployment.subtitle')}
           </p>
         </div>
         <Button onClick={() => setShowDeployModal(true)}>
           <Rocket className="h-4 w-4 mr-2" />
-          New Deployment
+          {t('deployment.newDeployment')}
         </Button>
       </div>
 
@@ -228,7 +230,7 @@ export function DeploymentCenter() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Live Sites</p>
+                <p className="text-sm text-muted-foreground">{t('deployment.liveSites')}</p>
                 <p className="text-2xl font-bold text-green-600">{liveCount}</p>
               </div>
               <div className="p-3 rounded-full bg-green-100 dark:bg-green-900">
@@ -242,7 +244,7 @@ export function DeploymentCenter() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total Visits</p>
+                <p className="text-sm text-muted-foreground">{t('deployment.totalVisits')}</p>
                 <p className="text-2xl font-bold">{totalVisits.toLocaleString()}</p>
               </div>
               <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900">
@@ -256,7 +258,7 @@ export function DeploymentCenter() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">SSL Certificates</p>
+                <p className="text-sm text-muted-foreground">{t('deployment.sslCertificates')}</p>
                 <p className="text-2xl font-bold">
                   {deployments.filter((d) => d.ssl).length}
                 </p>
@@ -272,7 +274,7 @@ export function DeploymentCenter() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">CDN Enabled</p>
+                <p className="text-sm text-muted-foreground">{t('deployment.cdnEnabled')}</p>
                 <p className="text-2xl font-bold">
                   {deployments.filter((d) => d.cdn).length}
                 </p>
@@ -288,7 +290,7 @@ export function DeploymentCenter() {
       {/* Deployments */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Active Deployments</CardTitle>
+          <CardTitle className="text-lg">{t('deployment.activeDeployments')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -322,7 +324,7 @@ export function DeploymentCenter() {
                   </span>
                   <span className="flex items-center gap-1">
                     <Activity className="h-4 w-4" />
-                    {deployment.visits.toLocaleString()} visits
+                    {deployment.visits.toLocaleString()} {t('deployment.visits')}
                   </span>
                   {deployment.ssl && (
                     <span className="flex items-center gap-1 text-green-600">
@@ -342,7 +344,7 @@ export function DeploymentCenter() {
                   <div className="mt-3">
                     <Progress value={60} className="h-2" />
                     <p className="text-xs text-muted-foreground mt-1">
-                      Building... 60%
+                      {t('deployment.building')} 60%
                     </p>
                   </div>
                 )}
@@ -376,7 +378,7 @@ export function DeploymentCenter() {
                   <Button variant="outline" asChild>
                     <a href={`https://${selectedDeployment.domain}`} target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="h-4 w-4 mr-2" />
-                      Visit Site
+                      {t('deployment.visitSite')}
                     </a>
                   </Button>
                 )}
@@ -385,30 +387,30 @@ export function DeploymentCenter() {
                   onClick={() => redeploy(selectedDeployment.id)}
                 >
                   <RefreshCw className="h-4 w-4 mr-2" />
-                  Redeploy
+                  {t('deployment.redeploy')}
                 </Button>
                 <Button variant="outline">
                   <Settings className="h-4 w-4 mr-2" />
-                  Settings
+                  {t('deployment.settings')}
                 </Button>
               </div>
 
               {/* Stats Grid */}
               <div className="grid grid-cols-4 gap-4">
                 <div className="p-4 border rounded-lg text-center">
-                  <p className="text-sm text-muted-foreground">Region</p>
+                  <p className="text-sm text-muted-foreground">{t('deployment.region')}</p>
                   <p className="font-medium">{selectedDeployment.region}</p>
                 </div>
                 <div className="p-4 border rounded-lg text-center">
-                  <p className="text-sm text-muted-foreground">Framework</p>
+                  <p className="text-sm text-muted-foreground">{t('deployment.framework')}</p>
                   <p className="font-medium">{selectedDeployment.framework}</p>
                 </div>
                 <div className="p-4 border rounded-lg text-center">
-                  <p className="text-sm text-muted-foreground">Bandwidth</p>
+                  <p className="text-sm text-muted-foreground">{t('deployment.bandwidth')}</p>
                   <p className="font-medium">{selectedDeployment.bandwidth}</p>
                 </div>
                 <div className="p-4 border rounded-lg text-center">
-                  <p className="text-sm text-muted-foreground">Last Deploy</p>
+                  <p className="text-sm text-muted-foreground">{t('deployment.lastDeploy')}</p>
                   <p className="font-medium">{selectedDeployment.lastDeployed}</p>
                 </div>
               </div>
@@ -417,7 +419,7 @@ export function DeploymentCenter() {
               <div>
                 <h4 className="font-medium mb-2 flex items-center gap-2">
                   <Terminal className="h-4 w-4" />
-                  Build Logs
+                  {t('deployment.buildLogs')}
                 </h4>
                 <div className="bg-gray-900 text-gray-100 rounded-lg p-4 font-mono text-sm max-h-64 overflow-y-auto">
                   {deploymentLogs.map((log, i) => (
@@ -444,15 +446,15 @@ export function DeploymentCenter() {
               <div className="flex gap-4">
                 <div className="flex items-center gap-2">
                   <Shield className={`h-5 w-5 ${selectedDeployment.ssl ? 'text-green-500' : 'text-gray-400'}`} />
-                  <span className="text-sm">SSL Certificate</span>
+                  <span className="text-sm">{t('deployment.sslCertificate')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Zap className={`h-5 w-5 ${selectedDeployment.cdn ? 'text-orange-500' : 'text-gray-400'}`} />
-                  <span className="text-sm">CDN</span>
+                  <span className="text-sm">{t('deployment.cdn')}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Activity className={`h-5 w-5 ${selectedDeployment.analytics ? 'text-blue-500' : 'text-gray-400'}`} />
-                  <span className="text-sm">Analytics</span>
+                  <span className="text-sm">{t('deployment.analytics')}</span>
                 </div>
               </div>
             </div>
@@ -464,16 +466,16 @@ export function DeploymentCenter() {
       <Dialog open={showDeployModal} onOpenChange={setShowDeployModal}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>New Deployment</DialogTitle>
+            <DialogTitle>{t('deployment.newDeployment')}</DialogTitle>
             <DialogDescription>
-              Deploy a website to production
+              {t('deployment.deployProduction')}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="p-4 border rounded-lg">
-              <p className="font-medium mb-2">Ready to Deploy</p>
+              <p className="font-medium mb-2">{t('deployment.readyToDeploy')}</p>
               <p className="text-sm text-muted-foreground mb-3">
-                You have 2 projects ready for deployment
+                {t('deployment.projectsReady')}
               </p>
               <div className="space-y-2">
                 {['Fitness Center Website', 'Auto Services Website'].map((project, i) => (
@@ -482,7 +484,7 @@ export function DeploymentCenter() {
                     className="flex items-center justify-between p-3 border rounded-lg"
                   >
                     <span>{project}</span>
-                    <Button size="sm">Deploy</Button>
+                    <Button size="sm">{t('deployment.deploy')}</Button>
                   </div>
                 ))}
               </div>

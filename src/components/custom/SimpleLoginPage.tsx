@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useLanguageStore } from '@/store/useLanguageStore';
 
 // Owner credentials
 const OWNER = {
@@ -18,6 +19,7 @@ export function SimpleLoginPage({ onLoginSuccess }: Props) {
   const [credential, setCredential] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { t } = useLanguageStore();
 
   const handleLogin = () => {
     setError('');
@@ -44,7 +46,7 @@ export function SimpleLoginPage({ onLoginSuccess }: Props) {
       setLoading(false);
       onLoginSuccess();
     } else {
-      setError('Invalid credential');
+      setError(t('auth.invalidCredential'));
       setLoading(false);
     }
   };
@@ -78,7 +80,7 @@ export function SimpleLoginPage({ onLoginSuccess }: Props) {
             WebFinder AI
           </h1>
           <p style={{ color: '#6b7280', marginTop: '8px' }}>
-            Business Discovery Platform
+            {t('common.businessDiscovery')}
           </p>
         </div>
 
@@ -91,11 +93,11 @@ export function SimpleLoginPage({ onLoginSuccess }: Props) {
             marginBottom: '8px',
             color: '#374151',
           }}>
-            Credential Number
+            {t('auth.credentialNumber')}
           </label>
           <input
             type="text"
-            placeholder="Enter lago2.1B for owner"
+            placeholder={t('auth.ownerHint')}
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
@@ -140,7 +142,7 @@ export function SimpleLoginPage({ onLoginSuccess }: Props) {
               opacity: loading ? 0.7 : 1,
             }}
           >
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? t('auth.signingIn') : t('auth.signIn')}
           </button>
         </div>
 
@@ -152,7 +154,7 @@ export function SimpleLoginPage({ onLoginSuccess }: Props) {
           borderTop: '1px solid #e5e7eb',
         }}>
           <p style={{ fontSize: '12px', color: '#6b7280' }}>
-            Need help? Contact{' '}
+            {t('auth.needHelp')}{' '}
             <a href="mailto:brank493@gmail.com" style={{ color: '#2563eb' }}>
               brank493@gmail.com
             </a>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -67,6 +68,7 @@ const mockOwnedDomains: Domain[] = [
 ];
 
 export function DomainManager() {
+  const { t } = useLanguageStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [searching, setSearching] = useState(false);
   const [searchResults, setSearchResults] = useState<Domain[]>([]);
@@ -115,13 +117,13 @@ export function DomainManager() {
   const getStatusBadge = (status: Domain['status']) => {
     switch (status) {
       case 'available':
-        return <Badge className="bg-green-500">Available</Badge>;
+        return <Badge className="bg-green-500">{t('domain.available')}</Badge>;
       case 'taken':
-        return <Badge variant="destructive">Taken</Badge>;
+        return <Badge variant="destructive">{t('domain.taken')}</Badge>;
       case 'owned':
-        return <Badge className="bg-blue-500">Owned</Badge>;
+        return <Badge className="bg-blue-500">{t('domain.owned')}</Badge>;
       case 'pending':
-        return <Badge variant="secondary">Pending</Badge>;
+        return <Badge variant="secondary">{t('domain.pending')}</Badge>;
     }
   };
 
@@ -132,10 +134,10 @@ export function DomainManager() {
         <div>
           <h2 className="text-2xl font-bold flex items-center gap-2">
             <Globe className="h-6 w-6 text-blue-600" />
-            Domain Management
+            {t('domain.title')}
           </h2>
           <p className="text-muted-foreground">
-            Search, register, and manage domains for your clients
+            {t('domain.subtitle')}
           </p>
         </div>
       </div>
@@ -143,12 +145,12 @@ export function DomainManager() {
       {/* Domain Search */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Search for a Domain</CardTitle>
+          <CardTitle className="text-lg">{t('domain.searchDomain')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex gap-2">
             <Input
-              placeholder="Enter a domain name (e.g., mybusiness)"
+              placeholder={t('domain.enterDomain')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && searchDomain()}
@@ -160,14 +162,14 @@ export function DomainManager() {
               ) : (
                 <Search className="h-4 w-4" />
               )}
-              <span className="ml-2 hidden sm:inline">Search</span>
+              <span className="ml-2 hidden sm:inline">{t('domain.search')}</span>
             </Button>
           </div>
 
           {/* Search Results */}
           {searchResults.length > 0 && (
             <div className="mt-6 space-y-2">
-              <h4 className="font-medium">Search Results</h4>
+              <h4 className="font-medium">{t('domain.searchResults')}</h4>
               <div className="space-y-2">
                 {searchResults.map((domain) => (
                   <div
@@ -192,36 +194,36 @@ export function DomainManager() {
                                 onClick={() => setSelectedDomain(domain)}
                               >
                                 <ShoppingCart className="h-4 w-4 mr-1" />
-                                Buy
+                                {t('domain.buy')}
                               </Button>
                             </DialogTrigger>
                             <DialogContent>
                               <DialogHeader>
-                                <DialogTitle>Purchase Domain</DialogTitle>
+                                <DialogTitle>{t('domain.purchaseDomain')}</DialogTitle>
                                 <DialogDescription>
-                                  You are about to purchase {domain.name}
+                                  {t('domain.purchaseDesc')} {domain.name}
                                 </DialogDescription>
                               </DialogHeader>
                               <div className="py-4">
                                 <div className="space-y-4">
                                   <div className="flex justify-between">
-                                    <span>Domain:</span>
+                                    <span>{t('domain.domainLabel')}</span>
                                     <span className="font-medium">
                                       {domain.name}
                                     </span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span>Duration:</span>
-                                    <span>1 Year</span>
+                                    <span>{t('domain.duration')}</span>
+                                    <span>{t('domain.oneYear')}</span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span>SSL Certificate:</span>
+                                    <span>{t('domain.sslCertificate')}</span>
                                     <span className="text-green-600">
-                                      Included Free
+                                      {t('domain.includedFree')}
                                     </span>
                                   </div>
                                   <div className="flex justify-between text-lg font-bold border-t pt-4">
-                                    <span>Total:</span>
+                                    <span>{t('domain.totalLabel')}</span>
                                     <span>${domain.price?.toFixed(2)}</span>
                                   </div>
                                 </div>
@@ -236,7 +238,7 @@ export function DomainManager() {
                                   ) : (
                                     <ShoppingCart className="h-4 w-4 mr-2" />
                                   )}
-                                  Complete Purchase
+                                  {t('domain.completePurchase')}
                                 </Button>
                               </DialogFooter>
                             </DialogContent>
@@ -245,7 +247,7 @@ export function DomainManager() {
                       )}
                       {domain.status === 'taken' && (
                         <span className="text-sm text-muted-foreground">
-                          Not available
+                          {t('domain.notAvailable')}
                         </span>
                       )}
                     </div>
@@ -260,15 +262,15 @@ export function DomainManager() {
       {/* Owned Domains */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Your Domains</CardTitle>
+          <CardTitle className="text-lg">{t('domain.yourDomains')}</CardTitle>
         </CardHeader>
         <CardContent>
           {ownedDomains.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               <Globe className="h-12 w-12 mx-auto mb-4 opacity-50" />
-              <p>No domains registered yet</p>
+              <p>{t('domain.noDomains')}</p>
               <p className="text-sm">
-                Search for a domain above to get started
+                {t('domain.searchDomainAbove')}
               </p>
             </div>
           ) : (
@@ -291,13 +293,13 @@ export function DomainManager() {
                         {domain.expiryDate && (
                           <span className="flex items-center gap-1">
                             <Clock className="h-3 w-3" />
-                            Expires: {domain.expiryDate}
+                            {t('domain.expires')} {domain.expiryDate}
                           </span>
                         )}
                         {domain.sslEnabled && (
                           <span className="flex items-center gap-1 text-green-600">
                             <Shield className="h-3 w-3" />
-                            SSL Active
+                            {t('domain.sslActive')}
                           </span>
                         )}
                       </div>
@@ -308,7 +310,7 @@ export function DomainManager() {
                       <>
                         <Button variant="outline" size="sm">
                           <ExternalLink className="h-4 w-4 mr-1" />
-                          Visit
+                          {t('domain.visit')}
                         </Button>
                         <Button variant="outline" size="sm">
                           <Settings className="h-4 w-4" />
@@ -318,7 +320,7 @@ export function DomainManager() {
                     {domain.status === 'pending' && (
                       <div className="flex items-center gap-1 text-amber-600 text-sm">
                         <AlertCircle className="h-4 w-4" />
-                        Setup Required
+                        {t('domain.setupRequired')}
                       </div>
                     )}
                   </div>
@@ -335,7 +337,7 @@ export function DomainManager() {
           <CardContent className="pt-6">
             <div className="text-center">
               <p className="text-3xl font-bold text-blue-600">$12.99</p>
-              <p className="text-sm text-muted-foreground">.com domain/year</p>
+              <p className="text-sm text-muted-foreground">.com {t('domain.perYear')}</p>
             </div>
           </CardContent>
         </Card>
@@ -343,7 +345,7 @@ export function DomainManager() {
           <CardContent className="pt-6">
             <div className="text-center">
               <p className="text-3xl font-bold text-green-600">Free</p>
-              <p className="text-sm text-muted-foreground">SSL Certificate</p>
+              <p className="text-sm text-muted-foreground">{t('domain.sslFree')}</p>
             </div>
           </CardContent>
         </Card>
@@ -351,7 +353,7 @@ export function DomainManager() {
           <CardContent className="pt-6">
             <div className="text-center">
               <p className="text-3xl font-bold text-purple-600">24/7</p>
-              <p className="text-sm text-muted-foreground">DNS Support</p>
+              <p className="text-sm text-muted-foreground">{t('domain.dnsSupport')}</p>
             </div>
           </CardContent>
         </Card>

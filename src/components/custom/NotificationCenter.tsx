@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -114,6 +115,7 @@ const mockNotifications: Notification[] = [
 ];
 
 export function NotificationCenter() {
+  const { t } = useLanguageStore();
   const [notifications, setNotifications] = useState<Notification[]>(mockNotifications);
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
 
@@ -158,10 +160,10 @@ export function NotificationCenter() {
         <div className="flex items-center gap-3">
           <h2 className="text-2xl font-bold flex items-center gap-2">
             <Bell className="h-6 w-6 text-blue-600" />
-            Notifications
+            {t('notifications.title')}
           </h2>
           {unreadCount > 0 && (
-            <Badge className="bg-blue-500">{unreadCount} new</Badge>
+            <Badge className="bg-blue-500">{unreadCount} {t('notifications.new')}</Badge>
           )}
         </div>
         <div className="flex items-center gap-2">
@@ -170,19 +172,19 @@ export function NotificationCenter() {
             size="sm"
             onClick={() => setFilter('all')}
           >
-            All
+            {t('notifications.all')}
           </Button>
           <Button
             variant={filter === 'unread' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setFilter('unread')}
           >
-            Unread ({unreadCount})
+            {t('notifications.unread')} ({unreadCount})
           </Button>
           {unreadCount > 0 && (
             <Button variant="ghost" size="sm" onClick={markAllAsRead}>
               <CheckCheck className="h-4 w-4 mr-1" />
-              Mark all read
+              {t('notifications.markAllRead')}
             </Button>
           )}
         </div>
@@ -198,7 +200,7 @@ export function NotificationCenter() {
               </div>
               <div>
                 <p className="text-2xl font-bold">{notifications.length}</p>
-                <p className="text-sm text-muted-foreground">Total</p>
+                <p className="text-sm text-muted-foreground">{t('notifications.total')}</p>
               </div>
             </div>
           </CardContent>
@@ -213,7 +215,7 @@ export function NotificationCenter() {
                 <p className="text-2xl font-bold">
                   {notifications.filter((n) => n.read).length}
                 </p>
-                <p className="text-sm text-muted-foreground">Read</p>
+                <p className="text-sm text-muted-foreground">{t('notifications.read')}</p>
               </div>
             </div>
           </CardContent>
@@ -226,7 +228,7 @@ export function NotificationCenter() {
               </div>
               <div>
                 <p className="text-2xl font-bold">{unreadCount}</p>
-                <p className="text-sm text-muted-foreground">Unread</p>
+                <p className="text-sm text-muted-foreground">{t('notifications.unreadLabel')}</p>
               </div>
             </div>
           </CardContent>
@@ -241,7 +243,7 @@ export function NotificationCenter() {
                 <p className="text-2xl font-bold">
                   {notifications.filter((n) => n.type === 'message').length}
                 </p>
-                <p className="text-sm text-muted-foreground">Messages</p>
+                <p className="text-sm text-muted-foreground">{t('notifications.messages')}</p>
               </div>
             </div>
           </CardContent>
@@ -251,14 +253,14 @@ export function NotificationCenter() {
       {/* Notifications List */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-lg">Recent Notifications</CardTitle>
+          <CardTitle className="text-lg">{t('notifications.recentNotifications')}</CardTitle>
         </CardHeader>
         <CardContent>
           <ScrollArea className="h-[500px]">
             {filteredNotifications.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">
                 <Bell className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>No notifications</p>
+                <p>{t('notifications.noNotifications')}</p>
               </div>
             ) : (
               <div className="space-y-2">
@@ -311,7 +313,7 @@ export function NotificationCenter() {
                           variant="ghost"
                           size="sm"
                           onClick={() => markAsRead(notification.id)}
-                          title="Mark as read"
+                          title={t('notifications.markAsRead')}
                         >
                           <Check className="h-4 w-4" />
                         </Button>
@@ -320,7 +322,7 @@ export function NotificationCenter() {
                         variant="ghost"
                         size="sm"
                         onClick={() => deleteNotification(notification.id)}
-                        title="Delete"
+                        title={t('notifications.delete')}
                         className="text-muted-foreground hover:text-red-500"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -339,17 +341,17 @@ export function NotificationCenter() {
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <Settings className="h-5 w-5" />
-            Notification Preferences
+            {t('notifications.notificationPreferences')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {[
-              { label: 'New messages', type: 'message', enabled: true },
-              { label: 'Payment notifications', type: 'payment', enabled: true },
-              { label: 'Project updates', type: 'project', enabled: true },
-              { label: 'Alerts and warnings', type: 'alert', enabled: true },
-              { label: 'System updates', type: 'system', enabled: false },
+              { label: t('notifications.newMessages'), type: 'message', enabled: true },
+              { label: t('notifications.paymentNotifications'), type: 'payment', enabled: true },
+              { label: t('notifications.projectUpdates'), type: 'project', enabled: true },
+              { label: t('notifications.alertsWarnings'), type: 'alert', enabled: true },
+              { label: t('notifications.systemUpdates'), type: 'system', enabled: false },
             ].map((pref) => (
               <div
                 key={pref.type}
@@ -360,7 +362,7 @@ export function NotificationCenter() {
                   variant={pref.enabled ? 'default' : 'outline'}
                   size="sm"
                 >
-                  {pref.enabled ? 'Enabled' : 'Disabled'}
+                  {pref.enabled ? t('notifications.enabled') : t('notifications.disabled')}
                 </Button>
               </div>
             ))}

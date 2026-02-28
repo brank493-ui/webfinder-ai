@@ -4,21 +4,22 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Check, Sparkles, Crown, Zap } from 'lucide-react';
 import { PRICING_PACKAGES } from '@/lib/pricing';
+import { useLanguageStore } from '@/store/useLanguageStore';
 
 export function PricingSection() {
+  const { t } = useLanguageStore();
   return (
     <section id="pricing" className="py-20 px-4 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto">
         <div className="text-center mb-12">
           <Badge className="mb-4" variant="secondary">
-            Transparent Pricing
+            {t('pricing.transparent')}
           </Badge>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Choose Your Package
+            {t('package.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Professional website packages tailored to your business needs.
-            All packages include mobile-responsive design and SEO optimization.
+            {t('package.subtitle')}
           </p>
         </div>
 
@@ -58,7 +59,7 @@ export function PricingSection() {
                 <p className="text-muted-foreground mb-4">{pkg.description}</p>
                 <div className="flex items-baseline justify-center gap-1">
                   <span className="text-4xl font-bold">${pkg.price}</span>
-                  <span className="text-muted-foreground">one-time</span>
+                  <span className="text-muted-foreground">{t('pricing.oneTime')}</span>
                 </div>
               </div>
 
@@ -87,13 +88,13 @@ export function PricingSection() {
                 size="lg"
               >
                 <Sparkles className="h-4 w-4 mr-2" />
-                Get Started
+                {t('pricing.getStarted')}
               </Button>
 
               {/* Premium Notice */}
               {pkg.id === 'premium' && (
                 <p className="text-xs text-center text-muted-foreground mt-4">
-                  Includes e-commerce & unlimited updates
+                  {t('pricing.includesEcommerce')}
                 </p>
               )}
             </div>
@@ -103,11 +104,11 @@ export function PricingSection() {
         {/* Bottom CTA */}
         <div className="mt-12 text-center">
           <p className="text-sm text-muted-foreground">
-            Need a custom solution?{' '}
+            {t('pricing.needCustomSolution')}{' '}
             <a href="mailto:brank493@gmail.com" className="text-blue-600 hover:underline font-medium">
-              Contact us
+              {t('pricing.contactUs')}
             </a>{' '}
-            for enterprise pricing.
+            {t('pricing.forEnterprisePricing')}
           </p>
         </div>
       </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -28,6 +29,7 @@ export function TemplateSelector({
   onSelect,
   selectedSlug,
 }: TemplateSelectorProps) {
+  const { t } = useLanguageStore();
   const [templates, setTemplates] = useState<WebsiteTemplate[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'free' | 'premium'>('all');
@@ -90,7 +92,7 @@ export function TemplateSelector({
       {/* Header */}
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Choose a Template</h2>
+          <h2 className="text-2xl font-bold">{t('templates.chooseTemplate')}</h2>
           <p className="text-muted-foreground">
             Select a professional template for your website
           </p>

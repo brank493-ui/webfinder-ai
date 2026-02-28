@@ -12,25 +12,7 @@ import {
 } from '@/components/ui/select';
 import { Search, MapPin, Loader2 } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
-
-const CATEGORIES = [
-  { value: 'all', label: 'All Categories' },
-  { value: 'restaurant', label: 'Restaurant' },
-  { value: 'retail', label: 'Retail' },
-  { value: 'health', label: 'Health & Medical' },
-  { value: 'beauty', label: 'Beauty & Spa' },
-  { value: 'auto', label: 'Auto Services' },
-  { value: 'service', label: 'Professional Services' },
-  { value: 'professional', label: 'Professional Services' },
-];
-
-const RADII = [
-  { value: '1000', label: '1 km' },
-  { value: '5000', label: '5 km' },
-  { value: '10000', label: '10 km' },
-  { value: '25000', label: '25 km' },
-  { value: '50000', label: '50 km' },
-];
+import { useLanguageStore } from '@/store/useLanguageStore';
 
 export function HeroSection() {
   const [location, setLocation] = useState('');
@@ -38,10 +20,30 @@ export function HeroSection() {
   const [radius, setRadius] = useState('5000');
 
   const { setIsSearching, setSearchResults, setSearchError } = useAppStore();
+  const { t } = useLanguageStore();
+
+  const CATEGORIES = [
+    { value: 'all', label: t('hero.allCategories') },
+    { value: 'restaurant', label: t('category.restaurant') },
+    { value: 'retail', label: t('category.retail') },
+    { value: 'health', label: t('category.health') },
+    { value: 'beauty', label: t('category.beauty') },
+    { value: 'auto', label: t('category.auto') },
+    { value: 'service', label: t('category.service') },
+    { value: 'professional', label: t('category.professional') },
+  ];
+
+  const RADII = [
+    { value: '1000', label: '1 km' },
+    { value: '5000', label: '5 km' },
+    { value: '10000', label: '10 km' },
+    { value: '25000', label: '25 km' },
+    { value: '50000', label: '50 km' },
+  ];
 
   const handleSearch = async () => {
     if (!location.trim()) {
-      setSearchError('Please enter a location');
+      setSearchError(t('hero.enterLocation'));
       return;
     }
 
@@ -60,11 +62,11 @@ export function HeroSection() {
       if (data.success) {
         setSearchResults(data.businesses);
       } else {
-        setSearchError(data.error || 'Failed to search businesses');
+        setSearchError(data.error || t('hero.searchFailed'));
       }
     } catch (error) {
       console.error('Search error:', error);
-      setSearchError('Failed to connect to search service');
+      setSearchError(t('hero.connectionFailed'));
     } finally {
       setIsSearching(false);
     }
@@ -81,14 +83,13 @@ export function HeroSection() {
       <div className="container relative z-10 px-4">
         <div className="text-center max-w-4xl mx-auto mb-12">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-            Find Businesses Without Websites
+            {t('hero.title')}
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-4">
-            Help them grow online with professional website development
+            {t('hero.subtitle')}
           </p>
           <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-            Search any location worldwide, discover businesses lacking an online presence,
-            and connect with them through our AI-powered outreach system.
+            {t('hero.description')}
           </p>
         </div>
 
@@ -101,7 +102,7 @@ export function HeroSection() {
                 <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   type="text"
-                  placeholder="Enter city, area, or address..."
+                  placeholder={t('hero.searchPlaceholder')}
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   className="pl-10 h-12"
@@ -112,7 +113,7 @@ export function HeroSection() {
               {/* Category Select */}
               <Select value={category} onValueChange={setCategory}>
                 <SelectTrigger className="h-12">
-                  <SelectValue placeholder="Category" />
+                  <SelectValue placeholder={t('category.all')} />
                 </SelectTrigger>
                 <SelectContent>
                   {CATEGORIES.map((cat) => (
@@ -126,7 +127,7 @@ export function HeroSection() {
               {/* Radius Select */}
               <Select value={radius} onValueChange={setRadius}>
                 <SelectTrigger className="h-12">
-                  <SelectValue placeholder="Radius" />
+                  <SelectValue placeholder={t('hero.radius')} />
                 </SelectTrigger>
                 <SelectContent>
                   {RADII.map((r) => (
@@ -144,7 +145,7 @@ export function HeroSection() {
               size="lg"
             >
               <Search className="mr-2 h-5 w-5" />
-              Search Businesses
+              {t('hero.searchButton')}
             </Button>
           </div>
 
@@ -152,15 +153,15 @@ export function HeroSection() {
           <div className="flex justify-center gap-8 mt-8 text-center">
             <div>
               <p className="text-2xl font-bold text-blue-600">10K+</p>
-              <p className="text-sm text-muted-foreground">Businesses Found</p>
+              <p className="text-sm text-muted-foreground">{t('hero.businessesFound')}</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-indigo-600">500+</p>
-              <p className="text-sm text-muted-foreground">Websites Created</p>
+              <p className="text-sm text-muted-foreground">{t('hero.websitesCreated')}</p>
             </div>
             <div>
               <p className="text-2xl font-bold text-purple-600">50+</p>
-              <p className="text-sm text-muted-foreground">Countries Covered</p>
+              <p className="text-sm text-muted-foreground">{t('hero.countriesCovered')}</p>
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import {
   Key,
   Loader2,
@@ -38,6 +39,7 @@ interface LoginPageProps {
 export function LoginPage({ onLoginSuccess }: LoginPageProps) {
   const { data: session, status } = useSession();
   const { register, isLoading: storeLoading, error: storeError, clearError } = useAuthStore();
+  const { t } = useLanguageStore();
   
   // Sign In State
   const [loginMethod, setLoginMethod] = useState<'credential' | 'email'>('credential');
@@ -131,11 +133,11 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
           });
           onLoginSuccess();
         } else {
-          setLocalError(data.error || 'Invalid credential number');
+          setLocalError(data.error || t('auth.invalidCredential'));
         }
       })
       .catch(() => {
-        setLocalError('Network error. Please try again.');
+        setLocalError(t('auth.networkError'));
       })
       .finally(() => setIsLoading(false));
   };
@@ -185,11 +187,11 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
           });
           onLoginSuccess();
         } else {
-          setLocalError(data.error || 'Invalid email or password');
+          setLocalError(data.error || t('auth.invalidEmailPassword'));
         }
       })
       .catch(() => {
-        setLocalError('Network error. Please try again.');
+        setLocalError(t('auth.networkError'));
       })
       .finally(() => setIsLoading(false));
   };
@@ -222,22 +224,22 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
 
     // Validation
     if (!regEmail.trim()) {
-      setLocalError('Email is required');
+      setLocalError(t('auth.emailRequired'));
       setIsLoading(false);
       return;
     }
     if (!regPassword.trim() || regPassword.length < 6) {
-      setLocalError('Password must be at least 6 characters');
+      setLocalError(t('auth.passwordMinLength'));
       setIsLoading(false);
       return;
     }
     if (regPassword !== regConfirmPassword) {
-      setLocalError('Passwords do not match');
+      setLocalError(t('auth.passwordMismatch'));
       setIsLoading(false);
       return;
     }
     if (!regName.trim()) {
-      setLocalError('First name is required');
+      setLocalError(t('auth.firstNameRequired'));
       setIsLoading(false);
       return;
     }
@@ -255,16 +257,16 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
       .then(result => {
         if (result.success) {
           setShowSuccess(true);
-          setSuccessMessage('Account created successfully! Your credential number has been sent to your email.');
+          setSuccessMessage(t('auth.credentialSent'));
           setTimeout(() => {
             onLoginSuccess();
           }, 3000);
         } else {
-          setLocalError(result.error || 'Registration failed');
+          setLocalError(result.error || t('auth.registrationFailed'));
         }
       })
       .catch(() => {
-        setLocalError('Network error. Please try again.');
+        setLocalError(t('auth.networkError'));
       })
       .finally(() => setIsLoading(false));
   };
@@ -278,11 +280,11 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
             <div className="mx-auto mb-4">
               <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Account Created!</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('auth.accountCreated')}</h2>
             <p className="text-gray-600 mb-4">{successMessage}</p>
             <div className="flex items-center justify-center gap-2 text-blue-600">
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span>Redirecting to your dashboard...</span>
+              <span>{t('auth.redirectDashboard')}</span>
             </div>
           </CardContent>
         </Card>
@@ -296,7 +298,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-          <p className="text-muted-foreground">Loading...</p>
+          <p className="text-muted-foreground">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -322,7 +324,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
             WebFinder AI
           </h1>
           <p className="text-muted-foreground mt-2">
-            Business Discovery Platform
+            {t('common.businessDiscovery')}
           </p>
         </div>
 
@@ -337,7 +339,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
               }`}
               onClick={() => { setActivePage('signin'); setLocalError(''); clearError(); }}
             >
-              Sign In
+              {t('auth.signIn')}
             </button>
             <button
               className={`flex-1 py-3 text-center font-medium transition-colors ${
@@ -347,7 +349,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
               }`}
               onClick={() => { setActivePage('register'); setLocalError(''); clearError(); }}
             >
-              Register
+              {t('auth.signUp')}
             </button>
           </div>
 
@@ -365,7 +367,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                     }`}
                     onClick={() => { setLoginMethod('credential'); setLocalError(''); }}
                   >
-                    Credential
+                    {t('auth.credential')}
                   </button>
                   <button
                     className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
@@ -375,7 +377,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                     }`}
                     onClick={() => { setLoginMethod('email'); setLocalError(''); }}
                   >
-                    Email
+                    {t('auth.email')}
                   </button>
                 </div>
 
@@ -383,13 +385,13 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                 {loginMethod === 'credential' && (
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="credentialNumber">Credential Number</Label>
+                      <Label htmlFor="credentialNumber">{t('auth.credentialNumber')}</Label>
                       <div className="relative">
                         <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         <Input
                           id="credentialNumber"
                           type="text"
-                          placeholder="Enter your credential number"
+                          placeholder={t('auth.enterCredential')}
                           value={credentialNumber}
                           onChange={(e) => setCredentialNumber(e.target.value)}
                           onKeyDown={(e) => e.key === 'Enter' && handleCredentialLogin()}
@@ -398,7 +400,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                         />
                       </div>
                       <p className="text-xs text-muted-foreground">
-                        Enter your credential number (e.g., lago2.1B for owner)
+                        {t('auth.ownerHint')}
                       </p>
                     </div>
 
@@ -419,7 +421,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                       ) : (
                         <ArrowRight className="h-5 w-5 mr-2" />
                       )}
-                      Sign In
+                      {t('auth.signIn')}
                     </Button>
                   </div>
                 )}
@@ -428,7 +430,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                 {loginMethod === 'email' && (
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="signInEmail">Email</Label>
+                      <Label htmlFor="signInEmail">{t('auth.email')}</Label>
                       <div className="relative">
                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         <Input
@@ -444,13 +446,13 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="signInPassword">Password</Label>
+                      <Label htmlFor="signInPassword">{t('auth.password')}</Label>
                       <div className="relative">
                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         <Input
                           id="signInPassword"
                           type="password"
-                          placeholder="Enter your password"
+                          placeholder={t('auth.enterPassword')}
                           value={signInPassword}
                           onChange={(e) => setSignInPassword(e.target.value)}
                           onKeyDown={(e) => e.key === 'Enter' && handleEmailLogin()}
@@ -459,7 +461,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                         />
                       </div>
                       <p className="text-xs text-muted-foreground">
-                        Owner: use your credential number as password
+                        {t('auth.useCredentialPassword')}
                       </p>
                     </div>
 
@@ -480,7 +482,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                       ) : (
                         <ArrowRight className="h-5 w-5 mr-2" />
                       )}
-                      Sign In
+                      {t('auth.signIn')}
                     </Button>
                   </div>
                 )}
@@ -490,7 +492,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                     <Separator className="w-full" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">or</span>
+                    <span className="bg-background px-2 text-muted-foreground">{t('auth.or')}</span>
                   </div>
                 </div>
 
@@ -507,7 +509,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                     <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                   </svg>
-                  Continue with Google
+                  {t('auth.continueWithGoogle')}
                 </Button>
               </div>
             )}
@@ -517,7 +519,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
               <div className="space-y-4">
                 {/* Email */}
                 <div className="space-y-2">
-                  <Label htmlFor="regEmail">Email *</Label>
+                  <Label htmlFor="regEmail">{t('auth.email')} *</Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
@@ -535,13 +537,13 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                 {/* Password */}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-2">
-                    <Label htmlFor="regPassword">Password *</Label>
+                    <Label htmlFor="regPassword">{t('auth.password')} *</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="regPassword"
                         type="password"
-                        placeholder="Min 6 chars"
+                        placeholder={t('auth.minChars')}
                         value={regPassword}
                         onChange={(e) => setRegPassword(e.target.value)}
                         className="pl-10 h-11"
@@ -550,11 +552,11 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="regConfirmPassword">Confirm *</Label>
+                    <Label htmlFor="regConfirmPassword">{t('auth.confirm')} *</Label>
                     <Input
                       id="regConfirmPassword"
                       type="password"
-                      placeholder="Confirm"
+                      placeholder={t('auth.confirm')}
                       value={regConfirmPassword}
                       onChange={(e) => setRegConfirmPassword(e.target.value)}
                       className="h-11"
@@ -566,7 +568,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                 {/* Name */}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-2">
-                    <Label htmlFor="regName">First Name *</Label>
+                    <Label htmlFor="regName">{t('auth.firstName')} *</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
@@ -581,7 +583,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="regSurname">Surname</Label>
+                    <Label htmlFor="regSurname">{t('auth.surname')}</Label>
                     <Input
                       id="regSurname"
                       type="text"
@@ -597,20 +599,20 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                 {/* Gender and Phone */}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-2">
-                    <Label htmlFor="regGender">Gender</Label>
+                    <Label htmlFor="regGender">{t('auth.gender')}</Label>
                     <Select value={regGender} onValueChange={setRegGender} disabled={isLoading}>
                       <SelectTrigger className="h-11">
-                        <SelectValue placeholder="Select" />
+                        <SelectValue placeholder={t('register.selectGender')} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
+                        <SelectItem value="male">{t('auth.male')}</SelectItem>
+                        <SelectItem value="female">{t('auth.female')}</SelectItem>
+                        <SelectItem value="other">{t('auth.other')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="regPhone">Phone</Label>
+                    <Label htmlFor="regPhone">{t('auth.phone')}</Label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
@@ -629,13 +631,13 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                 {/* Country and City */}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-2">
-                    <Label htmlFor="regCountry">Country</Label>
+                    <Label htmlFor="regCountry">{t('auth.country')}</Label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="regCountry"
                         type="text"
-                        placeholder="Cameroon"
+                        placeholder={t('country.cameroon')}
                         value={regCountry}
                         onChange={(e) => setRegCountry(e.target.value)}
                         className="pl-10 h-11"
@@ -644,7 +646,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="regCity">City</Label>
+                    <Label htmlFor="regCity">{t('auth.city')}</Label>
                     <Input
                       id="regCity"
                       type="text"
@@ -674,12 +676,11 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
                   ) : (
                     <UserCircle className="h-5 w-5 mr-2" />
                   )}
-                  Create Account
+                  {t('auth.createAccount')}
                 </Button>
 
                 <p className="text-xs text-center text-muted-foreground">
-                  By creating an account, you&apos;ll receive a credential number via email
-                  for future logins on any device.
+                  {t('auth.credentialInfo')}
                 </p>
               </div>
             )}
@@ -687,14 +688,14 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
             {/* Help Section */}
             <div className="text-center pt-4 border-t mt-4">
               <p className="text-sm text-muted-foreground mb-2">
-                Need help?
+                {t('auth.needHelp')}
               </p>
               <p className="text-xs text-muted-foreground">
-                Contact us at{' '}
+                {t('footer.needHelp')}{' '}
                 <a href="mailto:brank493@gmail.com" className="text-blue-600 hover:underline font-medium">
                   brank493@gmail.com
                 </a>{' '}
-                or call{' '}
+                {t('footer.orCall')}{' '}
                 <a href="tel:+237693401619" className="text-blue-600 hover:underline font-medium">
                   +237 693 401 619
                 </a>
@@ -706,7 +707,7 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
         {/* Footer */}
         <div className="text-center mt-6 text-sm text-muted-foreground">
           <p>
-            © {new Date().getFullYear()} WebFinder AI. All rights reserved.
+            © {new Date().getFullYear()} WebFinder AI. {t('footer.rights')}
           </p>
         </div>
       </div>

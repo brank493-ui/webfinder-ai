@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -86,6 +87,7 @@ function SimpleBarChart({ data, dataKey, color }: { data: AnalyticsData[], dataK
 }
 
 export function AnalyticsDashboard() {
+  const { t } = useLanguageStore();
   const [timeRange, setTimeRange] = useState('30d');
   const [loading, setLoading] = useState(false);
   const [analytics, setAnalytics] = useState(mockAnalytics);
@@ -117,10 +119,10 @@ export function AnalyticsDashboard() {
         <div>
           <h2 className="text-2xl font-bold flex items-center gap-2">
             <BarChart3 className="h-6 w-6 text-blue-600" />
-            Analytics Dashboard
+            {t('analytics.title')}
           </h2>
           <p className="text-muted-foreground">
-            Track performance across all your websites and campaigns
+            {t('analytics.subtitle')}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -130,10 +132,10 @@ export function AnalyticsDashboard() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="7d">Last 7 days</SelectItem>
-              <SelectItem value="30d">Last 30 days</SelectItem>
-              <SelectItem value="90d">Last 90 days</SelectItem>
-              <SelectItem value="1y">Last year</SelectItem>
+              <SelectItem value="7d">{t('analytics.last7days')}</SelectItem>
+              <SelectItem value="30d">{t('analytics.last30days')}</SelectItem>
+              <SelectItem value="90d">{t('analytics.last90days')}</SelectItem>
+              <SelectItem value="1y">{t('analytics.lastYear')}</SelectItem>
             </SelectContent>
           </Select>
           <Button variant="outline" size="sm" onClick={refreshData} disabled={loading}>
@@ -141,7 +143,7 @@ export function AnalyticsDashboard() {
           </Button>
           <Button variant="outline" size="sm">
             <Download className="h-4 w-4 mr-1" />
-            Export
+            {t('analytics.export')}
           </Button>
         </div>
       </div>
@@ -152,11 +154,11 @@ export function AnalyticsDashboard() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total Visitors</p>
+                <p className="text-sm text-muted-foreground">{t('analytics.totalVisitors')}</p>
                 <p className="text-2xl font-bold">{totalVisitors.toLocaleString()}</p>
                 <p className="text-xs text-green-600 flex items-center gap-1 mt-1">
                   <ArrowUpRight className="h-3 w-3" />
-                  {visitorGrowth}% from last month
+                  {visitorGrowth}% {t('analytics.fromLastMonth')}
                 </p>
               </div>
               <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900">
@@ -170,11 +172,11 @@ export function AnalyticsDashboard() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Page Views</p>
+                <p className="text-sm text-muted-foreground">{t('analytics.pageViews')}</p>
                 <p className="text-2xl font-bold">{totalPageViews.toLocaleString()}</p>
                 <p className="text-xs text-green-600 flex items-center gap-1 mt-1">
                   <ArrowUpRight className="h-3 w-3" />
-                  {pageViewGrowth}% from last month
+                  {pageViewGrowth}% {t('analytics.fromLastMonth')}
                 </p>
               </div>
               <div className="p-3 rounded-full bg-green-100 dark:bg-green-900">
@@ -188,11 +190,11 @@ export function AnalyticsDashboard() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Revenue</p>
+                <p className="text-sm text-muted-foreground">{t('analytics.revenue')}</p>
                 <p className="text-2xl font-bold">${totalRevenue.toLocaleString()}</p>
                 <p className="text-xs text-green-600 flex items-center gap-1 mt-1">
                   <ArrowUpRight className="h-3 w-3" />
-                  12.5% from last month
+                  12.5% {t('analytics.fromLastMonth')}
                 </p>
               </div>
               <div className="p-3 rounded-full bg-purple-100 dark:bg-purple-900">
@@ -206,10 +208,10 @@ export function AnalyticsDashboard() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Live Projects</p>
+                <p className="text-sm text-muted-foreground">{t('analytics.liveProjects')}</p>
                 <p className="text-2xl font-bold">{liveProjects}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {projects.filter(p => p.status === 'in_progress').length} in progress
+                  {projects.filter(p => p.status === 'in_progress').length} {t('analytics.inProgressCount')}
                 </p>
               </div>
               <div className="p-3 rounded-full bg-orange-100 dark:bg-orange-900">
@@ -227,14 +229,14 @@ export function AnalyticsDashboard() {
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Users className="h-5 w-5" />
-              Visitors Trend
+              {t('analytics.visitorsTrend')}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <SimpleBarChart data={analytics} dataKey="visitors" color="#3B82F6" />
             <div className="flex justify-between mt-4 text-sm text-muted-foreground">
-              <span>Avg: {(totalVisitors / analytics.length).toFixed(0)} visitors/month</span>
-              <span className="text-green-600">+{visitorGrowth}% growth</span>
+              <span>Avg: {(totalVisitors / analytics.length).toFixed(0)} {t('analytics.avgVisitorsMonth')}</span>
+              <span className="text-green-600">+{visitorGrowth}% {t('analytics.growth')}</span>
             </div>
           </CardContent>
         </Card>
@@ -244,14 +246,14 @@ export function AnalyticsDashboard() {
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Eye className="h-5 w-5" />
-              Page Views
+              {t('analytics.pageViews')}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <SimpleBarChart data={analytics} dataKey="pageViews" color="#10B981" />
             <div className="flex justify-between mt-4 text-sm text-muted-foreground">
-              <span>Avg: {(totalPageViews / analytics.length).toFixed(0)} views/month</span>
-              <span className="text-green-600">+{pageViewGrowth}% growth</span>
+              <span>Avg: {(totalPageViews / analytics.length).toFixed(0)} {t('analytics.views')}/month</span>
+              <span className="text-green-600">+{pageViewGrowth}% {t('analytics.growth')}</span>
             </div>
           </CardContent>
         </Card>
@@ -261,13 +263,13 @@ export function AnalyticsDashboard() {
       <div className="grid gap-6 md:grid-cols-3">
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Bounce Rate</CardTitle>
+            <CardTitle className="text-lg">{t('analytics.bounceRate')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{avgBounceRate.toFixed(1)}%</div>
             <p className="text-sm text-green-600 flex items-center gap-1 mt-1">
               <ArrowDownRight className="h-4 w-4" />
-              Decreasing (good)
+              {t('analytics.decreasing')}
             </p>
             <div className="mt-4 h-2 bg-muted rounded-full overflow-hidden">
               <div
@@ -280,7 +282,7 @@ export function AnalyticsDashboard() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Avg. Session Duration</CardTitle>
+            <CardTitle className="text-lg">{t('analytics.avgSessionDuration')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">
@@ -288,7 +290,7 @@ export function AnalyticsDashboard() {
             </div>
             <p className="text-sm text-green-600 flex items-center gap-1 mt-1">
               <ArrowUpRight className="h-4 w-4" />
-              Improving engagement
+              {t('analytics.improvingEngagement')}
             </p>
             <div className="mt-4 h-2 bg-muted rounded-full overflow-hidden">
               <div
@@ -301,13 +303,13 @@ export function AnalyticsDashboard() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Conversion Rate</CardTitle>
+            <CardTitle className="text-lg">{t('analytics.conversionRate')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">3.8%</div>
             <p className="text-sm text-green-600 flex items-center gap-1 mt-1">
               <ArrowUpRight className="h-4 w-4" />
-              Above industry avg
+              {t('analytics.aboveIndustryAvg')}
             </p>
             <div className="mt-4 h-2 bg-muted rounded-full overflow-hidden">
               <div
@@ -322,7 +324,7 @@ export function AnalyticsDashboard() {
       {/* Top Performing Projects */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Top Performing Projects</CardTitle>
+          <CardTitle className="text-lg">{t('analytics.topPerformingProjects')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -344,11 +346,11 @@ export function AnalyticsDashboard() {
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
                         <span>
                           <Eye className="h-3 w-3 inline mr-1" />
-                          {project.views.toLocaleString()} views
+                          {project.views.toLocaleString()} {t('analytics.views')}
                         </span>
                         <span>
                           <MousePointer className="h-3 w-3 inline mr-1" />
-                          {project.conversionRate}% conversion
+                          {project.conversionRate}% {t('analytics.conversion')}
                         </span>
                       </div>
                     </div>
@@ -358,7 +360,7 @@ export function AnalyticsDashboard() {
                       ${project.revenue}
                     </p>
                     <Badge variant="outline" className="text-xs">
-                      Live
+                      {t('analytics.live')}
                     </Badge>
                   </div>
                 </div>
@@ -370,16 +372,16 @@ export function AnalyticsDashboard() {
       {/* Traffic Sources */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Traffic Sources</CardTitle>
+          <CardTitle className="text-lg">{t('analytics.trafficSources')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {[
-              { source: 'Direct', percentage: 35, visitors: 4900 },
-              { source: 'Google Search', percentage: 28, visitors: 3920 },
-              { source: 'Email Campaigns', percentage: 18, visitors: 2520 },
-              { source: 'Social Media', percentage: 12, visitors: 1680 },
-              { source: 'Referrals', percentage: 7, visitors: 980 },
+              { source: t('analytics.direct'), percentage: 35, visitors: 4900 },
+              { source: t('analytics.googleSearch'), percentage: 28, visitors: 3920 },
+              { source: t('analytics.emailCampaigns'), percentage: 18, visitors: 2520 },
+              { source: t('analytics.socialMedia'), percentage: 12, visitors: 1680 },
+              { source: t('analytics.referrals'), percentage: 7, visitors: 980 },
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-4">
                 <span className="w-28 text-sm">{item.source}</span>

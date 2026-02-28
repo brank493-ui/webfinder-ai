@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -106,42 +107,42 @@ const initialBrief: BriefData = {
   hasImages: false,
 };
 
-const PAGE_OPTIONS = [
-  { id: 'home', label: 'Home', description: 'Main landing page' },
-  { id: 'about', label: 'About Us', description: 'Company story and team' },
-  { id: 'services', label: 'Services', description: 'Products or services offered' },
-  { id: 'products', label: 'Products/Shop', description: 'Product catalog or shop' },
-  { id: 'gallery', label: 'Gallery', description: 'Image/video gallery' },
-  { id: 'blog', label: 'Blog', description: 'News and articles' },
-  { id: 'contact', label: 'Contact', description: 'Contact form and details' },
-  { id: 'testimonials', label: 'Testimonials', description: 'Customer reviews' },
-  { id: 'faq', label: 'FAQ', description: 'Frequently asked questions' },
-  { id: 'booking', label: 'Booking', description: 'Appointment scheduling' },
-  { id: 'team', label: 'Team', description: 'Staff profiles' },
-  { id: 'pricing', label: 'Pricing', description: 'Price lists and plans' },
+const PAGE_OPTIONS = (t: (key: string) => string) => [
+  { id: 'home', label: t('brief.homePage'), description: t('brief.homePageDesc') },
+  { id: 'about', label: t('brief.aboutPage'), description: t('brief.aboutPageDesc') },
+  { id: 'services', label: t('brief.servicesPage'), description: t('brief.servicesPageDesc') },
+  { id: 'products', label: t('brief.productsPage'), description: t('brief.productsPageDesc') },
+  { id: 'gallery', label: t('brief.galleryPage'), description: t('brief.galleryPageDesc') },
+  { id: 'blog', label: t('brief.blogPage'), description: t('brief.blogPageDesc') },
+  { id: 'contact', label: t('brief.contactPage'), description: t('brief.contactPageDesc') },
+  { id: 'testimonials', label: t('brief.testimonialsPage'), description: t('brief.testimonialsPageDesc') },
+  { id: 'faq', label: t('brief.faqPage'), description: t('brief.faqPageDesc') },
+  { id: 'booking', label: t('brief.bookingPage'), description: t('brief.bookingPageDesc') },
+  { id: 'team', label: t('brief.teamPage'), description: t('brief.teamPageDesc') },
+  { id: 'pricing', label: t('brief.pricingPage'), description: t('brief.pricingPageDesc') },
 ];
 
-const FEATURE_OPTIONS = [
-  { id: 'contact-form', label: 'Contact Form', description: 'Simple contact form' },
-  { id: 'booking', label: 'Booking System', description: 'Appointment scheduling' },
-  { id: 'gallery', label: 'Photo Gallery', description: 'Image gallery with lightbox' },
-  { id: 'map', label: 'Location Map', description: 'Google Maps integration' },
-  { id: 'social', label: 'Social Media Links', description: 'Social media integration' },
-  { id: 'newsletter', label: 'Newsletter Signup', description: 'Email subscription' },
-  { id: 'testimonials', label: 'Testimonials Slider', description: 'Customer reviews carousel' },
-  { id: 'blog', label: 'Blog Section', description: 'News and articles' },
-  { id: 'ecommerce', label: 'E-commerce', description: 'Online shop functionality' },
-  { id: 'payment', label: 'Payment Integration', description: 'Accept online payments' },
-  { id: 'chat', label: 'Live Chat', description: 'WhatsApp or chat widget' },
-  { id: 'analytics', label: 'Analytics', description: 'Website statistics' },
+const FEATURE_OPTIONS = (t: (key: string) => string) => [
+  { id: 'contact-form', label: t('brief.contactForm'), description: t('brief.contactFormDesc') },
+  { id: 'booking', label: t('brief.bookingSystem'), description: t('brief.bookingSystemDesc') },
+  { id: 'gallery', label: t('brief.photoGallery'), description: t('brief.photoGalleryDesc') },
+  { id: 'map', label: t('brief.locationMap'), description: t('brief.locationMapDesc') },
+  { id: 'social', label: t('brief.socialMediaLinks'), description: t('brief.socialMediaLinksDesc') },
+  { id: 'newsletter', label: t('brief.newsletterSignup'), description: t('brief.newsletterSignupDesc') },
+  { id: 'testimonials', label: t('brief.testimonialsSlider'), description: t('brief.testimonialsSliderDesc') },
+  { id: 'blog', label: t('brief.blogSection'), description: t('brief.blogSectionDesc') },
+  { id: 'ecommerce', label: t('brief.ecommerceFeature'), description: t('brief.ecommerceFeatureDesc') },
+  { id: 'payment', label: t('brief.paymentIntegration'), description: t('brief.paymentIntegrationDesc') },
+  { id: 'chat', label: t('brief.liveChat'), description: t('brief.liveChatDesc') },
+  { id: 'analytics', label: t('brief.analyticsFeature'), description: t('brief.analyticsFeatureDesc') },
 ];
 
-const STYLE_OPTIONS = [
-  { id: 'modern', label: 'Modern & Clean', description: 'Minimalist, lots of white space' },
-  { id: 'classic', label: 'Classic & Professional', description: 'Traditional business style' },
-  { id: 'bold', label: 'Bold & Creative', description: 'Vibrant colors, unique layouts' },
-  { id: 'elegant', label: 'Elegant & Luxurious', description: 'Premium, sophisticated look' },
-  { id: 'playful', label: 'Playful & Fun', description: 'Colorful, animated elements' },
+const STYLE_OPTIONS = (t: (key: string) => string) => [
+  { id: 'modern', label: t('brief.modernClean'), description: t('brief.modernCleanDesc') },
+  { id: 'classic', label: t('brief.classicProfessional'), description: t('brief.classicProfessionalDesc') },
+  { id: 'bold', label: t('brief.boldCreative'), description: t('brief.boldCreativeDesc') },
+  { id: 'elegant', label: t('brief.elegantLuxurious'), description: t('brief.elegantLuxuriousDesc') },
+  { id: 'playful', label: t('brief.playfulFun'), description: t('brief.playfulFunDesc') },
 ];
 
 const INDUSTRY_OPTIONS = [
@@ -167,6 +168,7 @@ interface ClientBriefBuilderProps {
 }
 
 export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilderProps) {
+  const { t } = useLanguageStore();
   const [step, setStep] = useState(1);
   const [brief, setBrief] = useState<BriefData>({ ...initialBrief, ...initialData });
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -216,32 +218,32 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
             <div className="text-center mb-6">
               <h3 className="text-xl font-semibold flex items-center justify-center gap-2">
                 <FileText className="h-5 w-5 text-blue-600" />
-                Business Information
+                {t('brief.businessInfo')}
               </h3>
               <p className="text-muted-foreground text-sm mt-1">
-                Tell us about your business
+                {t('brief.businessInfoDesc')}
               </p>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="businessName">Business Name *</Label>
+                <Label htmlFor="businessName">{t('brief.businessName')} *</Label>
                 <Input
                   id="businessName"
-                  placeholder="Your business name"
+                  placeholder={t('brief.businessNamePlaceholder')}
                   value={brief.businessName}
                   onChange={(e) => updateBrief('businessName', e.target.value)}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="industry">Industry</Label>
+                <Label htmlFor="industry">{t('brief.industry')}</Label>
                 <Select
                   value={brief.industry}
                   onValueChange={(v) => updateBrief('industry', v)}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select your industry" />
+                    <SelectValue placeholder={t('brief.selectIndustry')} />
                   </SelectTrigger>
                   <SelectContent>
                     {INDUSTRY_OPTIONS.map((ind) => (
@@ -255,10 +257,10 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Business Description *</Label>
+              <Label htmlFor="description">{t('brief.description')} *</Label>
               <Textarea
                 id="description"
-                placeholder="Describe what your business does, your products/services..."
+                placeholder={t('brief.descriptionPlaceholder')}
                 rows={4}
                 value={brief.description}
                 onChange={(e) => updateBrief('description', e.target.value)}
@@ -267,20 +269,20 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
 
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="targetAudience">Target Audience</Label>
+                <Label htmlFor="targetAudience">{t('brief.targetAudience')}</Label>
                 <Input
                   id="targetAudience"
-                  placeholder="Who are your customers?"
+                  placeholder={t('brief.targetAudiencePlaceholder')}
                   value={brief.targetAudience}
                   onChange={(e) => updateBrief('targetAudience', e.target.value)}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="uniqueSelling">What makes you unique?</Label>
+                <Label htmlFor="uniqueSelling">{t('brief.uniqueSelling')}</Label>
                 <Input
                   id="uniqueSelling"
-                  placeholder="Your competitive advantage"
+                  placeholder={t('brief.uniqueSellingPlaceholder')}
                   value={brief.uniqueSelling}
                   onChange={(e) => updateBrief('uniqueSelling', e.target.value)}
                 />
@@ -290,43 +292,43 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
             <div className="border-t pt-6 mt-6">
               <h4 className="font-medium mb-4 flex items-center gap-2">
                 <Users className="h-4 w-4" />
-                Contact Information
+                {t('brief.contactInformation')}
               </h4>
 
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="contactName">Your Name *</Label>
+                  <Label htmlFor="contactName">{t('brief.yourName')} *</Label>
                   <Input
                     id="contactName"
-                    placeholder="Full name"
+                    placeholder={t('brief.fullName')}
                     value={brief.contactName}
                     onChange={(e) => updateBrief('contactName', e.target.value)}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email *</Label>
+                  <Label htmlFor="email">{t('brief.emailAddress')} *</Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="email@example.com"
+                    placeholder={t('brief.emailExample')}
                     value={brief.email}
                     onChange={(e) => updateBrief('email', e.target.value)}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Phone/WhatsApp</Label>
+                  <Label htmlFor="phone">{t('brief.phoneWhatsapp')}</Label>
                   <Input
                     id="phone"
-                    placeholder="+237 6XX XXX XXX"
+                    placeholder={t('brief.phonePlaceholder')}
                     value={brief.phone}
                     onChange={(e) => updateBrief('phone', e.target.value)}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="country">Country</Label>
+                  <Label htmlFor="country">{t('brief.countryLabel')}</Label>
                   <Input
                     id="country"
                     placeholder="Cameroon"
@@ -345,18 +347,18 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
             <div className="text-center mb-6">
               <h3 className="text-xl font-semibold flex items-center justify-center gap-2">
                 <Layout className="h-5 w-5 text-blue-600" />
-                Design & Pages
+                {t('brief.designPages')}
               </h3>
               <p className="text-muted-foreground text-sm mt-1">
-                Choose your website structure
+                {t('brief.chooseStructure')}
               </p>
             </div>
 
             {/* Style Selection */}
             <div className="space-y-3">
-              <Label>Design Style</Label>
+              <Label>{t('brief.designStyle')}</Label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {STYLE_OPTIONS.map((style) => (
+                {STYLE_OPTIONS(t).map((style) => (
                   <div
                     key={style.id}
                     className={`p-4 border rounded-lg cursor-pointer transition-all ${
@@ -376,7 +378,7 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
             {/* Color Selection */}
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <Label>Primary Color</Label>
+                <Label>{t('brief.primaryColor')}</Label>
                 <div className="flex gap-2">
                   <Input
                     type="color"
@@ -393,7 +395,7 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
               </div>
 
               <div className="space-y-2">
-                <Label>Secondary Color</Label>
+                <Label>{t('brief.secondaryColor')}</Label>
                 <div className="flex gap-2">
                   <Input
                     type="color"
@@ -412,9 +414,9 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
 
             {/* Pages Selection */}
             <div className="space-y-3">
-              <Label>Pages Needed *</Label>
+              <Label>{t('brief.pagesNeeded')} *</Label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                {PAGE_OPTIONS.map((page) => (
+                {PAGE_OPTIONS(t).map((page) => (
                   <div
                     key={page.id}
                     className={`p-3 border rounded-lg cursor-pointer transition-all ${
@@ -445,10 +447,10 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
 
             {/* Reference Websites */}
             <div className="space-y-2">
-              <Label htmlFor="referenceWebsites">Websites you like (for inspiration)</Label>
+              <Label htmlFor="referenceWebsites">{t('brief.referenceWebsites')}</Label>
               <Textarea
                 id="referenceWebsites"
-                placeholder="List any websites you like (e.g., competitor sites, designs you admire)"
+                placeholder={t('brief.referencePlaceholder')}
                 rows={2}
                 value={brief.referenceWebsites}
                 onChange={(e) => updateBrief('referenceWebsites', e.target.value)}
@@ -463,18 +465,18 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
             <div className="text-center mb-6">
               <h3 className="text-xl font-semibold flex items-center justify-center gap-2">
                 <Sparkles className="h-5 w-5 text-blue-600" />
-                Features & Functionality
+                {t('brief.featuresFunctionality')}
               </h3>
               <p className="text-muted-foreground text-sm mt-1">
-                Select features you need
+                {t('brief.selectFeatures')}
               </p>
             </div>
 
             {/* Features Selection */}
             <div className="space-y-3">
-              <Label>Main Features</Label>
+              <Label>{t('brief.mainFeatures')}</Label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                {FEATURE_OPTIONS.map((feature) => (
+                {FEATURE_OPTIONS(t).map((feature) => (
                   <div
                     key={feature.id}
                     className={`p-3 border rounded-lg cursor-pointer transition-all ${
@@ -508,10 +510,10 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
 
             {/* Special Features */}
             <div className="space-y-2">
-              <Label htmlFor="specialFeatures">Special Requirements</Label>
+              <Label htmlFor="specialFeatures">{t('brief.specialRequirements')}</Label>
               <Textarea
                 id="specialFeatures"
-                placeholder="Any special features or functionality you need..."
+                placeholder={t('brief.specialRequirementsPlaceholder')}
                 rows={3}
                 value={brief.specialFeatures}
                 onChange={(e) => updateBrief('specialFeatures', e.target.value)}
@@ -520,7 +522,7 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
 
             {/* Assets Checklist */}
             <div className="space-y-3">
-              <Label>What do you have ready?</Label>
+              <Label>{t('brief.assetsReady')}</Label>
               <div className="grid grid-cols-3 gap-3">
                 <div
                   className={`p-4 border rounded-lg cursor-pointer text-center transition-all ${
@@ -529,7 +531,7 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
                   onClick={() => updateBrief('hasLogo', !brief.hasLogo)}
                 >
                   <Image className="h-6 w-6 mx-auto mb-2" />
-                  <span className="text-sm font-medium">Logo</span>
+                  <span className="text-sm font-medium">{t('brief.logoReady')}</span>
                 </div>
                 <div
                   className={`p-4 border rounded-lg cursor-pointer text-center transition-all ${
@@ -538,7 +540,7 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
                   onClick={() => updateBrief('hasContent', !brief.hasContent)}
                 >
                   <FileText className="h-6 w-6 mx-auto mb-2" />
-                  <span className="text-sm font-medium">Content</span>
+                  <span className="text-sm font-medium">{t('brief.contentReady')}</span>
                 </div>
                 <div
                   className={`p-4 border rounded-lg cursor-pointer text-center transition-all ${
@@ -547,7 +549,7 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
                   onClick={() => updateBrief('hasImages', !brief.hasImages)}
                 >
                   <Image className="h-6 w-6 mx-auto mb-2" />
-                  <span className="text-sm font-medium">Images</span>
+                  <span className="text-sm font-medium">{t('brief.imagesReady')}</span>
                 </div>
               </div>
             </div>
@@ -560,16 +562,16 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
             <div className="text-center mb-6">
               <h3 className="text-xl font-semibold flex items-center justify-center gap-2">
                 <Clock className="h-5 w-5 text-blue-600" />
-                Timeline & Budget
+                {t('brief.timelineBudget')}
               </h3>
               <p className="text-muted-foreground text-sm mt-1">
-                Final details
+                {t('brief.finalDetails')}
               </p>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <Label>When do you need the website?</Label>
+                <Label>{t('brief.whenNeeded')}</Label>
                 <Select
                   value={brief.deadline}
                   onValueChange={(v) => updateBrief('deadline', v)}
@@ -578,17 +580,17 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
                     <SelectValue placeholder="Select timeline" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="asap">As soon as possible</SelectItem>
-                    <SelectItem value="1week">Within 1 week</SelectItem>
-                    <SelectItem value="2weeks">Within 2 weeks</SelectItem>
-                    <SelectItem value="1month">Within 1 month</SelectItem>
-                    <SelectItem value="flexible">No rush, flexible</SelectItem>
+                    <SelectItem value="asap">{t('brief.asap')}</SelectItem>
+                    <SelectItem value="1week">{t('brief.within1week')}</SelectItem>
+                    <SelectItem value="2weeks">{t('brief.within2weeks')}</SelectItem>
+                    <SelectItem value="1month">{t('brief.within1month')}</SelectItem>
+                    <SelectItem value="flexible">{t('brief.flexible')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
-                <Label>Budget Range</Label>
+                <Label>{t('brief.budgetRange')}</Label>
                 <Select
                   value={brief.budget}
                   onValueChange={(v) => updateBrief('budget', v)}
@@ -597,21 +599,21 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
                     <SelectValue placeholder="Select budget" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="small">Under $200</SelectItem>
-                    <SelectItem value="medium">$200 - $500</SelectItem>
-                    <SelectItem value="large">$500 - $1000</SelectItem>
-                    <SelectItem value="enterprise">$1000+</SelectItem>
-                    <SelectItem value="discuss">Let's discuss</SelectItem>
+                    <SelectItem value="small">{t('brief.under200')}</SelectItem>
+                    <SelectItem value="medium">{t('brief.budget200to500')}</SelectItem>
+                    <SelectItem value="large">{t('brief.budget500to1000')}</SelectItem>
+                    <SelectItem value="enterprise">{t('brief.budget1000plus')}</SelectItem>
+                    <SelectItem value="discuss">{t('brief.letsDiscuss')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="additionalNotes">Additional Notes</Label>
+              <Label htmlFor="additionalNotes">{t('brief.additionalNotes')}</Label>
               <Textarea
                 id="additionalNotes"
-                placeholder="Anything else you'd like us to know..."
+                placeholder={t('brief.additionalNotesPlaceholder')}
                 rows={4}
                 value={brief.additionalNotes}
                 onChange={(e) => updateBrief('additionalNotes', e.target.value)}
@@ -620,22 +622,22 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
 
             {/* Summary */}
             <div className="p-4 bg-muted rounded-lg">
-              <h4 className="font-medium mb-3">Brief Summary</h4>
+              <h4 className="font-medium mb-3">{t('brief.summary')}</h4>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Business:</span>
-                  <span className="font-medium">{brief.businessName || 'Not specified'}</span>
+                  <span className="text-muted-foreground">{t('brief.businessLabel')}</span>
+                  <span className="font-medium">{brief.businessName || t('brief.notSpecified')}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Pages:</span>
-                  <span className="font-medium">{brief.pagesNeeded.length} pages selected</span>
+                  <span className="text-muted-foreground">{t('brief.pagesLabel')}</span>
+                  <span className="font-medium">{brief.pagesNeeded.length} {t('brief.pagesSelected')}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Features:</span>
-                  <span className="font-medium">{brief.mainFeatures.length} features selected</span>
+                  <span className="text-muted-foreground">{t('brief.featuresLabel')}</span>
+                  <span className="font-medium">{brief.mainFeatures.length} {t('brief.featuresSelected')}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Style:</span>
+                  <span className="text-muted-foreground">{t('brief.styleLabel')}</span>
                   <span className="font-medium capitalize">{brief.style}</span>
                 </div>
               </div>
@@ -683,7 +685,7 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
             disabled={step === 1}
           >
             <ChevronLeft className="h-4 w-4 mr-1" />
-            Previous
+            {t('brief.previous')}
           </Button>
 
           {step < totalSteps ? (
@@ -691,7 +693,7 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
               onClick={() => setStep(step + 1)}
               disabled={!isStepValid()}
             >
-              Next
+              {t('brief.next')}
               <ChevronRight className="h-4 w-4 ml-1" />
             </Button>
           ) : (
@@ -701,7 +703,7 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
               ) : (
                 <CheckCircle className="h-4 w-4 mr-2" />
               )}
-              Submit Brief
+              {t('brief.submitBrief')}
             </Button>
           )}
         </div>
@@ -713,10 +715,9 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
               <div className="mx-auto mb-4">
                 <CheckCircle className="h-16 w-16 text-green-500" />
               </div>
-              <DialogTitle className="text-xl">Brief Submitted Successfully!</DialogTitle>
+              <DialogTitle className="text-xl">{t('brief.briefSubmitted')}</DialogTitle>
               <DialogDescription className="mt-4">
-                Thank you for your detailed brief. Our team will review your requirements
-                and get back to you within 24 hours.
+                {t('brief.briefSubmittedDesc')}
               </DialogDescription>
             </DialogHeader>
           </DialogContent>

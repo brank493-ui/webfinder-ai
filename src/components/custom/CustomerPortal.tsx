@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -127,6 +128,7 @@ const mockMessages: Message[] = [
 ];
 
 export function CustomerPortal() {
+  const { t } = useLanguageStore();
   const [project] = useState<ClientProject>(mockProject);
   const [updates] = useState<ProjectUpdate[]>(mockUpdates);
   const [messages, setMessages] = useState<Message[]>(mockMessages);
@@ -196,7 +198,7 @@ export function CustomerPortal() {
         <CardContent className="pt-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="font-semibold">Project Progress</h3>
+              <h3 className="font-semibold">{t('tracking.progress')}</h3>
               <p className="text-sm text-muted-foreground">
                 Estimated completion: {project.estimatedCompletion}
               </p>
@@ -237,10 +239,10 @@ export function CustomerPortal() {
       {/* Main Content Tabs */}
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="preview">Preview</TabsTrigger>
-          <TabsTrigger value="messages">Messages</TabsTrigger>
-          <TabsTrigger value="billing">Billing</TabsTrigger>
+          <TabsTrigger value="overview">{t('portal.myProjects')}</TabsTrigger>
+          <TabsTrigger value="preview">{t('editor.preview')}</TabsTrigger>
+          <TabsTrigger value="messages">{t('portal.messages')}</TabsTrigger>
+          <TabsTrigger value="billing">{t('portal.invoices')}</TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}
@@ -251,7 +253,7 @@ export function CustomerPortal() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Clock className="h-5 w-5" />
-                  Project Timeline
+                  {t('tracking.timeline')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
