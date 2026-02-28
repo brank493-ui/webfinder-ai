@@ -24,11 +24,13 @@ import { UserTrackingDashboard } from '@/components/custom/UserTrackingDashboard
 import { UserHomePage } from '@/components/custom/UserHomePage';
 import { UserGalleryPage } from '@/components/custom/UserGalleryPage';
 import { ClientOnboardingPage } from '@/components/custom/ClientOnboardingPage';
+import { AprilDashboard } from '@/components/custom/AprilDashboard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import {
   Globe,
+  Bot,
   LayoutDashboard,
   Briefcase,
   Globe2,
@@ -535,8 +537,9 @@ export default function Home() {
           <div className="border-b bg-background/95 backdrop-blur sticky top-16 z-40">
             <div className="container mx-auto px-4">
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="grid w-full grid-cols-6 h-12">
+                <TabsList className="grid w-full grid-cols-7 h-12">
                   <TabsTrigger value="discover" className="flex items-center gap-2"><Globe className="h-4 w-4" /><span className="hidden sm:inline">{t('nav.discover')}</span></TabsTrigger>
+                  <TabsTrigger value="april" className="flex items-center gap-2 text-purple-600 data-[state=active]:bg-purple-100"><Bot className="h-4 w-4" /><span className="hidden sm:inline">April</span></TabsTrigger>
                   <TabsTrigger value="workspaces" className="flex items-center gap-2"><Briefcase className="h-4 w-4" /><span className="hidden sm:inline">{t('nav.workspaces')}</span></TabsTrigger>
                   <TabsTrigger value="tools" className="flex items-center gap-2"><LayoutDashboard className="h-4 w-4" /><span className="hidden sm:inline">{t('nav.tools')}</span></TabsTrigger>
                   <TabsTrigger value="enterprise" className="flex items-center gap-2"><Building2 className="h-4 w-4" /><span className="hidden sm:inline">{t('nav.enterprise')}</span></TabsTrigger>
@@ -550,6 +553,7 @@ export default function Home() {
           {/* Tab Content */}
           <Tabs value={activeTab} className="w-full">
             <TabsContent value="discover" className="mt-0"><HeroSection /><BusinessList /><PricingSection /></TabsContent>
+            <TabsContent value="april" className="mt-0"><AprilDashboard /></TabsContent>
             <TabsContent value="workspaces" className="mt-6"><div className="container mx-auto px-4"><WorkspaceManager /></div></TabsContent>
             <TabsContent value="tools" className="mt-6">
               <div className="container mx-auto px-4">

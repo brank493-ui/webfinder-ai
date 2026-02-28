@@ -419,3 +419,99 @@ model WebsiteEditor {
 
   @@index([projectId])
 }
+
+// April AI Agent Models
+model AprilLead {
+  id              String   @id @default(cuid())
+  businessName    String
+  businessEmail   String?
+  businessPhone   String?
+  businessAddress String?
+  businessCategory String?
+  website         String?
+  source          String   @default("april_search") // 'april_search', 'manual', 'referral'
+  status          String   @default("new") // 'new', 'contacted', 'responded', 'qualified', 'converted', 'declined'
+  credentialNumber String? @unique // Assigned when they register
+  userId          String?  // Linked user after registration
+  
+  // Collected info
+  needsWebsite    Boolean?
+  budget          String?
+  timeline        String?
+  servicesNeeded  String?  // JSON array
+  notes           String?
+  
+  // April's assessment
+  priority        String   @default("medium") // 'high', 'medium', 'low'
+  aprilScore      Int?     // 0-100 lead quality score
+  aprilNotes      String?  // April's analysis
+  
+  conversations   AprilConversation[]
+  reports         AprilReport[]
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([status])
+  @@index([source])
+  @@index([priority])
+}
+
+model AprilConversation {
+  id              String   @id @default(cuid())
+  leadId          String
+  lead            AprilLead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  
+  // Message details
+  sender          String   // 'april', 'lead', 'owner'
+  message         String
+  messageType     String   @default("text") // 'text', 'form', 'link', 'report'
+  metadata        String?  // JSON for additional data (form responses, etc.)
+  
+  // Status
+  read            Boolean  @default(false)
+  readAt          DateTime?
+  
+  createdAt       DateTime @default(now())
+
+  @@index([leadId])
+  @@index([sender])
+  @@index([createdAt])
+}
+
+model AprilReport {
+  id              String   @id @default(cuid())
+  leadId          String
+  lead            AprilLead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  
+  reportType      String   // 'initial_contact', 'follow_up', 'qualification', 'final_summary'
+  content         String   // JSON or markdown report content
+  summary         String?  // Brief summary
+  recommendations String?  // April's recommendations
+  
+  // Metrics
+  responseTime    Int?     // Time to first response in hours
+  engagementScore Int?     // 0-100
+  
+  createdAt       DateTime @default(now())
+
+  @@index([leadId])
+  @@index([reportType])
+}
+
+model AprilTask {
+  id              String   @id @default(cuid())
+  taskType        String   // 'search_businesses', 'follow_up', 'send_report'
+  status          String   @default("pending") // 'pending', 'in_progress', 'completed', 'failed'
+  parameters      String?  // JSON parameters for the task
+  result          String?  // JSON result of the task
+  error           String?
+  scheduledFor    DateTime?
+  completedAt     DateTime?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([status])
+  @@index([taskType])
+}
