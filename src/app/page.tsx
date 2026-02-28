@@ -25,6 +25,8 @@ import { UserHomePage } from '@/components/custom/UserHomePage';
 import { UserGalleryPage } from '@/components/custom/UserGalleryPage';
 import { ClientOnboardingPage } from '@/components/custom/ClientOnboardingPage';
 import { AprilDashboard } from '@/components/custom/AprilDashboard';
+import { ActivityBoard } from '@/components/custom/ActivityBoard';
+import { AprilHelpButton } from '@/components/custom/AprilHelpButton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -405,6 +407,9 @@ export default function Home() {
               </p>
             </div>
           </footer>
+          
+          {/* April Help Button for Users */}
+          <AprilHelpButton />
         </div>
       );
     }
@@ -552,7 +557,7 @@ export default function Home() {
 
           {/* Tab Content */}
           <Tabs value={activeTab} className="w-full">
-            <TabsContent value="discover" className="mt-0"><HeroSection /><BusinessList /><PricingSection /></TabsContent>
+            <TabsContent value="discover" className="mt-0"><ActivityBoard /><HeroSection /><BusinessList /><PricingSection /></TabsContent>
             <TabsContent value="april" className="mt-0"><AprilDashboard /></TabsContent>
             <TabsContent value="workspaces" className="mt-6"><div className="container mx-auto px-4"><WorkspaceManager /></div></TabsContent>
             <TabsContent value="tools" className="mt-6">

@@ -57,9 +57,14 @@ export function PricingSection() {
               <div className="text-center mb-4 sm:mb-6">
                 <h3 className="text-xl sm:text-2xl font-bold mb-2">{pkg.name}</h3>
                 <p className="text-muted-foreground mb-3 sm:mb-4 text-sm sm:text-base">{pkg.description}</p>
-                <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-3xl sm:text-4xl font-bold">${pkg.price}</span>
-                  <span className="text-muted-foreground text-sm">{t('pricing.oneTime')}</span>
+                <div className="flex flex-col items-center gap-1">
+                  <div className="flex items-baseline justify-center gap-1">
+                    <span className="text-3xl sm:text-4xl font-bold">${pkg.price}</span>
+                    <span className="text-muted-foreground text-sm">{t('pricing.oneTime')}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                    <span className="font-medium text-green-600">≈ {pkg.priceCFA?.toLocaleString() || (pkg.price * 612).toLocaleString()} CFA</span>
+                  </div>
                 </div>
               </div>
 

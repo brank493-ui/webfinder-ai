@@ -4,17 +4,21 @@ export interface PricingPackage {
   id: string;
   name: string;
   price: number;
+  priceCFA: number;
   description: string;
   features: string[];
   highlighted?: boolean;
   badge?: string;
 }
 
+const USD_TO_CFA = 612; // Exchange rate
+
 export const PRICING_PACKAGES: PricingPackage[] = [
   {
     id: 'standard',
     name: 'Standard',
     price: 149,
+    priceCFA: 149 * USD_TO_CFA,
     description: 'Perfect for getting your business online',
     features: [
       'Up to 5 pages',
@@ -30,6 +34,7 @@ export const PRICING_PACKAGES: PricingPackage[] = [
     id: 'pro',
     name: 'Pro',
     price: 399,
+    priceCFA: 399 * USD_TO_CFA,
     description: 'Recommended for growing businesses',
     features: [
       'Up to 10 pages',
@@ -49,6 +54,7 @@ export const PRICING_PACKAGES: PricingPackage[] = [
     id: 'premium',
     name: 'Premium',
     price: 999,
+    priceCFA: 999 * USD_TO_CFA,
     description: 'Complete business solution with e-commerce',
     features: [
       'Unlimited pages',
