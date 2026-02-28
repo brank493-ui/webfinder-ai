@@ -557,7 +557,7 @@ export default function Home() {
 
           {/* Tab Content */}
           <Tabs value={activeTab} className="w-full">
-            <TabsContent value="discover" className="mt-0"><ActivityBoard /><HeroSection /><BusinessList /><PricingSection /></TabsContent>
+            <TabsContent value="discover" className="mt-0"><HeroSection /><BusinessList /><PricingSection /><ActivityBoard /></TabsContent>
             <TabsContent value="april" className="mt-0"><AprilDashboard /></TabsContent>
             <TabsContent value="workspaces" className="mt-6"><div className="container mx-auto px-4"><WorkspaceManager /></div></TabsContent>
             <TabsContent value="tools" className="mt-6">
