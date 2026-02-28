@@ -49,7 +49,7 @@ export function WebsiteBuilder({
   projectId,
   businessName,
   category,
-  package_,
+  package_: packageId,
   existingBrief,
 }: WebsiteBuilderProps) {
   const { t } = useLanguageStore();
@@ -69,9 +69,9 @@ export function WebsiteBuilder({
     notes: existingBrief?.notes || '',
   });
 
-  const package_ = PRICING_PACKAGES.find((p) => p.id === package_);
-  const isPremium = package_ === 'premium';
-  const isPro = package_ === 'pro';
+  const package_ = PRICING_PACKAGES.find((p) => p.id === packageId);
+  const isPremium = packageId === 'premium';
+  const isPro = packageId === 'pro';
 
   const generateWebsite = async () => {
     setGenerating(true);

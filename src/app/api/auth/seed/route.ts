@@ -23,9 +23,17 @@ export async function POST() {
           name: 'Fongang Lamago Brank',
           role: 'owner',
           provider: 'credential',
-          accessCode: 'lago2.1B',
           hasCompletedOnboarding: true,
           avatar: generateAvatarUrl('Fongang Lamago Brank', 'owner'),
+        },
+      });
+      
+      // Create access code for owner
+      await prisma.accessCode.create({
+        data: {
+          code: 'lago2.1B',
+          email: ownerEmail,
+          used: true,
         },
       });
     }
@@ -90,7 +98,6 @@ export async function POST() {
             name: testUser.name,
             role: 'user',
             provider: 'credential',
-            accessCode: testUser.accessCode,
             hasCompletedOnboarding: testUser.hasCompletedOnboarding,
             projectId: project.id,
             avatar: generateAvatarUrl(testUser.name, testUser.accessCode),

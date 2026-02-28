@@ -42,7 +42,7 @@ import {
   Loader2,
 } from 'lucide-react';
 
-interface BriefData {
+export interface BriefData {
   // Business Info
   businessName: string;
   businessType: string;

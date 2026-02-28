@@ -256,3 +256,27 @@ export interface AppState {
   setSelectedPackage: (pkg: 'standard' | 'pro' | 'premium' | null) => void;
   clearConversation: () => void;
 }
+
+// Business Categories for search
+export const BUSINESS_CATEGORIES = [
+  { id: 'all', label: 'All Categories' },
+  { id: 'restaurant', label: 'Restaurant' },
+  { id: 'retail', label: 'Retail' },
+  { id: 'health', label: 'Health' },
+  { id: 'beauty', label: 'Beauty' },
+  { id: 'auto', label: 'Auto' },
+  { id: 'service', label: 'Service' },
+  { id: 'professional', label: 'Professional' },
+  { id: 'technology', label: 'Technology' },
+  { id: 'education', label: 'Education' },
+  { id: 'entertainment', label: 'Entertainment' },
+] as const;
+
+// Radius options for search
+export const RADIUS_OPTIONS = [
+  { value: 1000, label: '1 km' },
+  { value: 5000, label: '5 km' },
+  { value: 10000, label: '10 km' },
+  { value: 25000, label: '25 km' },
+  { value: 50000, label: '50 km' },
+] as const;

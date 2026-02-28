@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { useAuthStore } from '@/store/useAuthStore';
+import { useAuthStore, type UserRole } from '@/store/useAuthStore';
 
 // Owner credentials
 const OWNER = {
@@ -18,7 +18,7 @@ export function useNextAuthSession() {
   useEffect(() => {
     // If NextAuth session exists but Zustand is not authenticated, sync them
     if (session?.user && status === 'authenticated' && !isAuthenticated) {
-      const user = session.user;
+      const user = session.user as typeof session.user & { id?: string; role?: string; provider?: string; credentialNumber?: string; hasCompletedOnboarding?: boolean; avatar?: string };
       const isOwner = user.email?.toLowerCase() === OWNER.email.toLowerCase();
 
       useAuthStore.setState({
@@ -26,11 +26,11 @@ export function useNextAuthSession() {
           id: user.id || `google-${Date.now()}`,
           email: user.email || '',
           name: user.name || user.email?.split('@')[0] || 'User',
-          role: (user as any).role || (isOwner ? 'owner' : 'user'),
-          provider: (user as any).provider || 'google',
-          credentialNumber: (user as any).credentialNumber,
-          hasCompletedOnboarding: (user as any).hasCompletedOnboarding ?? (isOwner ? true : false),
-          avatar: (user as any).avatar || user.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`,
+          role: (user.role || (isOwner ? 'owner' : 'user')) as UserRole,
+          provider: (user.provider || 'google') as 'email' | 'google' | 'credential',
+          credentialNumber: user.credentialNumber,
+          hasCompletedOnboarding: user.hasCompletedOnboarding ?? (isOwner ? true : false),
+          avatar: user.avatar || user.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.email}`,
         },
         isAuthenticated: true,
       });

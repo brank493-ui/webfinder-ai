@@ -3,7 +3,7 @@ import { db } from '@/lib/db';
 import type { Business, GooglePlaceResult } from '@/types';
 
 // Mock data for testing without Google API key
-const MOCK_BUSINESSES: Business[] = [
+const MOCK_BUSINESSES = [
   {
     id: 'mock-1',
     placeId: 'ChIJmock1',
@@ -16,7 +16,7 @@ const MOCK_BUSINESSES: Business[] = [
     latitude: 40.7128,
     longitude: -74.006,
     hasWebsite: false,
-    websiteStatus: 'no_website',
+    websiteStatus: 'no_website' as const,
   },
   {
     id: 'mock-2',
@@ -30,7 +30,7 @@ const MOCK_BUSINESSES: Business[] = [
     latitude: 40.6892,
     longitude: -73.9857,
     hasWebsite: false,
-    websiteStatus: 'no_website',
+    websiteStatus: 'no_website' as const,
   },
   {
     id: 'mock-3',
@@ -45,7 +45,7 @@ const MOCK_BUSINESSES: Business[] = [
     latitude: 40.7484,
     longitude: -73.9857,
     hasWebsite: false,
-    websiteStatus: 'social_media',
+    websiteStatus: 'social_media' as const,
   },
   {
     id: 'mock-4',
@@ -59,12 +59,12 @@ const MOCK_BUSINESSES: Business[] = [
     latitude: 40.7282,
     longitude: -73.8317,
     hasWebsite: false,
-    websiteStatus: 'no_website',
+    websiteStatus: 'no_website' as const,
   },
   {
     id: 'mock-5',
     placeId: 'ChIJmock5',
-    name: 'Mario\'s Pizzeria',
+    name: "Mario's Pizzeria",
     address: '555 Pizza Lane, Bronx, NY 10451',
     phone: '+1 718-555-0505',
     category: 'Restaurant',
@@ -73,7 +73,7 @@ const MOCK_BUSINESSES: Business[] = [
     latitude: 40.8176,
     longitude: -73.9217,
     hasWebsite: false,
-    websiteStatus: 'no_website',
+    websiteStatus: 'no_website' as const,
   },
   {
     id: 'mock-6',
@@ -88,7 +88,7 @@ const MOCK_BUSINESSES: Business[] = [
     latitude: 40.7157,
     longitude: -73.9876,
     hasWebsite: true,
-    websiteStatus: 'active',
+    websiteStatus: 'active' as const,
   },
   {
     id: 'mock-7',
@@ -102,7 +102,7 @@ const MOCK_BUSINESSES: Business[] = [
     latitude: 40.6275,
     longitude: -74.0761,
     hasWebsite: false,
-    websiteStatus: 'no_website',
+    websiteStatus: 'no_website' as const,
   },
   {
     id: 'mock-8',
@@ -116,7 +116,7 @@ const MOCK_BUSINESSES: Business[] = [
     latitude: 40.671,
     longitude: -73.9837,
     hasWebsite: false,
-    websiteStatus: 'no_website',
+    websiteStatus: 'no_website' as const,
   },
   {
     id: 'mock-9',
@@ -130,7 +130,7 @@ const MOCK_BUSINESSES: Business[] = [
     latitude: 40.7089,
     longitude: -73.8029,
     hasWebsite: false,
-    websiteStatus: 'no_website',
+    websiteStatus: 'no_website' as const,
   },
   {
     id: 'mock-10',
@@ -144,7 +144,7 @@ const MOCK_BUSINESSES: Business[] = [
     latitude: 40.7411,
     longitude: -73.9947,
     hasWebsite: false,
-    websiteStatus: 'no_website',
+    websiteStatus: 'no_website' as const,
   },
 ];
 

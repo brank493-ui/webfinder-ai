@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     const accessCode = searchParams.get('accessCode');
 
     // Find user by various criteria
-    let user = null;
+    let user: Awaited<ReturnType<typeof prisma.user.findUnique>> = null;
 
     if (userId) {
       user = await prisma.user.findUnique({
@@ -21,9 +21,15 @@ export async function GET(request: NextRequest) {
         where: { email },
       });
     } else if (accessCode) {
-      user = await prisma.user.findFirst({
-        where: { accessCode },
+      // Find user by access code
+      const accessCodeRecord = await prisma.accessCode.findUnique({
+        where: { code: accessCode },
       });
+      if (accessCodeRecord?.usedBy) {
+        user = await prisma.user.findUnique({
+          where: { id: accessCodeRecord.usedBy },
+        });
+      }
     }
 
     if (!user) {
@@ -204,7 +210,7 @@ function generateTimeline(status: string, createdAt: Date, updatedAt: Date) {
 
 // Generate updates from messages and milestones
 function generateUpdates(project: { id: string; status: string; createdAt: Date; updatedAt: Date; business?: { name: string | null } | null }, messages: { id: string; createdAt: Date; content: string; isFromAdmin: boolean }[]) {
-  const updates = [];
+  const updates: { id: string; date: string; title: string; description: string; type: string }[] = [];
 
   // Add project creation milestone
   updates.push({

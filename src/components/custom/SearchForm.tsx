@@ -85,7 +85,7 @@ export function SearchForm() {
               <SelectContent>
                 <SelectItem value="all">{t('category.all')}</SelectItem>
                 {BUSINESS_CATEGORIES.map((cat) => (
-                  <SelectItem key={cat.value} value={cat.value}>
+                  <SelectItem key={cat.id} value={cat.id}>
                     {cat.label}
                   </SelectItem>
                 ))}

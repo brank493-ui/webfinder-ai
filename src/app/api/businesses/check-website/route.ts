@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     const { businessId, url } = body;
 
     let targetUrl = url;
-    let business = null;
+    let business: Awaited<ReturnType<typeof db.business.findUnique>> = null;
 
     // If businessId is provided, get the business from database
     if (businessId) {

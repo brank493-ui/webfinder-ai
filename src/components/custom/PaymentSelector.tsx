@@ -38,7 +38,7 @@ interface PaymentSelectorProps {
   onPaymentInitiated: (paymentData: PaymentData) => void;
 }
 
-interface PaymentData {
+export interface PaymentData {
   method: 'bank' | 'mtn' | 'orange' | 'wave' | 'visa' | 'mastercard' | 'paypal';
   amount: number;
   currency: string;

@@ -287,7 +287,7 @@ export function UserTrackingDashboard({ onEditOnboarding }: UserTrackingDashboar
                         <Zap className="h-3 w-3 mr-1" />
                         Google
                       </>
-                    ) : user?.provider === 'code' ? (
+                    ) : user?.provider === 'credential' ? (
                       <>
                         <FileText className="h-3 w-3 mr-1" />
                         Access Code

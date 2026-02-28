@@ -20,14 +20,14 @@ import {
   Globe,
 } from 'lucide-react';
 import { PackageShowcase } from '@/components/custom/PackageShowcase';
-import { ClientBriefBuilder } from '@/components/custom/ClientBriefBuilder';
-import { PaymentSelector } from '@/components/custom/PaymentSelector';
+import { ClientBriefBuilder, type BriefData } from '@/components/custom/ClientBriefBuilder';
+import { PaymentSelector, type PaymentData } from '@/components/custom/PaymentSelector';
 import { COMPANY_INFO } from '@/lib/company';
 
 interface OnboardingData {
   package: string | null;
-  brief: Record<string, unknown> | null;
-  payment: Record<string, unknown> | null;
+  brief: BriefData | null;
+  payment: PaymentData | null;
 }
 
 const PACKAGE_PRICES: Record<string, number> = {
@@ -71,12 +71,12 @@ export function ClientOnboardingPage({
     setData((prev) => ({ ...prev, package: pkg }));
   };
 
-  const handleBriefSubmit = (brief: Record<string, unknown>) => {
+  const handleBriefSubmit = (brief: BriefData) => {
     setData((prev) => ({ ...prev, brief }));
     setStep(3); // Move to payment
   };
 
-  const handlePaymentComplete = (payment: Record<string, unknown>) => {
+  const handlePaymentComplete = (payment: PaymentData) => {
     setData((prev) => ({ ...prev, payment }));
     setSubmitted(true);
     onComplete?.(data);

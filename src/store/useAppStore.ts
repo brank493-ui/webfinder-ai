@@ -38,7 +38,7 @@ export const useAppStore = create<AppState>((set) => ({
 
   setIsAiTyping: (isTyping: boolean) => set({ isAiTyping: isTyping }),
 
-  setSelectedPackage: (pkg: 'standard' | 'pro' | null) =>
+  setSelectedPackage: (pkg: 'standard' | 'pro' | 'premium' | null) =>
     set({ selectedPackage: pkg }),
 
   clearConversation: () =>

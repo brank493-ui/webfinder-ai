@@ -216,6 +216,14 @@ export const authOptions: NextAuthOptions = {
         const normalizedEmail = user.email.toLowerCase();
         const isOwner = normalizedEmail === OWNER_CREDENTIALS.email;
 
+        // Extend user type with our custom properties
+        const extendedUser = user as typeof user & {
+          role?: string;
+          provider?: string;
+          credentialNumber?: string;
+          hasCompletedOnboarding?: boolean;
+        };
+
         let existingUser = await prisma.user.findUnique({
           where: { email: normalizedEmail },
         });
@@ -234,11 +242,11 @@ export const authOptions: NextAuthOptions = {
           });
 
           // Attach database fields to user object
-          user.id = existingUser.id;
-          user.role = existingUser.role;
-          user.provider = 'google';
-          user.credentialNumber = existingUser.credentialNumber;
-          user.hasCompletedOnboarding = existingUser.hasCompletedOnboarding;
+          extendedUser.id = existingUser.id;
+          extendedUser.role = existingUser.role;
+          extendedUser.provider = 'google';
+          extendedUser.credentialNumber = existingUser.credentialNumber ?? undefined;
+          extendedUser.hasCompletedOnboarding = existingUser.hasCompletedOnboarding;
         } else {
           // Create new user
           let credentialNumber = generateCredentialNumber();
@@ -265,11 +273,11 @@ export const authOptions: NextAuthOptions = {
             },
           });
 
-          user.id = newUser.id;
-          user.role = newUser.role;
-          user.provider = 'google';
-          user.credentialNumber = newUser.credentialNumber;
-          user.hasCompletedOnboarding = newUser.hasCompletedOnboarding;
+          extendedUser.id = newUser.id;
+          extendedUser.role = newUser.role;
+          extendedUser.provider = 'google';
+          extendedUser.credentialNumber = newUser.credentialNumber ?? undefined;
+          extendedUser.hasCompletedOnboarding = newUser.hasCompletedOnboarding;
         }
       }
       return true;
@@ -296,7 +304,8 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token) {
-        session.user = {
+        // Extend session user with custom properties
+        (session.user as any) = {
           ...session.user,
           id: token.id as string,
           email: token.email as string,
