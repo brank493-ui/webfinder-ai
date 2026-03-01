@@ -21,8 +21,14 @@ export const metadata: Metadata = {
   keywords: ["WebFinder", "AI", "Business Discovery", "Website Development", "Local SEO", "Small Business"],
   authors: [{ name: "WebFinder Team" }],
   icons: {
-    icon: "/favicon.ico",
-    apple: "/favicon.ico",
+    icon: [
+      { url: "/favicon.png", type: "image/png", sizes: "1024x1024" },
+      { url: "/webfinder-logo-new.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [
+      { url: "/favicon.png", type: "image/png", sizes: "1024x1024" },
+    ],
+    shortcut: "/favicon.png",
   },
   openGraph: {
     title: "WebFinder - Business Discovery Platform",
