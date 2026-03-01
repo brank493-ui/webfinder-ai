@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Check, Sparkles, Crown, Zap } from 'lucide-react';
@@ -9,7 +10,7 @@ import { useLanguageStore } from '@/store/useLanguageStore';
 export function PricingSection() {
   const { t } = useLanguageStore();
 
-  const handlePackageSelect = (packageId: string) => {
+  const handlePackageSelect = useCallback((packageId: string) => {
     // Scroll to contact section
     const contactSection = document.getElementById('contact-footer') || document.getElementById('contact');
     if (contactSection) {
@@ -17,9 +18,9 @@ export function PricingSection() {
     } else {
       // Fallback to email
       const subject = encodeURIComponent(`Website Package Inquiry - ${packageId.charAt(0).toUpperCase() + packageId.slice(1)} Package`);
-      window.location.href = `mailto:brank493@gmail.com?subject=${subject}`;
+      window.open(`mailto:brank493@gmail.com?subject=${subject}`, '_self');
     }
-  };
+  }, []);
 
   return (
     <section id="pricing" className="py-12 sm:py-20 px-4 bg-gradient-to-b from-background to-muted/30">

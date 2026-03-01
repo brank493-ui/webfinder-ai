@@ -21,7 +21,8 @@ export const metadata: Metadata = {
   keywords: ["WebFinder", "AI", "Business Discovery", "Website Development", "Local SEO", "Small Business"],
   authors: [{ name: "WebFinder Team" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/favicon.ico",
+    apple: "/favicon.ico",
   },
   openGraph: {
     title: "WebFinder - Business Discovery Platform",
@@ -29,6 +30,14 @@ export const metadata: Metadata = {
     url: "https://webfinder.ai",
     siteName: "WebFinder",
     type: "website",
+    images: [
+      {
+        url: "/webfinder-logo-new.png",
+        width: 1200,
+        height: 630,
+        alt: "WebFinder AI - Business Discovery Platform",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

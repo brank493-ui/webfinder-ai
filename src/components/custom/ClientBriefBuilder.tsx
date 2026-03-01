@@ -29,7 +29,7 @@ import {
   Layout,
   Globe,
   FileText,
-  Image,
+  Image as ImageIcon,
   Clock,
   Users,
   Mail,
@@ -1964,7 +1964,7 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
           <div className="space-y-6">
             <div className="text-center mb-6">
               <h3 className="text-xl font-semibold flex items-center justify-center gap-2">
-                <Image className="h-5 w-5 text-blue-600" />
+                <ImageIcon className="h-5 w-5 text-blue-600" />
                 Brand Assets
               </h3>
               <p className="text-muted-foreground text-sm mt-1">
