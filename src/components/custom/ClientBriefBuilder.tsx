@@ -53,7 +53,7 @@ import {
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-interface BriefData {
+export interface BriefData {
   // Business Information
   businessName: string;
   legalBusinessName: string;
