@@ -580,7 +580,7 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
     { num: 3, label: 'Features', icon: Sparkles },
     { num: 4, label: 'Technical', icon: Server },
     { num: 5, label: 'SEO & Marketing', icon: Search },
-    { num: 6, label: 'Brand Assets', icon: Image },
+    { num: 6, label: 'Brand Assets', icon: ImageIcon },
     { num: 7, label: 'Competitors', icon: Target },
     { num: 8, label: 'Timeline & Budget', icon: Calendar },
   ];
