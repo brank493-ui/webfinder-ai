@@ -256,7 +256,7 @@ export function WorkspaceManager() {
                   <div>
                     <CardTitle className="text-lg">{workspace.business.name}</CardTitle>
                     <p className="text-sm text-muted-foreground">
-                      {workspace.business.category || 'Business'}
+                      {workspace.business.category || t('category.business')}
                     </p>
                   </div>
                   <Badge
@@ -303,23 +303,23 @@ export function WorkspaceManager() {
           {selectedWorkspace && (
             <Tabs defaultValue="overview" className="w-full">
               <TabsList className="grid grid-cols-4">
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="brief">Brief</TabsTrigger>
-                <TabsTrigger value="build">Build</TabsTrigger>
-                <TabsTrigger value="messages">Messages</TabsTrigger>
+                <TabsTrigger value="overview">{t('workspace.tabOverview')}</TabsTrigger>
+                <TabsTrigger value="brief">{t('workspace.tabBrief')}</TabsTrigger>
+                <TabsTrigger value="build">{t('workspace.tabBuild')}</TabsTrigger>
+                <TabsTrigger value="messages">{t('workspace.tabMessages')}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="overview" className="space-y-4 mt-4">
                 <div className="grid grid-cols-2 gap-4">
                   <Card>
                     <CardContent className="pt-4">
-                      <p className="text-sm text-muted-foreground">Status</p>
+                      <p className="text-sm text-muted-foreground">{t('workspace.statusLabel')}</p>
                       <div className="mt-1">{getStatusBadge(selectedWorkspace.status)}</div>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardContent className="pt-4">
-                      <p className="text-sm text-muted-foreground">Payment</p>
+                      <p className="text-sm text-muted-foreground">{t('workspace.paymentLabel')}</p>
                       <div className="mt-1">
                         {getPaymentBadge(selectedWorkspace.paymentStatus)}
                       </div>
@@ -329,23 +329,23 @@ export function WorkspaceManager() {
 
                 <Card>
                   <CardContent className="pt-4">
-                    <h4 className="font-medium mb-2">Business Details</h4>
+                    <h4 className="font-medium mb-2">{t('workspace.businessDetails')}</h4>
                     <div className="space-y-1 text-sm">
                       <p>
-                        <span className="text-muted-foreground">Category:</span>{' '}
-                        {selectedWorkspace.business.category || 'N/A'}
+                        <span className="text-muted-foreground">{t('workspace.categoryLabel')}</span>{' '}
+                        {selectedWorkspace.business.category || t('workspace.notAvailable')}
                       </p>
                       <p>
-                        <span className="text-muted-foreground">Email:</span>{' '}
-                        {selectedWorkspace.business.email || 'N/A'}
+                        <span className="text-muted-foreground">{t('workspace.emailLabel')}</span>{' '}
+                        {selectedWorkspace.business.email || t('workspace.notAvailable')}
                       </p>
                       <p>
-                        <span className="text-muted-foreground">Phone:</span>{' '}
-                        {selectedWorkspace.business.phone || 'N/A'}
+                        <span className="text-muted-foreground">{t('workspace.phoneLabel')}</span>{' '}
+                        {selectedWorkspace.business.phone || t('workspace.notAvailable')}
                       </p>
                       <p>
-                        <span className="text-muted-foreground">Address:</span>{' '}
-                        {selectedWorkspace.business.address || 'N/A'}
+                        <span className="text-muted-foreground">{t('workspace.addressLabel')}</span>{' '}
+                        {selectedWorkspace.business.address || t('workspace.notAvailable')}
                       </p>
                     </div>
                   </CardContent>
@@ -358,14 +358,14 @@ export function WorkspaceManager() {
                     variant="outline"
                   >
                     <Settings className="h-4 w-4 mr-2" />
-                    Start Development
+                    {t('workspace.startDevelopment')}
                   </Button>
                   <Button
                     onClick={() => updateStatus('completed')}
                     disabled={selectedWorkspace.status === 'completed' || updating}
                   >
                     <CheckCircle className="h-4 w-4 mr-2" />
-                    Mark Complete
+                    {t('workspace.markComplete')}
                   </Button>
                 </div>
               </TabsContent>
@@ -373,19 +373,19 @@ export function WorkspaceManager() {
               <TabsContent value="brief" className="space-y-4 mt-4">
                 <div className="grid gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="services">Services / Products</Label>
+                    <Label htmlFor="services">{t('workspace.servicesLabel')}</Label>
                     <Textarea
                       id="services"
                       value={briefForm.services}
                       onChange={(e) =>
                         setBriefForm({ ...briefForm, services: e.target.value })
                       }
-                      placeholder="What services does the business offer?"
+                      placeholder={t('workspace.servicesPlaceholder')}
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Design Style</Label>
+                    <Label>{t('workspace.designStyle')}</Label>
                     <Select
                       value={briefForm.style}
                       onValueChange={(v) => setBriefForm({ ...briefForm, style: v })}
@@ -394,17 +394,17 @@ export function WorkspaceManager() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="modern">Modern</SelectItem>
-                        <SelectItem value="classic">Classic</SelectItem>
-                        <SelectItem value="minimalist">Minimalist</SelectItem>
-                        <SelectItem value="bold">Bold</SelectItem>
-                        <SelectItem value="playful">Playful</SelectItem>
+                        <SelectItem value="modern">{t('workspace.styleModern')}</SelectItem>
+                        <SelectItem value="classic">{t('workspace.styleClassic')}</SelectItem>
+                        <SelectItem value="minimalist">{t('workspace.styleMinimalist')}</SelectItem>
+                        <SelectItem value="bold">{t('workspace.styleBold')}</SelectItem>
+                        <SelectItem value="playful">{t('workspace.stylePlayful')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="colors">Brand Colors (comma-separated)</Label>
+                    <Label htmlFor="colors">{t('workspace.brandColors')}</Label>
                     <Input
                       id="colors"
                       value={briefForm.colors}
@@ -416,7 +416,7 @@ export function WorkspaceManager() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="features">Required Features</Label>
+                    <Label htmlFor="features">{t('workspace.requiredFeatures')}</Label>
                     <Textarea
                       id="features"
                       value={briefForm.features}
@@ -428,7 +428,7 @@ export function WorkspaceManager() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="pages">Pages Needed</Label>
+                    <Label htmlFor="pages">{t('workspace.pagesNeeded')}</Label>
                     <Input
                       id="pages"
                       value={briefForm.pages}
@@ -440,7 +440,7 @@ export function WorkspaceManager() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="domain">Preferred Domain</Label>
+                    <Label htmlFor="domain">{t('workspace.preferredDomain')}</Label>
                     <Input
                       id="domain"
                       value={briefForm.domain}
@@ -452,7 +452,7 @@ export function WorkspaceManager() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="notes">Additional Notes</Label>
+                    <Label htmlFor="notes">{t('workspace.additionalNotes')}</Label>
                     <Textarea
                       id="notes"
                       value={briefForm.notes}
@@ -469,7 +469,7 @@ export function WorkspaceManager() {
                     ) : (
                       <FileText className="h-4 w-4 mr-2" />
                     )}
-                    Save Brief
+                    {t('workspace.saveBrief')}
                   </Button>
                 </div>
               </TabsContent>
@@ -478,22 +478,22 @@ export function WorkspaceManager() {
                 <Card>
                   <CardContent className="pt-4">
                     <div className="flex items-center justify-between mb-4">
-                      <h4 className="font-medium">Website Builder</h4>
+                      <h4 className="font-medium">{t('workspace.websiteBuilder')}</h4>
                       <Badge variant="outline">
-                        {selectedWorkspace.package} package
+                        {selectedWorkspace.package} {t('workspace.packageLabel').toLowerCase()}
                       </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground mb-4">
-                      Generate and customize the website using AI assistance.
+                      {t('workspace.builderDesc')}
                     </p>
                     <div className="flex gap-2">
                       <Button>
                         <Palette className="h-4 w-4 mr-2" />
-                        Generate with AI
+                        {t('workspace.generateAI')}
                       </Button>
                       <Button variant="outline">
                         <ExternalLink className="h-4 w-4 mr-2" />
-                        Preview
+                        {t('common.preview')}
                       </Button>
                     </div>
                   </CardContent>
@@ -505,13 +505,13 @@ export function WorkspaceManager() {
                   <CardContent className="pt-4">
                     <div className="flex items-center gap-2 mb-4">
                       <MessageSquare className="h-5 w-5" />
-                      <h4 className="font-medium">Client Communication</h4>
+                      <h4 className="font-medium">{t('workspace.clientCommunication')}</h4>
                     </div>
                     <div className="space-y-4">
-                      <Textarea placeholder="Type a message to the client..." />
+                      <Textarea placeholder={t('workspace.messagePlaceholder')} />
                       <Button>
                         <Send className="h-4 w-4 mr-2" />
-                        Send Message
+                        {t('workspace.sendMessage')}
                       </Button>
                     </div>
                   </CardContent>

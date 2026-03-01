@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguageStore } from '@/store/useLanguageStore';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -509,6 +510,7 @@ interface ClientBriefBuilderProps {
 }
 
 export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilderProps) {
+  const { t } = useLanguageStore();
   const [step, setStep] = useState(1);
   const [brief, setBrief] = useState<BriefData>({ ...initialBrief, ...initialData });
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -575,14 +577,14 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
   };
 
   const stepLabels = [
-    { num: 1, label: 'Business Info', icon: Building },
-    { num: 2, label: 'Design & Pages', icon: Palette },
-    { num: 3, label: 'Features', icon: Sparkles },
-    { num: 4, label: 'Technical', icon: Server },
-    { num: 5, label: 'SEO & Marketing', icon: Search },
-    { num: 6, label: 'Brand Assets', icon: ImageIcon },
-    { num: 7, label: 'Competitors', icon: Target },
-    { num: 8, label: 'Timeline & Budget', icon: Calendar },
+    { num: 1, label: t('brief.businessInfo'), icon: Building },
+    { num: 2, label: t('brief.designPages'), icon: Palette },
+    { num: 3, label: t('brief.featuresFunctionality'), icon: Sparkles },
+    { num: 4, label: t('brief.technicalSection'), icon: Server },
+    { num: 5, label: t('brief.seoSection'), icon: Search },
+    { num: 6, label: t('brief.brandSection'), icon: ImageIcon },
+    { num: 7, label: t('brief.competitors') || 'Competitors', icon: Target },
+    { num: 8, label: t('brief.timelineSection'), icon: Calendar },
   ];
 
   const renderStep = () => {
@@ -593,16 +595,16 @@ export function ClientBriefBuilder({ onSubmit, initialData }: ClientBriefBuilder
             <div className="text-center mb-6">
               <h3 className="text-xl font-semibold flex items-center justify-center gap-2">
                 <Building className="h-5 w-5 text-blue-600" />
-                Business Information
+                {t('brief.businessInfo')}
               </h3>
               <p className="text-muted-foreground text-sm mt-1">
-                Tell us about your business in detail
+                {t('brief.tellUs')}
               </p>
             </div>
 
             {/* Basic Business Info */}
             <div className="space-y-4 p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
-              <h4 className="font-medium text-blue-800 dark:text-blue-200">Basic Information</h4>
+              <h4 className="font-medium text-blue-800 dark:text-blue-200">{t('brief.basicInfo') || 'Basic Information'}</h4>
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="businessName">Business Name *</Label>
