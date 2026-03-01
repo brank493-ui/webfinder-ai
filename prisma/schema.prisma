@@ -515,3 +515,280 @@ model AprilTask {
   @@index([status])
   @@index([taskType])
 }
+
+// ============================================
+// COMPLETE BACKEND MODELS FOR OWNER DASHBOARD
+// ============================================
+
+// Role-based Access Control
+model Role {
+  id          String   @id @default(cuid())
+  name        String   @unique // 'owner', 'developer', 'sales', 'client'
+  permissions String   // JSON array of permissions
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([name])
+}
+
+// Refresh Tokens for JWT
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  revoked   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([token])
+}
+
+// Activity Logs
+model ActivityLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  action      String   // 'login', 'payment', 'project_created', etc.
+  entityType  String?  // 'user', 'project', 'payment', etc.
+  entityId    String?
+  metadata    String?  // JSON
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+// Lead Management (Enhanced)
+model Lead {
+  id               String   @id @default(cuid())
+  businessId       String?  @unique
+  businessName     String
+  businessEmail    String?
+  businessPhone    String?
+  businessAddress  String?
+  businessCategory String?
+  website          String?
+  source           String   @default("discover") // 'discover', 'manual', 'referral'
+  status           String   @default("new") // 'new', 'contacted', 'interested', 'converted', 'declined'
+  
+  // Contact tracking
+  firstContactAt   DateTime?
+  lastContactAt    DateTime?
+  contactAttempts  Int      @default(0)
+  
+  // Qualification
+  budget           String?
+  timeline         String?
+  servicesNeeded   String?  // JSON array
+  notes            String?
+  priority         String   @default("medium") // 'high', 'medium', 'low'
+  score            Int?     // Lead quality score 0-100
+  
+  // Conversion
+  projectId        String?
+  convertedAt      DateTime?
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([status])
+  @@index([source])
+  @@index([priority])
+}
+
+// Workspace (Enhanced Project Model)
+model Workspace {
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  description     String?
+  
+  // Client info
+  clientId        String?
+  clientName      String
+  clientEmail     String
+  clientPhone     String?
+  
+  // Project details
+  package         String   @default("standard") // 'standard', 'pro', 'premium'
+  status          String   @default("pending") // 'pending', 'in_progress', 'review', 'completed', 'cancelled'
+  progress        Int      @default(0) // 0-100
+  
+  // Brief data
+  brief           String?  // JSON object of requirements
+  services        String?  // JSON array
+  features        String?  // JSON array
+  pages           String?  // JSON array
+  designStyle     String?
+  primaryColor    String?
+  secondaryColor  String?
+  
+  // Domain & Deployment
+  domain          String?
+  websiteUrl      String?
+  deploymentId    String?
+  
+  // Payment
+  paymentStatus   String   @default("pending") // 'pending', 'partial', 'paid', 'refunded'
+  paymentMethod   String?
+  amount          Float?
+  currency        String   @default("USD")
+  
+  // Dates
+  startDate       DateTime?
+  dueDate         DateTime?
+  completedAt     DateTime?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([clientId])
+  @@index([status])
+  @@index([package])
+}
+
+// Workspace Messages
+model WorkspaceMessage {
+  id          String   @id @default(cuid())
+  workspaceId String
+  senderId    String   // User ID or 'system'
+  senderName  String
+  senderRole  String   // 'owner', 'developer', 'client'
+  content     String
+  attachments String?  // JSON array of file URLs
+  read        Boolean  @default(false)
+  readAt      DateTime?
+  createdAt   DateTime @default(now())
+
+  @@index([workspaceId])
+  @@index([senderId])
+  @@index([read])
+}
+
+// Workspace Files/Previews
+model WorkspaceFile {
+  id          String   @id @default(cuid())
+  workspaceId String
+  name        String
+  type        String   // 'preview', 'design', 'document', 'asset'
+  url         String
+  size        Int?     // bytes
+  uploadedBy  String?  // User ID
+  createdAt   DateTime @default(now())
+
+  @@index([workspaceId])
+  @@index([type])
+}
+
+// Revenue Tracking
+model Revenue {
+  id          String   @id @default(cuid())
+  amount      Float
+  currency    String   @default("USD")
+  source      String   // 'project', 'package', 'service'
+  projectId   String?
+  workspaceId String?
+  month       Int      // 1-12
+  year        Int
+  createdAt   DateTime @default(now())
+
+  @@index([source])
+  @@index([month, year])
+}
+
+// Client Brief (Structured)
+model ClientBrief {
+  id                    String   @id @default(cuid())
+  workspaceId           String   @unique
+  
+  // Business Info
+  businessName          String
+  legalBusinessName     String?
+  businessType          String?
+  industry              String?
+  foundingYear          Int?
+  employeeCount         String?
+  annualRevenue         String?
+  businessDescription   String?
+  targetAudience        String?
+  uniqueSellingPoint    String?
+  
+  // Contact
+  contactName           String?
+  contactEmail          String?
+  contactPhone          String?
+  currentWebsite        String?
+  
+  // Design
+  designStyle           String?
+  primaryColor          String?
+  secondaryColor        String?
+  fontPreference        String?
+  designInspiration     String?  // JSON array of URLs
+  
+  // Pages
+  pagesNeeded           String?  // JSON array
+  
+  // Features
+  featuresNeeded        String?  // JSON array
+  
+  // Technical
+  hostingPreference     String?
+  domainStatus          String?  // 'have', 'need'
+  domainName            String?
+  sslRequired           Boolean  @default(true)
+  emailAccountsNeeded   Int      @default(0)
+  thirdPartyIntegrations String? // JSON array
+  
+  // SEO
+  seoRequired           Boolean  @default(true)
+  targetKeywords        String?  // JSON array
+  
+  // Competitors
+  competitors           String?  // JSON array
+  
+  // Brand Assets
+  hasLogo               Boolean  @default(false)
+  hasBrandGuide         Boolean  @default(false)
+  hasImages             Boolean  @default(false)
+  hasContent            Boolean  @default(false)
+  brandAssets           String?  // JSON array of file URLs
+  
+  // Timeline & Budget
+  preferredLaunchDate   DateTime?
+  budgetRange           String?
+  paymentPreference     String?
+  additionalComments    String?
+  
+  // Status
+  status                String   @default("draft") // 'draft', 'submitted', 'approved'
+  submittedAt           DateTime?
+  approvedAt            DateTime?
+  
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([workspaceId])
+  @@index([status])
+}
+
+// Access Code for Client Onboarding
+model ClientAccessCode {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  email       String
+  workspaceId String?
+  package     String?
+  used        Boolean  @default(false)
+  usedBy      String?  // User ID
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+
+  @@index([code])
+  @@index([email])
+  @@index([used])
+}

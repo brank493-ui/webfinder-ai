@@ -1,95 +1,108 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { db, successResponse, errorResponse, getAuthUser } from '@/lib/backend-utils';
 
-// Get admin dashboard statistics
+// ==========================================
+// GET /api/admin/stats - Get admin dashboard stats
+// ==========================================
 export async function GET(request: NextRequest) {
   try {
-    // Get counts
+    const user = await getAuthUser(request);
+    if (!user || user.role !== 'owner') {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+
+    // Parallel queries for stats
     const [
       totalBusinesses,
-      businessesWithoutWebsite,
-      totalProjects,
-      pendingPayments,
+      businessesWithoutWebsites,
+      totalLeads,
+      newLeadsThisMonth,
+      convertedLeads,
+      activeProjects,
       completedProjects,
-      inProgressProjects,
+      completedThisMonth,
+      monthlyRevenue,
+      lastMonthRevenue,
+      totalUsers,
+      newUsersThisMonth
     ] = await Promise.all([
+      // Total businesses
       db.business.count(),
+      // Businesses without websites
       db.business.count({ where: { hasWebsite: false } }),
-      db.project.count(),
-      db.project.count({ where: { paymentStatus: 'pending' } }),
-      db.project.count({ where: { status: 'completed' } }),
-      db.project.count({ where: { status: 'in_progress' } }),
+      // Total leads
+      db.lead.count(),
+      // New leads this month
+      db.lead.count({ where: { createdAt: { gte: startOfMonth } } }),
+      // Converted leads
+      db.lead.count({ where: { status: 'converted' } }),
+      // Active projects
+      db.workspace.count({ where: { status: 'in_progress' } }),
+      // Completed projects
+      db.workspace.count({ where: { status: 'completed' } }),
+      // Completed this month
+      db.workspace.count({ where: { status: 'completed', completedAt: { gte: startOfMonth } } }),
+      // Monthly revenue
+      db.revenue.aggregate({
+        where: { createdAt: { gte: startOfMonth } },
+        _sum: { amount: true }
+      }),
+      // Last month revenue
+      db.revenue.aggregate({
+        where: { createdAt: { gte: startOfLastMonth, lt: startOfMonth } },
+        _sum: { amount: true }
+      }),
+      // Total users
+      db.user.count(),
+      // New users this month
+      db.user.count({ where: { createdAt: { gte: startOfMonth } } })
     ]);
 
-    // Calculate total revenue
-    const paidProjects = await db.project.findMany({
-      where: { paymentStatus: 'paid' },
-      select: { amount: true },
-    });
-    const totalRevenue = paidProjects.reduce((sum, p) => sum + (p.amount || 0), 0);
+    // Calculate conversion rate
+    const conversionRate = totalLeads > 0 
+      ? ((convertedLeads / totalLeads) * 100).toFixed(1) 
+      : '0';
 
-    // Get recent projects
-    const recentProjects = await db.project.findMany({
-      take: 5,
-      orderBy: { createdAt: 'desc' },
-      include: {
-        business: {
-          select: {
-            id: true,
-            name: true,
-            category: true,
-            email: true,
-            phone: true,
-          },
-        },
+    // Calculate revenue change
+    const currentRevenue = monthlyRevenue._sum.amount || 0;
+    const previousRevenue = lastMonthRevenue._sum.amount || 0;
+    const revenueChange = previousRevenue > 0 
+      ? (((currentRevenue - previousRevenue) / previousRevenue) * 100).toFixed(1)
+      : '0';
+
+    return successResponse({
+      businesses: {
+        total: totalBusinesses,
+        withoutWebsites: businessesWithoutWebsites,
+        withWebsites: totalBusinesses - businessesWithoutWebsites
       },
-    });
-
-    // Get package distribution
-    const allProjects = await db.project.findMany({
-      select: { package: true, amount: true },
-    });
-
-    const packageDistribution = allProjects.reduce((acc, p) => {
-      const pkg = p.package || 'standard';
-      if (!acc[pkg]) {
-        acc[pkg] = { count: 0, revenue: 0 };
+      leads: {
+        total: totalLeads,
+        newThisMonth: newLeadsThisMonth,
+        converted: convertedLeads,
+        conversionRate: `${conversionRate}%`
+      },
+      projects: {
+        active: activeProjects,
+        completed: completedProjects,
+        completedThisMonth
+      },
+      revenue: {
+        thisMonth: currentRevenue,
+        lastMonth: previousRevenue,
+        change: `${revenueChange}%`
+      },
+      users: {
+        total: totalUsers,
+        newThisMonth: newUsersThisMonth
       }
-      acc[pkg].count++;
-      acc[pkg].revenue += p.amount || 0;
-      return acc;
-    }, {} as Record<string, { count: number; revenue: number }>);
-
-    // Get recent businesses
-    const recentBusinesses = await db.business.findMany({
-      take: 5,
-      orderBy: { createdAt: 'desc' },
-    });
-
-    return NextResponse.json({
-      success: true,
-      stats: {
-        totalBusinesses,
-        businessesWithoutWebsite,
-        totalProjects,
-        pendingPayments,
-        completedProjects,
-        inProgressProjects,
-        totalRevenue,
-      },
-      recentProjects,
-      recentBusinesses,
-      packageDistribution: Object.entries(packageDistribution).map(([pkg, data]) => ({
-        package: pkg,
-        count: data.count,
-        revenue: data.revenue,
-      })),
     });
   } catch (error) {
-    console.error('Admin stats error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch admin stats' },
-      { status: 500 }
-    );
+    console.error('Get admin stats error:', error);
+    return errorResponse('Failed to get stats', 500);
   }
 }
