@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://webfinder.ai'),
   title: "WebFinder - Discover Businesses Without Websites",
   description: "AI-powered platform to discover local businesses without websites, connect with them through AI conversations, and help them establish their digital presence.",
   keywords: ["WebFinder", "AI", "Business Discovery", "Website Development", "Local SEO", "Small Business"],
