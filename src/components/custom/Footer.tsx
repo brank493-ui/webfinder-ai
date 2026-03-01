@@ -3,6 +3,7 @@
 import { Globe, Mail, Phone, MapPin } from 'lucide-react';
 import Image from 'next/image';
 import { useLanguageStore } from '@/store/useLanguageStore';
+import { LanguageSwitcher } from '@/components/custom/LanguageSwitcher';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -27,6 +28,10 @@ export function Footer() {
             <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4 max-w-sm">
               {t('footer.description')}
             </p>
+            {/* Language Switcher in Footer */}
+            <div className="mt-4">
+              <LanguageSwitcher variant="full" />
+            </div>
           </div>
 
           {/* Quick Links */}
