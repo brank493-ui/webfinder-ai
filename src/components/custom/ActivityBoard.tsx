@@ -187,9 +187,9 @@ export function ActivityBoard() {
 
   const getStatusBadge = (status?: string) => {
     switch (status) {
-      case 'completed': return <Badge className="bg-green-100 text-green-700 text-xs">Completed</Badge>;
-      case 'pending': return <Badge className="bg-yellow-100 text-yellow-700 text-xs">Pending</Badge>;
-      case 'failed': return <Badge className="bg-red-100 text-red-700 text-xs">Failed</Badge>;
+      case 'completed': return <Badge className="bg-green-100 text-green-700 text-xs">{t('activityBoard.statusCompleted')}</Badge>;
+      case 'pending': return <Badge className="bg-yellow-100 text-yellow-700 text-xs">{t('activityBoard.statusPending')}</Badge>;
+      case 'failed': return <Badge className="bg-red-100 text-red-700 text-xs">{t('activityBoard.statusFailed')}</Badge>;
       default: return null;
     }
   };
@@ -257,9 +257,9 @@ Contact: brank493@gmail.com | +237 693 401 619
         <div>
           <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
             <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
-            Activity Board
+            {t('activityBoard.title')}
           </h2>
-          <p className="text-xs sm:text-sm text-muted-foreground">Daily overview of all activities</p>
+          <p className="text-xs sm:text-sm text-muted-foreground">{t('activityBoard.subtitle')}</p>
         </div>
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <input
@@ -285,7 +285,7 @@ Contact: brank493@gmail.com | +237 693 401 619
             <CardContent className="p-3 sm:p-4">
               <div className="flex items-center gap-2 mb-1">
                 <Users className="h-4 w-4 text-blue-600" />
-                <span className="text-xs text-muted-foreground">Total Users</span>
+                <span className="text-xs text-muted-foreground">{t('activityBoard.totalUsers')}</span>
               </div>
               <p className="text-lg sm:text-2xl font-bold text-blue-600">{dailyReport.totalUsers}</p>
             </CardContent>
@@ -294,7 +294,7 @@ Contact: brank493@gmail.com | +237 693 401 619
             <CardContent className="p-3 sm:p-4">
               <div className="flex items-center gap-2 mb-1">
                 <UserPlus className="h-4 w-4 text-green-600" />
-                <span className="text-xs text-muted-foreground">New Today</span>
+                <span className="text-xs text-muted-foreground">{t('activityBoard.newToday')}</span>
               </div>
               <p className="text-lg sm:text-2xl font-bold text-green-600">+{dailyReport.newUsers}</p>
             </CardContent>
@@ -303,7 +303,7 @@ Contact: brank493@gmail.com | +237 693 401 619
             <CardContent className="p-3 sm:p-4">
               <div className="flex items-center gap-2 mb-1">
                 <CreditCard className="h-4 w-4 text-purple-600" />
-                <span className="text-xs text-muted-foreground">Payments</span>
+                <span className="text-xs text-muted-foreground">{t('activityBoard.payments')}</span>
               </div>
               <p className="text-lg sm:text-2xl font-bold text-purple-600">{dailyReport.totalPayments}</p>
             </CardContent>
@@ -312,7 +312,7 @@ Contact: brank493@gmail.com | +237 693 401 619
             <CardContent className="p-3 sm:p-4">
               <div className="flex items-center gap-2 mb-1">
                 <TrendingUp className="h-4 w-4 text-indigo-600" />
-                <span className="text-xs text-muted-foreground">Revenue</span>
+                <span className="text-xs text-muted-foreground">{t('activityBoard.revenue')}</span>
               </div>
               <p className="text-base sm:text-xl font-bold text-indigo-600">{formatCurrency(dailyReport.paymentsAmount)}</p>
             </CardContent>
@@ -321,7 +321,7 @@ Contact: brank493@gmail.com | +237 693 401 619
             <CardContent className="p-3 sm:p-4">
               <div className="flex items-center gap-2 mb-1">
                 <Bot className="h-4 w-4 text-orange-600" />
-                <span className="text-xs text-muted-foreground">AI Actions</span>
+                <span className="text-xs text-muted-foreground">{t('activityBoard.aiActions')}</span>
               </div>
               <p className="text-lg sm:text-2xl font-bold text-orange-600">{dailyReport.aiInteractions}</p>
             </CardContent>
@@ -330,7 +330,7 @@ Contact: brank493@gmail.com | +237 693 401 619
             <CardContent className="p-3 sm:p-4">
               <div className="flex items-center gap-2 mb-1">
                 <Globe className="h-4 w-4 text-teal-600" />
-                <span className="text-xs text-muted-foreground">Websites</span>
+                <span className="text-xs text-muted-foreground">{t('activityBoard.websites')}</span>
               </div>
               <p className="text-lg sm:text-2xl font-bold text-teal-600">{dailyReport.websitesCompleted}</p>
             </CardContent>
@@ -339,7 +339,7 @@ Contact: brank493@gmail.com | +237 693 401 619
             <CardContent className="p-3 sm:p-4">
               <div className="flex items-center gap-2 mb-1">
                 <MessageSquare className="h-4 w-4 text-pink-600" />
-                <span className="text-xs text-muted-foreground">Messages</span>
+                <span className="text-xs text-muted-foreground">{t('activityBoard.messages')}</span>
               </div>
               <p className="text-lg sm:text-2xl font-bold text-pink-600">{dailyReport.messagesSent}</p>
             </CardContent>
@@ -352,15 +352,15 @@ Contact: brank493@gmail.com | +237 693 401 619
         {/* Main Activity List */}
         <Card className="lg:col-span-2">
           <CardHeader className="p-4 sm:p-6">
-            <CardTitle className="text-base sm:text-lg">Activity Feed</CardTitle>
-            <CardDescription className="text-xs sm:text-sm">Real-time activities from today</CardDescription>
+            <CardTitle className="text-base sm:text-lg">{t('activityBoard.activityFeed')}</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">{t('activityBoard.realtimeDesc')}</CardDescription>
           </CardHeader>
           <CardContent className="p-0">
             <ScrollArea className="h-[400px] sm:h-[500px]">
               {activities.length === 0 ? (
                 <div className="p-6 text-center text-muted-foreground text-sm">
                   <Clock className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  No activities recorded for this date
+                  {t('activityBoard.noActivities')}
                 </div>
               ) : (
                 <div className="divide-y">
@@ -394,28 +394,28 @@ Contact: brank493@gmail.com | +237 693 401 619
           {/* Activity by Type */}
           <Card>
             <CardHeader className="p-4 sm:p-6">
-              <CardTitle className="text-base sm:text-lg">Activity Breakdown</CardTitle>
+              <CardTitle className="text-base sm:text-lg">{t('activityBoard.activityBreakdown')}</CardTitle>
             </CardHeader>
             <CardContent className="p-4 sm:p-6 pt-0">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="h-3 w-3 rounded-full bg-blue-500" />
-                    <span className="text-xs sm:text-sm">User Activities</span>
+                    <span className="text-xs sm:text-sm">{t('activityBoard.userActivities')}</span>
                   </div>
                   <span className="font-medium text-xs sm:text-sm">{activities.filter(a => a.type === 'user').length}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="h-3 w-3 rounded-full bg-green-500" />
-                    <span className="text-xs sm:text-sm">Payments</span>
+                    <span className="text-xs sm:text-sm">{t('activityBoard.payments')}</span>
                   </div>
                   <span className="font-medium text-xs sm:text-sm">{activities.filter(a => a.type === 'payment').length}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="h-3 w-3 rounded-full bg-purple-500" />
-                    <span className="text-xs sm:text-sm">AI Agent</span>
+                    <span className="text-xs sm:text-sm">{t('activityBoard.aiAgent')}</span>
                   </div>
                   <span className="font-medium text-xs sm:text-sm">{activities.filter(a => a.type === 'ai_agent').length}</span>
                 </div>
@@ -440,24 +440,24 @@ Contact: brank493@gmail.com | +237 693 401 619
           {/* Quick Actions */}
           <Card>
             <CardHeader className="p-4 sm:p-6">
-              <CardTitle className="text-base sm:text-lg">Quick Actions</CardTitle>
+              <CardTitle className="text-base sm:text-lg">{t('activityBoard.quickActions')}</CardTitle>
             </CardHeader>
             <CardContent className="p-4 sm:p-6 pt-0 space-y-2">
               <Button variant="outline" className="w-full justify-start text-xs sm:text-sm h-9 sm:h-10">
                 <FileText className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-                Generate Invoice
+                {t('activityBoard.generateInvoice')}
               </Button>
               <Button variant="outline" className="w-full justify-start text-xs sm:text-sm h-9 sm:h-10">
                 <Mail className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-                Send Bulk Email
+                {t('activityBoard.sendBulkEmail')}
               </Button>
               <Button variant="outline" className="w-full justify-start text-xs sm:text-sm h-9 sm:h-10">
                 <Users className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-                Export Users
+                {t('activityBoard.exportUsers')}
               </Button>
               <Button variant="outline" className="w-full justify-start text-xs sm:text-sm h-9 sm:h-10">
                 <Bot className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-                Run April Tasks
+                {t('activityBoard.runAprilTasks')}
               </Button>
             </CardContent>
           </Card>
@@ -465,7 +465,7 @@ Contact: brank493@gmail.com | +237 693 401 619
           {/* Recent Transactions */}
           <Card>
             <CardHeader className="p-4 sm:p-6">
-              <CardTitle className="text-base sm:text-lg">Recent Transactions</CardTitle>
+              <CardTitle className="text-base sm:text-lg">{t('activityBoard.recentTransactions')}</CardTitle>
             </CardHeader>
             <CardContent className="p-4 sm:p-6 pt-0">
               <ScrollArea className="h-[150px]">
