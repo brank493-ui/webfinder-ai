@@ -583,7 +583,12 @@ export function UserHomePage({ onNavigate }: UserHomePageProps) {
 
           <div className="text-center mt-10">
             <p className="text-gray-600 mb-4">{t('package.needCustom')}</p>
-            <Button variant="outline" size="lg" className="border-blue-600 text-blue-600">
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="border-blue-600 text-blue-600"
+              onClick={() => window.location.href = 'mailto:brank493@gmail.com?subject=Custom%20Package%20Inquiry'}
+            >
               <MessageSquare className="h-5 w-5 mr-2" />
               {t('package.contactCustom')}
             </Button>
@@ -647,7 +652,11 @@ export function UserHomePage({ onNavigate }: UserHomePageProps) {
                 </div>
               </div>
 
-              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                onClick={() => document.getElementById('about-section')?.scrollIntoView({ behavior: 'smooth' })}
+              >
                 {t('about.learnMoreAboutUs')}
                 <ArrowRight className="h-5 w-5 ml-2" />
               </Button>
@@ -789,16 +798,16 @@ export function UserHomePage({ onNavigate }: UserHomePageProps) {
                 {t('footer.description')}
               </p>
               <div className="flex gap-3">
-                <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
+                <a href="https://facebook.com/webfinderai" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
                   <Facebook className="h-5 w-5" />
                 </a>
-                <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
+                <a href="https://twitter.com/webfinderai" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
                   <Twitter className="h-5 w-5" />
                 </a>
-                <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
+                <a href="https://linkedin.com/company/webfinderai" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
                   <Linkedin className="h-5 w-5" />
                 </a>
-                <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
+                <a href="https://instagram.com/webfinderai" target="_blank" rel="noopener noreferrer" className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors">
                   <Instagram className="h-5 w-5" />
                 </a>
               </div>
@@ -808,11 +817,11 @@ export function UserHomePage({ onNavigate }: UserHomePageProps) {
             <div>
               <h4 className="text-lg font-semibold mb-4">{t('nav.quickLinks')}</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('nav.home')}</a></li>
+                <li><button onClick={() => onNavigate('home')} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('nav.home')}</button></li>
                 <li><a href="#packages" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('home.ourPackages')}</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('about.title')}</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('nav.gallery')}</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('nav.contact')}</a></li>
+                <li><button onClick={() => onNavigate('onboarding')} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('about.title')}</button></li>
+                <li><button onClick={() => onNavigate('gallery')} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('nav.gallery')}</button></li>
+                <li><a href="mailto:brank493@gmail.com" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('nav.contact')}</a></li>
               </ul>
             </div>
 
@@ -820,11 +829,11 @@ export function UserHomePage({ onNavigate }: UserHomePageProps) {
             <div>
               <h4 className="text-lg font-semibold mb-4">{t('footer.ourServices')}</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('footer.webDevelopment')}</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('footer.ecommerceSolutions')}</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('footer.seoOptimization')}</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('footer.domainRegistration')}</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('footer.websiteMaintenance')}</a></li>
+                <li><button onClick={() => onNavigate('onboarding')} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('footer.webDevelopment')}</button></li>
+                <li><button onClick={() => onNavigate('onboarding')} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('footer.ecommerceSolutions')}</button></li>
+                <li><button onClick={() => onNavigate('onboarding')} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('footer.seoOptimization')}</button></li>
+                <li><button onClick={() => onNavigate('onboarding')} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('footer.domainRegistration')}</button></li>
+                <li><button onClick={() => onNavigate('onboarding')} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4" />{t('footer.websiteMaintenance')}</button></li>
               </ul>
             </div>
 
@@ -867,8 +876,8 @@ export function UserHomePage({ onNavigate }: UserHomePageProps) {
                 {t('footer.ownedBy')} <span className="text-white font-medium">Fongang Lamago Brank</span>
               </p>
               <div className="flex gap-6 text-sm">
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">{t('nav.privacyPolicy')}</a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">{t('nav.termsOfService')}</a>
+                <button onClick={() => window.location.href = 'mailto:brank493@gmail.com?subject=Privacy%20Policy%20Request'} className="text-gray-400 hover:text-white transition-colors">{t('nav.privacyPolicy')}</button>
+                <button onClick={() => window.location.href = 'mailto:brank493@gmail.com?subject=Terms%20of%20Service%20Request'} className="text-gray-400 hover:text-white transition-colors">{t('nav.termsOfService')}</button>
               </div>
             </div>
           </div>

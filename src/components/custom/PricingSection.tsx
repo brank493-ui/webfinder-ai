@@ -8,6 +8,19 @@ import { useLanguageStore } from '@/store/useLanguageStore';
 
 export function PricingSection() {
   const { t } = useLanguageStore();
+
+  const handlePackageSelect = (packageId: string) => {
+    // Scroll to contact section
+    const contactSection = document.getElementById('contact-footer') || document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // Fallback to email
+      const subject = encodeURIComponent(`Website Package Inquiry - ${packageId.charAt(0).toUpperCase() + packageId.slice(1)} Package`);
+      window.location.href = `mailto:brank493@gmail.com?subject=${subject}`;
+    }
+  };
+
   return (
     <section id="pricing" className="py-12 sm:py-20 px-4 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto">
@@ -91,6 +104,7 @@ export function PricingSection() {
                 }`}
                 variant={pkg.highlighted || pkg.id === 'premium' ? 'default' : 'outline'}
                 size="lg"
+                onClick={() => handlePackageSelect(pkg.id)}
               >
                 <Sparkles className="h-4 w-4 mr-2" />
                 {t('pricing.getStarted')}

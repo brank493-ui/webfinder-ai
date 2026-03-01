@@ -44,14 +44,17 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <a href="#about" className="hover:text-white transition-colors">
                   {t('nav.howItWorks')}
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">
+                <button 
+                  onClick={() => window.location.href = 'mailto:brank493@gmail.com?subject=FAQ%20Inquiry'}
+                  className="hover:text-white transition-colors text-left"
+                >
                   {t('nav.faq')}
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -92,12 +95,18 @@ export function Footer() {
             {t('footer.ownedBy')} <span className="text-white font-medium">Fongang Lamago Brank</span>
           </p>
           <div className="flex justify-center gap-4 sm:gap-6 text-xs sm:text-sm">
-            <a href="#" className="hover:text-white transition-colors">
+            <button 
+              onClick={() => window.location.href = 'mailto:brank493@gmail.com?subject=Privacy%20Policy%20Request'}
+              className="hover:text-white transition-colors"
+            >
               {t('nav.privacyPolicy')}
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
+            </button>
+            <button 
+              onClick={() => window.location.href = 'mailto:brank493@gmail.com?subject=Terms%20of%20Service%20Request'}
+              className="hover:text-white transition-colors"
+            >
               {t('nav.termsOfService')}
-            </a>
+            </button>
           </div>
         </div>
       </div>

@@ -47,7 +47,10 @@ export function Header() {
               {item.label}
             </a>
           ))}
-          <Button className="gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+          <Button 
+            className="gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+            onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+          >
             <Sparkles className="h-4 w-4" />
             {t('nav.getStarted')}
           </Button>
@@ -72,7 +75,13 @@ export function Header() {
                   {item.label}
                 </a>
               ))}
-              <Button className="mt-4 gap-2 bg-gradient-to-r from-blue-600 to-indigo-600">
+              <Button 
+                className="mt-4 gap-2 bg-gradient-to-r from-blue-600 to-indigo-600"
+                onClick={() => {
+                  setIsOpen(false);
+                  document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
                 <Sparkles className="h-4 w-4" />
                 {t('nav.getStarted')}
               </Button>

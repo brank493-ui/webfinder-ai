@@ -155,10 +155,24 @@ export function UserGalleryPage() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [viewMode, setViewMode] = useState<'grid' | 'masonry'>('grid');
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+  const [visibleCount, setVisibleCount] = useState(6);
+  const [selectedItem, setSelectedItem] = useState<typeof galleryItems[0] | null>(null);
 
   const filteredItems = activeCategory === 'all'
     ? galleryItems
     : galleryItems.filter(item => item.category === activeCategory);
+
+  const displayedItems = filteredItems.slice(0, visibleCount);
+  const hasMoreItems = visibleCount < filteredItems.length;
+
+  const handleViewProject = (item: typeof galleryItems[0]) => {
+    // For demo purposes, open a mailto link or show project details
+    window.open(`mailto:brank493@gmail.com?subject=Project%20Inquiry%20-%20${encodeURIComponent(item.title)}&body=I'm%20interested%20in%20a%20similar%20website%20project.`, '_blank');
+  };
+
+  const handleLoadMore = () => {
+    setVisibleCount(prev => Math.min(prev + 6, filteredItems.length));
+  };
 
   return (
     <div className="space-y-8">
@@ -209,7 +223,7 @@ export function UserGalleryPage() {
           ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
           : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
       }`}>
-        {filteredItems.map((item) => (
+        {displayedItems.map((item) => (
           <Card
             key={item.id}
             className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"
@@ -245,7 +259,11 @@ export function UserGalleryPage() {
                         {item.likes}
                       </span>
                     </div>
-                    <Button size="sm" className="bg-white text-gray-900 hover:bg-gray-100">
+                    <Button 
+                      size="sm" 
+                      className="bg-white text-gray-900 hover:bg-gray-100"
+                      onClick={() => handleViewProject(item)}
+                    >
                       <ExternalLink className="h-4 w-4 mr-1" />
                       {t('gallery.view')}
                     </Button>
@@ -274,12 +292,19 @@ export function UserGalleryPage() {
       </div>
 
       {/* Load More */}
-      <div className="text-center pt-8">
-        <Button variant="outline" size="lg" className="border-blue-600 text-blue-600 hover:bg-blue-50">
-          <Sparkles className="h-5 w-5 mr-2" />
-          {t('gallery.loadMore')}
-        </Button>
-      </div>
+      {hasMoreItems && (
+        <div className="text-center pt-8">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="border-blue-600 text-blue-600 hover:bg-blue-50"
+            onClick={handleLoadMore}
+          >
+            <Sparkles className="h-5 w-5 mr-2" />
+            {t('gallery.loadMore')}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
