@@ -83,6 +83,7 @@ export default function Home() {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [registerLoading, setRegisterLoading] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   
   // Registration form fields
   const [regFirstName, setRegFirstName] = useState('');
@@ -101,6 +102,20 @@ export default function Home() {
   
   // Get NextAuth session
   const { data: session, status } = useSession();
+  
+  // Check if Zustand has hydrated from localStorage
+  useEffect(() => {
+    const unsubscribe = useAuthStore.persist.onFinishHydration(() => {
+      setIsHydrated(true);
+    });
+    
+    // If already hydrated (on subsequent renders)
+    if (useAuthStore.persist.hasHydrated()) {
+      setIsHydrated(true);
+    }
+    
+    return unsubscribe;
+  }, []);
   
   // Get translations
   const { t } = useLanguageStore();
@@ -600,6 +615,21 @@ export default function Home() {
         </main>
         <Footer />
         <ChatPanel />
+      </div>
+    );
+  }
+
+  // Show loading state while checking auth (hydration)
+  if (!isHydrated || status === 'loading') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <img src="/webfinder-logo-new.png" alt="WebFinder Logo" className="h-16 w-16 rounded-xl animate-pulse" />
+          <div className="flex items-center gap-3">
+            <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
+            <span className="text-lg font-medium text-gray-600">{t('common.loading')}</span>
+          </div>
+        </div>
       </div>
     );
   }
