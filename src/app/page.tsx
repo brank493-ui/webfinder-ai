@@ -105,16 +105,13 @@ export default function Home() {
   
   // Check if Zustand has hydrated from localStorage
   useEffect(() => {
-    const unsubscribe = useAuthStore.persist.onFinishHydration(() => {
+    // Simple approach: set hydrated after a brief delay
+    // This allows localStorage state to be restored
+    const timer = setTimeout(() => {
       setIsHydrated(true);
-    });
+    }, 50);
     
-    // If already hydrated (on subsequent renders)
-    if (useAuthStore.persist.hasHydrated()) {
-      setIsHydrated(true);
-    }
-    
-    return unsubscribe;
+    return () => clearTimeout(timer);
   }, []);
   
   // Get translations
