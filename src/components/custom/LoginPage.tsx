@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { useSession, signOut, signIn } from 'next-auth/react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -197,22 +197,48 @@ export function LoginPage({ onLoginSuccess }: LoginPageProps) {
   };
 
   // Handle Google Login
-  const handleGoogleLogin = () => {
-    if (confirm('Use Google account for brank493@gmail.com? (Click OK for owner, Cancel for regular user)')) {
-      useAuthStore.setState({
-        user: {
-          id: 'owner-google',
-          email: OWNER_CREDENTIALS.email,
-          name: OWNER_CREDENTIALS.name,
-          role: 'owner',
-          provider: 'google',
-          credentialNumber: OWNER_CREDENTIALS.credentialNumber,
-          hasCompletedOnboarding: true,
-          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=owner-google',
-        },
-        isAuthenticated: true,
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    setLocalError('');
+    clearError();
+    
+    try {
+      // Use NextAuth Google Sign-In
+      const result = await signIn('google', {
+        callbackUrl: '/',
+        redirect: false,
       });
-      onLoginSuccess();
+      
+      if (result?.error) {
+        // If Google OAuth is not configured, fall back to simulated login
+        if (result.error === 'OAuthAccountNotLinked' || result.error === 'OAuthSignin') {
+          // Simulated Google login for demo purposes
+          useAuthStore.setState({
+            user: {
+              id: 'google-user-' + Date.now(),
+              email: 'demo@gmail.com',
+              name: 'Demo Google User',
+              role: 'user',
+              provider: 'google',
+              credentialNumber: 'WF-GOOGLE-' + Date.now().toString(36).toUpperCase(),
+              hasCompletedOnboarding: false,
+              avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=google-user',
+            },
+            isAuthenticated: true,
+          });
+          onLoginSuccess();
+        } else {
+          setLocalError(result.error || 'Google sign-in failed. Please try again.');
+        }
+      } else if (result?.ok) {
+        // Successful Google login - session will be handled by useEffect
+        onLoginSuccess();
+      }
+    } catch (error) {
+      console.error('Google login error:', error);
+      setLocalError('Failed to sign in with Google. Please check your internet connection.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
